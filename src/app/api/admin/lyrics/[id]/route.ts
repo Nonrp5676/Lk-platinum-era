@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getSession } from '@/lib/auth';
 import { db } from '@/db';
-import { newLyricsSubmissions } from '@/db/schema';
+import { lyricsSubmissions } from '@/db/schema';
 import { eq } from 'drizzle-orm';
 
 export async function PUT(
@@ -40,9 +40,9 @@ export async function PUT(
     }
 
     const [updatedSubmission] = await db
-      .update(newLyricsSubmissions)
+      .update(lyricsSubmissions)
       .set(updateData)
-      .where(eq(newLyricsSubmissions.id, submissionId))
+      .where(eq(lyricsSubmissions.id, submissionId))
       .returning();
 
     if (!updatedSubmission) {
