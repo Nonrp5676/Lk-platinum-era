@@ -31,6 +31,8 @@ export const artists = sqliteTable('artists', {
   showSnowflakes: integer('show_snowflakes', { mode: 'boolean' }).default(false),
   showGarland: integer('show_garland', { mode: 'boolean' }).default(false),
   avatarUrl: text('avatar_url'),
+  username: text('username').unique(),
+  lastActiveAt: text('last_active_at'),
   label: text('label').notNull().default('PLATINUM ERA MUSIC'),
   lastActiveAt: text('last_active_at'),
   telegramChatId: text('telegram_chat_id'),
@@ -374,4 +376,84 @@ export const verifications = sqliteTable('verifications', {
   adminComment: text('admin_comment'),
   createdAt: text('created_at').notNull(),
   updatedAt: text('updated_at').notNull(),
+});
+
+
+// --- SOCIAL NETWORK FEATURES ---
+
+export const artistFollows = sqliteTable('artist_follows', {
+  followerId: integer('follower_id').references(() => artists.id).notNull(),
+  followingId: integer('following_id').references(() => artists.id).notNull(),
+  createdAt: text('created_at').notNull(),
+});
+
+export const artistBlocks = sqliteTable('artist_blocks', {
+  blockerId: integer('blocker_id').references(() => artists.id).notNull(),
+  blockedId: integer('blocked_id').references(() => artists.id).notNull(),
+  createdAt: text('created_at').notNull(),
+});
+
+export const artistPosts = sqliteTable('artist_posts', {
+  id: integer('id').primaryKey({ autoIncrement: true }),
+  artistId: integer('artist_id').references(() => artists.id).notNull(),
+  content: text('content'),
+  imageUrl: text('image_url'),
+  viewsCount: integer('views_count').default(0).notNull(),
+  createdAt: text('created_at').notNull(),
+});
+
+export const postLikes = sqliteTable('post_likes', {
+  postId: integer('post_id').references(() => artistPosts.id).notNull(),
+  artistId: integer('artist_id').references(() => artists.id).notNull(),
+  createdAt: text('created_at').notNull(),
+});
+
+export const postComments = sqliteTable('post_comments', {
+  id: integer('id').primaryKey({ autoIncrement: true }),
+  postId: integer('post_id').references(() => artistPosts.id).notNull(),
+  artistId: integer('artist_id').references(() => artists.id).notNull(),
+  content: text('content').notNull(),
+  createdAt: text('created_at').notNull(),
+});
+
+export const artistStories = sqliteTable('artist_stories', {
+  id: integer('id').primaryKey({ autoIncrement: true }),
+  artistId: integer('artist_id').references(() => artists.id).notNull(),
+  mediaUrl: text('media_url').notNull(),
+  mediaType: text('media_type').notNull(), // 'image' | 'video'
+  textOverlay: text('text_overlay'),
+  linkUrl: text('link_url'),
+  createdAt: text('created_at').notNull(),
+  expiresAt: text('expires_at').notNull(),
+});
+
+export const storyViews = sqliteTable('story_views', {
+  storyId: integer('story_id').references(() => artistStories.id).notNull(),
+  artistId: integer('artist_id').references(() => artists.id).notNull(),
+  createdAt: text('created_at').notNull(),
+});
+
+export const storyLikes = sqliteTable('story_likes', {
+  storyId: integer('story_id').references(() => artistStories.id).notNull(),
+  artistId: integer('artist_id').references(() => artists.id).notNull(),
+  createdAt: text('created_at').notNull(),
+});
+
+export const userReports = sqliteTable('user_reports', {
+  id: integer('id').primaryKey({ autoIncrement: true }),
+  reporterId: integer('reporter_id').references(() => artists.id).notNull(),
+  targetType: text('target_type').notNull(), // 'story', 'post', 'artist'
+  targetId: integer('target_id').notNull(),
+  reason: text('reason').notNull(),
+  status: text('status').default('pending').notNull(), // 'pending', 'approved', 'rejected'
+  createdAt: text('created_at').notNull(),
+});
+
+export const appNotifications = sqliteTable('app_notifications', {
+  id: integer('id').primaryKey({ autoIncrement: true }),
+  artistId: integer('artist_id').references(() => artists.id).notNull(),
+  title: text('title').notNull(),
+  message: text('message').notNull(),
+  isRead: integer('is_read', { mode: 'boolean' }).default(false).notNull(),
+  createdAt: text('created_at').notNull(),
 });

@@ -1,0 +1,34 @@
+--- final_deploy_test/src/components/ArtistSidebar.tsx
++++ final_deploy_test/src/components/ArtistSidebar.tsx
+@@ -51,2 +51,14 @@
+ 
++const socialMenuItems = [
++  {
++    title: "Главная (Лента)",
++    url: "/artist/feed",
++    icon: <Globe className="w-5 h-5" />,
++  },
++  {
++    title: "Сеть артистов",
++    url: "/artist/network",
++    icon: <Users className="w-5 h-5" />,
++  },
++];
++
+ const mainMenuItems = [
+@@ -231,2 +243,15 @@
+           </SidebarGroupContent>
++        </SidebarGroup>
++        
++        <SidebarGroup>
++          <SidebarGroupLabel className="text-xs font-medium text-neutral-500 uppercase tracking-wider mb-2 px-3">Сообщество</SidebarGroupLabel>
++          <SidebarGroupContent>
++            <SidebarMenu className="space-y-1">
++              {socialMenuItems.map((item) => (
++                <SidebarMenuItem key={item.title}>
++                  <MenuLink item={item} isActive={pathname === item.url || pathname.startsWith(item.url + '/')} />
++                </SidebarMenuItem>
++              ))}
++            </SidebarMenu>
++          </SidebarGroupContent>
+         </SidebarGroup>
