@@ -275,8 +275,8 @@ export default function ArtistSupport() {
                           Для общих вопросов и обращений
                         </p>
                         <Button variant="outline" size="sm" className="w-full" asChild>
-                          <a href="mailto:support@nightvolt.app">
-                            nightvolt@internet.ru
+                          <a href="mailto:support@platinumera.app">
+                            platinumera@internet.ru
                           </a>
                         </Button>
                       </div>
@@ -294,8 +294,8 @@ export default function ArtistSupport() {
                           Для срочных вопросов
                         </p>
                         <Button variant="outline" size="sm" className="w-full" asChild>
-                          <a href="https://t.me/ilya_nightvolt1" target="_blank" rel="noopener noreferrer">
-                            @nightvolt_support
+                          <a href="https://t.me/ilya_platinumera1" target="_blank" rel="noopener noreferrer">
+                            @platinumera_support
                           </a>
                         </Button>
                       </div>
@@ -358,13 +358,13 @@ export default function ArtistSupport() {
                   Создать тикет
                 </Button>
                 <Button className="w-full" variant="outline" asChild>
-                  <a href="mailto:support@nightvolt.app">
+                  <a href="mailto:support@platinumera.app">
                     <Mail className="w-4 h-4 mr-2" />
                     Написать на Email
                   </a>
                 </Button>
                 <Button className="w-full" variant="outline" asChild>
-                  <a href="https://t.me/ilya_nightvolt1" target="_blank" rel="noopener noreferrer">
+                  <a href="https://t.me/ilya_platinumera1" target="_blank" rel="noopener noreferrer">
                     <MessageCircle className="w-4 h-4 mr-2" />
                     Написать в Telegram
                   </a>

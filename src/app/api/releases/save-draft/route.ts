@@ -123,7 +123,7 @@ export async function POST(request: NextRequest) {
           additionalArtists: fields.additionalArtists || '',
           genre: fields.genre || '',
           subgenre: fields.subgenre || null,
-          label: fields.label || artist?.label || 'NIGHTVOLT',
+          label: fields.label || artist?.label || 'PLATINUM ERA MUSIC',
           artistComment: fields.artistComment || null,
           platforms: fields.platforms ? JSON.stringify(fields.platforms) : null,
           territories: fields.territories ? JSON.stringify(fields.territories) : null,

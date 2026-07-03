@@ -10,7 +10,7 @@ export async function register() {
 
   // Only re-register webhook from the canonical production domain.
   // This prevents a local/sandbox restart from clobbering the permanent URL.
-  const isProd = appUrl.includes('account.nightvolt.ru') || appUrl.includes('vercel.app') || appUrl.includes('nightvolt-portal');
+  const isProd = appUrl.includes('account.platinumera.ru') || appUrl.includes('vercel.app') || appUrl.includes('platinumera-portal');
 
   if (isProd) {
     const webhookUrl = `${appUrl}/api/telegram/webhook`;

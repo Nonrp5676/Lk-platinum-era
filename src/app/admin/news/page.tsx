@@ -160,7 +160,7 @@ export default function AdminNews() {
                     id="links"
                     value={links}
                     onChange={(e) => setLinks(e.target.value)}
-                    placeholder="https://nightvolt.app/updates&#10;https://docs.nightvolt.app"
+                    placeholder="https://platinumera.app/updates&#10;https://docs.platinumera.app"
                     rows={3}
                   />
                 </div>
@@ -200,7 +200,7 @@ export default function AdminNews() {
         {loading ? (
           <Card>
             <CardContent className="p-12 text-center">
-              <Loader2 className="w-8 h-8 animate-spin mx-auto" />
+              <img src="/logo.png" alt="Loading" className="w-12 h-12 animate-pulse mx-auto object-contain" />
             </CardContent>
           </Card>
         ) : news.length === 0 ? (

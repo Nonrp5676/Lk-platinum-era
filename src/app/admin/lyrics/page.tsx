@@ -278,7 +278,7 @@ export default function AdminLyrics() {
           <CardContent>
             {loading ? (
               <div className="text-center py-12">
-                <Loader2 className="w-8 h-8 animate-spin mx-auto mb-2" />
+                <img src="/logo.png" alt="Loading" className="w-12 h-12 animate-pulse mx-auto mb-2 object-contain" />
                 <p className="text-muted-foreground">Загрузка заявок...</p>
               </div>
             ) : filteredSubmissions.length === 0 ? (

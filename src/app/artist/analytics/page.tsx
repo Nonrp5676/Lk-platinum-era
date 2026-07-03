@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button";
 
 const AnalyticsChart = dynamic(() => import("@/components/AnalyticsChart").then(mod => mod.AnalyticsChart), {
   ssr: false,
-  loading: () => <div className="h-[400px] w-full flex items-center justify-center"><Loader2 className="w-8 h-8 animate-spin text-muted-foreground" /></div>
+  loading: () => <div className="h-[400px] w-full flex items-center justify-center"><img src="/logo.png" alt="Loading" className="w-12 h-12 animate-pulse object-contain" /></div>
 });
 
 export default function AnalyticsPage() {
@@ -55,7 +55,7 @@ export default function AnalyticsPage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-96">
-        <Loader2 className="w-8 h-8 animate-spin" />
+        <img src="/logo.png" alt="Loading" className="w-12 h-12 animate-pulse object-contain" />
       </div>
     );
   }

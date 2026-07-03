@@ -54,7 +54,7 @@ export async function POST(request: NextRequest) {
         pendingAuth.set(chatId, { step: 'await_email' });
         await reply(
           chatId,
-          `👋 Добро пожаловать в <b>NIGHTVOLT</b>!\n\nЧтобы получать уведомления о статусах ваших релизов, необходимо войти в аккаунт.\n\n📧 Введите ваш <b>email</b> (логин) от личного кабинета:`
+          `👋 Добро пожаловать в <b>PLATINUM ERA MUSIC</b>!\n\nЧтобы получать уведомления о статусах ваших релизов, необходимо войти в аккаунт.\n\n📧 Введите ваш <b>email</b> (логин) от личного кабинета:`
         );
       }
       return NextResponse.json({ ok: true });
@@ -195,5 +195,5 @@ export async function POST(request: NextRequest) {
 
 // Telegram also sends GET for webhook verification check (optional)
 export async function GET() {
-  return NextResponse.json({ ok: true, service: 'NIGHTVOLT Telegram Bot' });
+  return NextResponse.json({ ok: true, service: 'PLATINUM ERA MUSIC Telegram Bot' });
 }

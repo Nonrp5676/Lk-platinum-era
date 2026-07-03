@@ -7,7 +7,7 @@ import bcrypt from 'bcrypt';
 import { NextRequest } from 'next/server';
 
 const JWT_SECRET = new TextEncoder().encode(
-  process.env.JWT_SECRET || 'nightvolt-secret-key-2025'
+  process.env.JWT_SECRET || 'platinumera-secret-key-2025'
 );
 
 export interface SessionData {

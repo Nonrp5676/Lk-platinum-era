@@ -201,7 +201,7 @@ export default function ReleaseView() {
               </div>
               <div className="p-5">
                 {release.useEditorialPromo ? (
-                  <p className="text-sm text-muted-foreground italic">✨ Промо-текст будет написан редакцией NIGHTVOLT</p>
+                  <p className="text-sm text-muted-foreground italic">✨ Промо-текст будет написан редакцией PLATINUM ERA MUSIC</p>
                 ) : (
                   <p className="text-sm text-foreground whitespace-pre-wrap">{release.promoText}</p>
                 )}

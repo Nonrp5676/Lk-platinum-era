@@ -886,7 +886,7 @@ export default function AdminReleasePage() {
                 />
                 {editedRelease.promoByNightvolt && (
                   <p className="text-xs text-muted-foreground mt-1">
-                    ✨ Промо-текст написан редакцией NIGHTVOLT
+                    ✨ Промо-текст написан редакцией PLATINUM ERA MUSIC
                   </p>
                 )}
               </div>

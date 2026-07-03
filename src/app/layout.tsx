@@ -6,8 +6,8 @@ import ErrorReporter from "@/components/ErrorReporter";
 import Script from "next/script";
 
 export const metadata: Metadata = {
-  title: "NIGHTVOLT - Личный Кабинет",
-  description: "NIGHTVOLT — личный кабинет артиста: загрузка релизов, аналитика, финансы и поддержка лейбла",
+  title: "PLATINUM ERA MUSIC - Личный Кабинет",
+  description: "PLATINUM ERA MUSIC — личный кабинет артиста: загрузка релизов, аналитика, финансы и поддержка лейбла",
   icons: {
     icon: [
       { url: "/favicon.ico", sizes: "any" },

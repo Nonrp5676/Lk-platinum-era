@@ -203,7 +203,7 @@ export default function AdminReleases() {
     const blob = new Blob(["﻿" + csvContent], { type: "text/csv;charset=utf-8;" });
     const link = document.createElement("a");
     link.href = URL.createObjectURL(blob);
-    link.download = `nightvolt-catalog-${new Date().toISOString().split("T")[0]}.csv`;
+    link.download = `platinumera-catalog-${new Date().toISOString().split("T")[0]}.csv`;
     link.click();
   };
 
@@ -315,7 +315,7 @@ export default function AdminReleases() {
           <Card>
             <CardContent className="py-12">
               <div className="text-center">
-                <Loader2 className="w-8 h-8 animate-spin mx-auto mb-2 text-muted-foreground" />
+                <img src="/logo.png" alt="Loading" className="w-12 h-12 animate-pulse mx-auto mb-2 object-contain" />
                 <p className="text-muted-foreground">Загрузка релизов...</p>
               </div>
             </CardContent>

@@ -109,12 +109,12 @@ export function RegisterForm() {
     <header className="w-full border-b border-[#e6e9ee] bg-white flex-shrink-0">
       <div className="px-4 sm:px-6 py-4 sm:py-5 flex items-center gap-4">
         <img
-          src="/logo.svg"
-          alt="NIGHTVOLT Logo"
+          src="/logo.png"
+          alt="PLATINUM ERA MUSIC Logo"
           className="w-14 h-14 object-contain"
         />
         <div className="leading-tight">
-          <div className="text-2xl font-bold text-gray-900">NIGHTVOLT</div>
+          <div className="text-2xl font-bold text-gray-900">PLATINUM ERA MUSIC</div>
           <div className="text-sm text-gray-500">Label/Distributor</div>
         </div>
       </div>

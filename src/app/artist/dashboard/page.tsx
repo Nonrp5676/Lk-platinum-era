@@ -44,7 +44,7 @@ export default function ArtistDashboard() {
       >
         <h1 className="text-3xl font-bold mb-2">Новости</h1>
         <p className="text-muted-foreground">
-          Последние обновления и объявления от NIGHTVOLT
+          Последние обновления и объявления от PLATINUM ERA MUSIC
         </p>
       </motion.div>
 

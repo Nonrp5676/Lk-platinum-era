@@ -275,7 +275,7 @@ export default function AdminStaffPage() {
 
   const generatePassword = () => {
     const part = Math.random().toString(36).substring(2, 8).toUpperCase();
-    setFormData({ ...formData, password: `nightvolt-${part}` });
+    setFormData({ ...formData, password: `platinumera-${part}` });
   };
 
   const filteredAdmins = admins.filter(
@@ -579,7 +579,7 @@ export default function AdminStaffPage() {
                   type="email"
                   value={formData.email}
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                  placeholder="admin@nightvolt.ru"
+                  placeholder="admin@platinumera.ru"
                 />
               </div>
               <div className="space-y-2">
@@ -590,7 +590,7 @@ export default function AdminStaffPage() {
                       type={showPassword ? "text" : "password"}
                       value={formData.password}
                       onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                      placeholder="nightvolt-XXXXX"
+                      placeholder="platinumera-XXXXX"
                     />
                     <Button
                       type="button"

@@ -97,7 +97,7 @@ export function MaintenanceScreen({ initialReason = "" }: MaintenanceScreenProps
           className="flex items-center justify-center gap-2 mt-8 text-neutral-500 text-sm"
         >
           <Loader2 className="w-4 h-4 animate-spin" />
-          <span>NIGHTVOLT · проводим технические работы</span>
+          <span>PLATINUM ERA MUSIC · проводим технические работы</span>
         </motion.div>
       </motion.div>
     </div>

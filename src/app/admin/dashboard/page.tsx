@@ -89,7 +89,7 @@ export default function AdminDashboard() {
       >
         <h1 className="text-3xl font-bold mb-2">Дашборд</h1>
         <p className="text-muted-foreground">
-          Обзор системы управления NIGHTVOLT
+          Обзор системы управления PLATINUM ERA MUSIC
         </p>
       </motion.div>
 
@@ -131,7 +131,7 @@ export default function AdminDashboard() {
       >
         <Card>
           <CardHeader>
-            <CardTitle>Добро пожаловать в админ-панель NIGHTVOLT</CardTitle>
+            <CardTitle>Добро пожаловать в админ-панель PLATINUM ERA MUSIC</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4 text-muted-foreground">
             <p>

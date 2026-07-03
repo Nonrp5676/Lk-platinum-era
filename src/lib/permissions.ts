@@ -75,7 +75,7 @@ export function getPlanFeatures(user: User | null): string[] {
     return [
       "✓ Приоритетная модерация",
       "✓ Загрузка текстов на площадки",
-      "✓ Промо от NIGHTVOLT",
+      "✓ Промо от PLATINUM ERA MUSIC",
       "✓ Расширенная аналитика",
       "✓ Премиум поддержка",
       "✓ Редактирование названия лейбла",
@@ -87,7 +87,7 @@ export function getPlanFeatures(user: User | null): string[] {
     return [
       "✓ Приоритетная модерация",
       "✓ Загрузка текстов на площадки",
-      "✓ Промо от NIGHTVOLT",
+      "✓ Промо от PLATINUM ERA MUSIC",
       "✓ Расширенная аналитика",
       "✓ Премиум поддержка",
     ];

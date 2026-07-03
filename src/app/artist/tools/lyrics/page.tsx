@@ -130,7 +130,7 @@ export default function LyricsSubmissionPage() {
   if (userLoading || loading) {
     return (
       <div className="flex items-center justify-center h-96">
-        <Loader2 className="w-8 h-8 animate-spin" />
+        <img src="/logo.png" alt="Loading" className="w-12 h-12 animate-pulse object-contain" />
       </div>
     );
   }
@@ -166,7 +166,7 @@ export default function LyricsSubmissionPage() {
                 <li>Загрузка текстов треков на Musixmatch, Genius и другие платформы</li>
                 <li>Отслеживание статусов заявок</li>
                 <li>Приоритетная обработка заявок</li>
-                <li>Промо от NIGHTVOLT</li>
+                <li>Промо от PLATINUM ERA MUSIC</li>
                 <li>Приоритетная модерация релизов</li>
               </ul>
               <Alert className="bg-amber-50 dark:bg-amber-900/20 border-amber-200 dark:border-amber-900">

@@ -71,7 +71,7 @@ export default function ArtistDetailPage() {
   const [email, setEmail] = useState("");
   const [plan, setPlan] = useState("basic");
   const [role, setRole] = useState<string | null>(null);
-  const [label, setLabel] = useState("NIGHTVOLT");
+  const [label, setLabel] = useState("PLATINUM ERA MUSIC");
   const [isDeactivated, setIsDeactivated] = useState(false);
   const [deactivationReason, setDeactivationReason] = useState("");
   const [contractSigned, setContractSigned] = useState(false);
@@ -145,7 +145,7 @@ export default function ArtistDetailPage() {
 
   const generatePassword = () => {
     const randomNum = Math.floor(10000 + Math.random() * 90000);
-    return `nightvolt-${randomNum}`;
+    return `platinumera-${randomNum}`;
   };
 
   const handleResetPassword = async () => {
@@ -170,7 +170,7 @@ export default function ArtistDetailPage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-96">
-        <Loader2 className="w-8 h-8 animate-spin" />
+        <img src="/logo.png" alt="Loading" className="w-12 h-12 animate-pulse object-contain" />
       </div>
     );
   }
@@ -668,7 +668,7 @@ export default function ArtistDetailPage() {
                   <>
                     <p className="text-muted-foreground">✓ Приоритетная модерация</p>
                     <p className="text-muted-foreground">✓ Загрузка текстов на площадки</p>
-                    <p className="text-muted-foreground">✓ Промо от NIGHTVOLT</p>
+                    <p className="text-muted-foreground">✓ Промо от PLATINUM ERA MUSIC</p>
                     <p className="text-muted-foreground">✓ Премиум поддержка</p>
                     <p className="text-muted-foreground">✓ Редактирование названия лейбла</p>
                   </>
@@ -676,7 +676,7 @@ export default function ArtistDetailPage() {
                   <>
                     <p className="text-muted-foreground">✓ Приоритетная модерация</p>
                     <p className="text-muted-foreground">✓ Загрузка текстов на площадки</p>
-                    <p className="text-muted-foreground">✓ Промо от NIGHTVOLT</p>
+                    <p className="text-muted-foreground">✓ Промо от PLATINUM ERA MUSIC</p>
                     <p className="text-muted-foreground">✓ Премиум поддержка</p>
                   </>
                 ) : (

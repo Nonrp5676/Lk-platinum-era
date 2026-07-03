@@ -73,7 +73,7 @@ export default function AdminVerifications() {
       </div>
 
       {loading ? (
-        <Card><CardContent className="py-12 flex items-center justify-center"><Loader2 className="w-8 h-8 animate-spin" /></CardContent></Card>
+        <Card><CardContent className="py-12 flex items-center justify-center"><img src="/logo.png" alt="Loading" className="w-12 h-12 animate-pulse object-contain" /></CardContent></Card>
       ) : items.length === 0 ? (
         <Card><CardContent className="py-12 text-center text-muted-foreground">
           <ShieldCheck className="w-12 h-12 mx-auto mb-3 opacity-30" />

@@ -4,9 +4,9 @@ import { news } from '@/db/schema';
 async function main() {
     const sampleNews = [
         {
-            title: 'Welcome to NIGHTVOLT Artist Portal',
-            content: 'We are excited to announce the launch of our new artist portal! Here you can manage your releases, track submissions, and connect with the NIGHTVOLT community.',
-            links: '["https://nightvolt.app", "https://support.nightvolt.app"]',
+            title: 'Welcome to PLATINUM ERA MUSIC Artist Portal',
+            content: 'We are excited to announce the launch of our new artist portal! Here you can manage your releases, track submissions, and connect with the PLATINUM ERA MUSIC community.',
+            links: '["https://platinumera.app", "https://support.platinumera.app"]',
             createdBy: 1,
             createdAt: '2024-01-20T10:00:00.000Z',
             published: true,
@@ -14,7 +14,7 @@ async function main() {
         {
             title: 'New Release Guidelines 2024',
             content: 'We have updated our release guidelines for 2024. Please review the new requirements for cover art, audio quality, and metadata standards before submitting your next release.',
-            links: '["https://nightvolt.app/guidelines", "https://docs.nightvolt.app/releases"]',
+            links: '["https://platinumera.app/guidelines", "https://docs.platinumera.app/releases"]',
             createdBy: 1,
             createdAt: '2024-02-01T14:00:00.000Z',
             published: true,
@@ -22,7 +22,7 @@ async function main() {
         {
             title: 'Advanced Plan Features Now Available',
             content: 'Artists on the Advanced plan can now access priority moderation, editorial playlist submissions, and extended analytics. Upgrade your plan in settings to unlock these features.',
-            links: '["https://nightvolt.app/pricing"]',
+            links: '["https://platinumera.app/pricing"]',
             createdBy: 1,
             createdAt: '2024-02-15T09:30:00.000Z',
             published: true,

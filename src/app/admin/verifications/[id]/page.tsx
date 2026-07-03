@@ -74,7 +74,7 @@ export default function VerificationDetailPage() {
     finally { setActing(false); }
   };
 
-  if (loading) return <div className="flex items-center justify-center h-96"><Loader2 className="w-8 h-8 animate-spin" /></div>;
+  if (loading) return <div className="flex items-center justify-center h-96"><img src="/logo.png" alt="Loading" className="w-12 h-12 animate-pulse object-contain" /></div>;
   if (!data) return <div className="text-center py-12"><p>Не найдено</p><Button onClick={() => router.back()} className="mt-4">Назад</Button></div>;
 
   const roleLabel = data.role === "artist" ? "Артист" : "Лейбл";

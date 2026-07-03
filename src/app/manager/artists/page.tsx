@@ -195,7 +195,7 @@ export default function ManagerArtistsPage() {
 
   const generatePassword = () => {
     const randomPart = Math.random().toString(36).substring(2, 8).toUpperCase();
-    const password = `nightvolt-${randomPart}`;
+    const password = `platinumera-${randomPart}`;
     setFormData({ ...formData, password });
   };
 
@@ -358,7 +358,7 @@ export default function ManagerArtistsPage() {
                     type={showPassword ? "text" : "password"}
                     value={formData.password}
                     onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                    placeholder="nightvolt-XXXXX"
+                    placeholder="platinumera-XXXXX"
                   />
                   <Button
                     type="button"
@@ -433,7 +433,7 @@ export default function ManagerArtistsPage() {
                     type={showPassword ? "text" : "password"}
                     value={formData.password}
                     onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                    placeholder="nightvolt-XXXXX"
+                    placeholder="platinumera-XXXXX"
                   />
                   <Button
                     type="button"

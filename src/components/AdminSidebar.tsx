@@ -87,12 +87,12 @@ export function AdminSidebar({ user }: AdminSidebarProps) {
         <div className="p-6 border-b border-border">
           <div className="flex items-center gap-4">
             <img
-              src="/logo.svg"
-              alt="NIGHTVOLT Logo"
+              src="/logo.png"
+              alt="PLATINUM ERA MUSIC Logo"
               className="w-14 h-14 object-contain"
             />
             <div>
-              <h2 className="font-bold text-xl leading-tight">NIGHTVOLT</h2>
+              <h2 className="font-bold text-xl leading-tight">PLATINUM ERA MUSIC</h2>
               <p className="text-xs text-muted-foreground">Админ-панель</p>
             </div>
           </div>

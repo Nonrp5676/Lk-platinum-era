@@ -100,7 +100,7 @@ export async function POST(request: NextRequest) {
       theme: 'light',
       showSnowflakes: false,
       avatarUrl: null,
-      label: 'NIGHTVOLT',
+      label: 'PLATINUM ERA MUSIC',
       createdAt: new Date().toISOString(),
     }).returning();
 

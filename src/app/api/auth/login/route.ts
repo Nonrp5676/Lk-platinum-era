@@ -93,7 +93,7 @@ export async function POST(request: NextRequest) {
     } catch (error) {
       if (error instanceof Error && error.message === 'BLOCKED') {
         return NextResponse.json(
-          { error: 'Доступ к учётной записи временно ограничен администратором NIGHTVOLT' },
+          { error: 'Доступ к учётной записи временно ограничен администратором PLATINUM ERA MUSIC' },
           { status: 403 }
         );
       }

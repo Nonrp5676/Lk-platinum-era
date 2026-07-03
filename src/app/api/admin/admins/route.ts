@@ -117,7 +117,7 @@ export async function POST(request: NextRequest) {
       theme: 'light',
       showSnowflakes: false,
       showGarland: false,
-      label: 'NIGHTVOLT',
+      label: 'PLATINUM ERA MUSIC',
       createdAt: now,
     }).returning();
 

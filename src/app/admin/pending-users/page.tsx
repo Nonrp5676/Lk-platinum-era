@@ -109,7 +109,7 @@ export default function PendingUsersPage() {
         <CardContent>
           {loading ? (
             <div className="text-center py-8">
-              <Loader2 className="w-8 h-8 animate-spin mx-auto" />
+              <img src="/logo.png" alt="Loading" className="w-12 h-12 animate-pulse mx-auto object-contain" />
             </div>
           ) : users.length === 0 ? (
             <div className="text-center py-8 text-muted-foreground">

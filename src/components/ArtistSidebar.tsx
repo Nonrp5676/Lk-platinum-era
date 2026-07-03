@@ -181,13 +181,13 @@ export function ArtistSidebar({ user }: ArtistSidebarProps) {
         <div className={cn("flex items-center gap-2.5 px-4 h-14 border-b border-neutral-200/50 dark:border-neutral-800/50 shrink-0", isCollapsed && "justify-center px-0")}>
           <div className="w-8 h-8 flex-shrink-0 relative">
             <img
-              src="/logo.svg"
+              src="/logo.png"
               alt="Logo" className="w-full h-full object-contain"
             />
           </div>
           {!isCollapsed && (
             <div className="overflow-hidden whitespace-nowrap">
-              <h2 className="font-bold text-sm text-neutral-900 dark:text-white leading-none tracking-tight">NIGHTVOLT</h2>
+              <h2 className="font-bold text-sm text-neutral-900 dark:text-white leading-none tracking-tight">PLATINUM ERA MUSIC</h2>
               <p className="text-[9px] text-neutral-400 dark:text-neutral-600 uppercase tracking-[0.15em] mt-0.5">Artist Portal</p>
             </div>
           )}
@@ -319,7 +319,7 @@ export function ArtistSidebar({ user }: ArtistSidebarProps) {
             </div>
             <DialogTitle className="text-center text-xl">Требуется договор</DialogTitle>
             <DialogDescription className="text-center text-base pt-2 leading-relaxed">
-              Для загрузки релизов необходимо пройти верификацию и подписать договор с NIGHTVOLT.
+              Для загрузки релизов необходимо пройти верификацию и подписать договор с PLATINUM ERA MUSIC.
               <br /><br />
               Пройдите верификацию в личном кабинете, чтобы получить доступ к созданию релизов.
             </DialogDescription>

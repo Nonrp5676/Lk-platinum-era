@@ -259,7 +259,7 @@ export default function ArtistUpload() {
   const [title, setTitle] = useState("");
   const [subtitle, setSubtitle] = useState("");
   const [releaseType, setReleaseType] = useState("");
-  const [label, setLabel] = useState("NIGHTVOLT");
+  const [label, setLabel] = useState("PLATINUM ERA MUSIC");
   const [persons, setPersons] = useState<Person[]>([{ id: "1", name: "", role: "Исполнитель" }]);
   const [genre, setGenre] = useState("");
   const [subgenre, setSubgenre] = useState("");
@@ -297,7 +297,7 @@ export default function ArtistUpload() {
   const [isAutoSaving, setIsAutoSaving] = useState(false);
   const [lastSavedAt, setLastSavedAt] = useState<string | null>(null);
 
-  useEffect(() => { if (user) setLabel(user.label || "NIGHTVOLT"); }, [user]);
+  useEffect(() => { if (user) setLabel(user.label || "PLATINUM ERA MUSIC"); }, [user]);
 
   useEffect(() => { if (editId) fetchRelease(editId); }, [editId]);
 
@@ -410,7 +410,7 @@ export default function ArtistUpload() {
         setUpc(r.upc || "");
         setEarlyRussia(!!(r.earlyRussia ?? r.early_russia));
         setRealtimeDelivery(!!(r.realtimeDelivery ?? r.realtime_delivery));
-        setLabel(r.label || user?.label || "NIGHTVOLT");
+        setLabel(r.label || user?.label || "PLATINUM ERA MUSIC");
         setGenre(r.genre || ""); setSubgenre(r.subgenre || "");
         setArtistComment(r.artistComment || "");
         setCanEdit(r.status === "draft" || r.status === "requires_changes" || r.status === "approved" || r.status === "published");
@@ -832,7 +832,7 @@ export default function ArtistUpload() {
                 </Field>
               ) : (
                 <div className="border border-border rounded-lg px-4 py-3 bg-muted/40 flex items-center justify-between">
-                  <span className="text-sm text-foreground font-medium">{label || "NIGHTVOLT"}</span>
+                  <span className="text-sm text-foreground font-medium">{label || "PLATINUM ERA MUSIC"}</span>
                   <div className="flex gap-2"><X className="w-4 h-4 text-muted-foreground/60" /><ChevronDown className="w-4 h-4 text-muted-foreground" /></div>
                 </div>
               )}
@@ -852,7 +852,7 @@ export default function ArtistUpload() {
                 <Field label="Дата предзаказа" hint="Дата начала предзаказа (если используется)">
                   <DatePicker value={preorderDate} onChange={setPreorderDate} disabled={!canEdit} placeholder="Выберите дату" />
                 </Field>
-                <Field label="Год получения прав" hint="Год выпуска, например: ® 2026 NIGHTVOLT">
+                <Field label="Год получения прав" hint="Год выпуска, например: ® 2026 PLATINUM ERA MUSIC">
                   <SI value={rightsYear} onChange={e => setRightsYear(e.target.value)} placeholder="2026" disabled={!canEdit} maxLength={4} />
                 </Field>
               </div>
@@ -1211,8 +1211,8 @@ export default function ArtistUpload() {
 
           {/* Legal */}
           <div className="space-y-2 pt-2">
-            {[{ title: "Пользовательское Соглашение", url: "https://nightvolt.ru/terms", text: "Нажимая кнопку «Отправить», вы подтверждаете акцепт условий и соглашаетесь с Пользовательским соглашением." },
-              { title: "Политика DMCA NIGHTVOLT", url: "https://nightvolt.ru/copyright", text: "Нажимая кнопку «Отправить», Артист подтверждает, что загружает исключительно материалы, на которые обладает всеми необходимыми правами." }
+            {[{ title: "Пользовательское Соглашение", url: "https://platinumera.ru/terms", text: "Нажимая кнопку «Отправить», вы подтверждаете акцепт условий и соглашаетесь с Пользовательским соглашением." },
+              { title: "Политика DMCA PLATINUM ERA MUSIC", url: "https://platinumera.ru/copyright", text: "Нажимая кнопку «Отправить», Артист подтверждает, что загружает исключительно материалы, на которые обладает всеми необходимыми правами." }
             ].map(item => (
               <div key={item.url} className="flex items-start gap-3 p-4 bg-muted/40 rounded-xl border border-border">
                 <Info className="w-4 h-4 text-muted-foreground mt-0.5 shrink-0" />

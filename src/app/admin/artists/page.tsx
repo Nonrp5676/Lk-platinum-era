@@ -65,7 +65,7 @@ export default function AdminArtists() {
 
   const generatePassword = () => {
     const randomNum = Math.floor(10000 + Math.random() * 90000);
-    return `nightvolt-${randomNum}`;
+    return `platinumera-${randomNum}`;
   };
 
   const handleCreate = async () => {
@@ -205,7 +205,7 @@ export default function AdminArtists() {
                     type="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    placeholder="artist@nightvolt.app"
+                    placeholder="artist@platinumera.app"
                   />
                 </div>
                 <div>
@@ -284,7 +284,7 @@ export default function AdminArtists() {
           <CardContent>
             {loading ? (
               <div className="text-center py-8">
-                <Loader2 className="w-8 h-8 animate-spin mx-auto" />
+                <img src="/logo.png" alt="Loading" className="w-12 h-12 animate-pulse mx-auto object-contain" />
               </div>
             ) : artists.length === 0 ? (
               <div className="text-center py-8 text-muted-foreground">

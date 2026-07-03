@@ -166,7 +166,7 @@ export default function ArtistFAQ() {
                   <AccordionContent className="text-muted-foreground space-y-2">
                     <p>Некоторые функции доступны только для артистов с Продвинутым планом:</p>
                     <p>• Загрузка текстов на площадки (Musixmatch, Genius)</p>
-                    <p>• Промо от редакции NIGHTVOLT</p>
+                    <p>• Промо от редакции PLATINUM ERA MUSIC</p>
                     <p>• Расширенная аналитика</p>
                     <p className="mt-2">Для изменения плана обратитесь к администратору через Email или Telegram.</p>
                   </AccordionContent>

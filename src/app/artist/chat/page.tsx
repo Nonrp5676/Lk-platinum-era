@@ -18,7 +18,7 @@ export default function ChatPage() {
     {
       id: "welcome",
       role: "assistant",
-      content: "Привет! Я AI-ассистент NIGHTVOLT. Готов ответить на ваши вопросы о работе лейбла, загрузке релизов, аналитике и других аспектах музыкальной деятельности. Чем могу помочь?",
+      content: "Привет! Я AI-ассистент PLATINUM ERA MUSIC. Готов ответить на ваши вопросы о работе лейбла, загрузке релизов, аналитике и других аспектах музыкальной деятельности. Чем могу помочь?",
       timestamp: new Date(),
     },
   ]);
@@ -113,7 +113,7 @@ export default function ChatPage() {
           <div>
             <h1 className="text-2xl font-bold">AI Ассистент</h1>
             <p className="text-sm text-muted-foreground">
-              Мгновенная поддержка по вопросам лейбла NIGHTVOLT
+              Мгновенная поддержка по вопросам лейбла PLATINUM ERA MUSIC
             </p>
           </div>
         </div>
@@ -202,7 +202,7 @@ export default function ChatPage() {
               value={input}
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={handleKeyDown}
-              placeholder="Задайте вопрос о лейбле NIGHTVOLT..."
+              placeholder="Задайте вопрос о лейбле PLATINUM ERA MUSIC..."
               className="w-full resize-none rounded-xl border border-border bg-card px-4 py-3 pr-12 text-sm focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent min-h-[52px] max-h-[200px]"
               rows={1}
               disabled={isLoading}
@@ -222,7 +222,7 @@ export default function ChatPage() {
           </Button>
         </div>
         <p className="text-xs text-muted-foreground mt-2 text-center">
-          Ассистент отвечает только на вопросы о лейбле NIGHTVOLT
+          Ассистент отвечает только на вопросы о лейбле PLATINUM ERA MUSIC
         </p>
       </form>
     </div>

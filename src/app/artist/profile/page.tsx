@@ -115,7 +115,7 @@ export default function ArtistProfile() {
   if (loading || !user) {
     return (
       <div className="flex items-center justify-center h-96">
-        <Loader2 className="w-8 h-8 animate-spin" />
+        <img src="/logo.png" alt="Loading" className="w-12 h-12 animate-pulse object-contain" />
       </div>
     );
   }

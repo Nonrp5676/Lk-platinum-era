@@ -185,7 +185,7 @@ export default function VerificationPage() {
   };
 
   if (loading) return (
-    <div className="flex items-center justify-center h-96"><Loader2 className="w-8 h-8 animate-spin text-muted-foreground" /></div>
+    <div className="flex items-center justify-center h-96"><img src="/logo.png" alt="Loading" className="w-12 h-12 animate-pulse object-contain" /></div>
   );
 
   if (submittedStatus) return (

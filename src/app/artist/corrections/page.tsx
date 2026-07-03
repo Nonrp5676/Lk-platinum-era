@@ -222,7 +222,7 @@ export default function ArtistCorrections() {
           <Card>
             <CardContent className="py-12">
               <div className="text-center">
-                <Loader2 className="w-8 h-8 animate-spin mx-auto mb-2 text-muted-foreground" />
+                <img src="/logo.png" alt="Loading" className="w-12 h-12 animate-pulse mx-auto mb-2 object-contain" />
                 <p className="text-muted-foreground">Загрузка релизов...</p>
               </div>
             </CardContent>
