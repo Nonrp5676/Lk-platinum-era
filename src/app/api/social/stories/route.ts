@@ -64,7 +64,7 @@ export async function POST(req: NextRequest) {
     if (!file) return NextResponse.json({ error: 'No file' }, { status: 400 });
 
     const buffer = Buffer.from(await file.arrayBuffer());
-    const fileName = \`story_\${Date.now()}_\${file.name.replace(/[^a-zA-Z0-9.]/g, '')}\`;
+    const fileName = `story_${Date.now()}_${file.name.replace(/[^a-zA-Z0-9.]/g, '')}`;
     const mediaUrl = await uploadToSupabaseStorage(buffer, fileName, file.type, 'avatars');
     
     const isVideo = file.type.startsWith('video/');

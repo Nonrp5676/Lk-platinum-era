@@ -120,7 +120,7 @@ export function StoryViewer({ groupedStories, initialGroupIndex, onClose }: Stor
           
           return (
             <div key={idx} className="flex-1 h-1 bg-white/30 rounded-full overflow-hidden">
-              <div className="h-full bg-white transition-all duration-75" style={{ width: \`\${w}%\` }} />
+              <div className="h-full bg-white transition-all duration-75" style={{ width: `${w}%` }} />
             </div>
           )
         })}

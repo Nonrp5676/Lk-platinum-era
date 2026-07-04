@@ -25,7 +25,7 @@ export async function POST(req: NextRequest) {
         await db.insert(appNotifications).values({
           artistId: story.artistId,
           title: "Новый лайк",
-          message: \`\${session.name} лайкнул(а) вашу историю.\`,
+          message: `${session.name} лайкнул(а) вашу историю.`,
           createdAt: new Date().toISOString()
         });
       }
