@@ -20,8 +20,8 @@ export async function GET(req: NextRequest, { params }: { params: { username: st
     }
 
     // Get followers/following counts
-    const [{ followers }] = await db.select({ followers: sql<number>\`count(*)\` }).from(artistFollows).where(eq(artistFollows.followingId, artist.id));
-    const [{ following }] = await db.select({ following: sql<number>\`count(*)\` }).from(artistFollows).where(eq(artistFollows.followerId, artist.id));
+    const [{ followers }] = await db.select({ followers: sql<number>`count(*)` }).from(artistFollows).where(eq(artistFollows.followingId, artist.id));
+    const [{ following }] = await db.select({ following: sql<number>`count(*)` }).from(artistFollows).where(eq(artistFollows.followerId, artist.id));
     
     let isFollowing = false;
     if (currentUserId) {
@@ -33,7 +33,7 @@ export async function GET(req: NextRequest, { params }: { params: { username: st
     const rawPosts = await db.select().from(artistPosts).where(eq(artistPosts.artistId, artist.id)).orderBy(desc(artistPosts.createdAt)).limit(20);
     
     const posts = await Promise.all(rawPosts.map(async (post) => {
-      const [{ count }] = await db.select({ count: sql<number>\`count(*)\` }).from(postLikes).where(eq(postLikes.postId, post.id));
+      const [{ count }] = await db.select({ count: sql<number>`count(*)` }).from(postLikes).where(eq(postLikes.postId, post.id));
       let hasLiked = false;
       if (currentUserId) {
         const [like] = await db.select().from(postLikes).where(and(eq(postLikes.postId, post.id), eq(postLikes.artistId, currentUserId))).limit(1);

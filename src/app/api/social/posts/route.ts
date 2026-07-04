@@ -29,10 +29,10 @@ export async function GET() {
 
     // Подсчитываем лайки и проверяем лайкнул ли пользователь
     const enrichedPosts = await Promise.all(posts.map(async (post) => {
-      const [{ count }] = await db.select({ count: sql<number>\`count(*)\` }).from(postLikes).where(eq(postLikes.postId, post.id));
+      const [{ count }] = await db.select({ count: sql<number>`count(*)` }).from(postLikes).where(eq(postLikes.postId, post.id));
       let hasLiked = false;
       if (userId) {
-        const [like] = await db.select().from(postLikes).where(sql\`post_id = \${post.id} AND artist_id = \${userId}\`).limit(1);
+        const [like] = await db.select().from(postLikes).where(sql`post_id = ${post.id} AND artist_id = ${userId}`).limit(1);
         hasLiked = !!like;
       }
       return { ...post, likesCount: count, hasLiked };
@@ -57,7 +57,7 @@ export async function POST(req: NextRequest) {
     let imageUrl = null;
     if (file && file.size > 0) {
       const buffer = Buffer.from(await file.arrayBuffer());
-      const fileName = \`post_\${Date.now()}_\${file.name.replace(/[^a-zA-Z0-9.]/g, '')}\`;
+      const fileName = `post_${Date.now()}_${file.name.replace(/[^a-zA-Z0-9.]/g, '')}`;
       imageUrl = await uploadToSupabaseStorage(buffer, fileName, file.type, 'avatars');
     }
 
