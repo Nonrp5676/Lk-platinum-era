@@ -1,5 +1,7 @@
 "use client";
 import { useEffect, useState, useRef } from "react";
+import { StoryViewer } from "@/components/StoryViewer";
+import { StoryCreator } from "@/components/StoryCreator";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Camera, Image as ImageIcon, MoreHorizontal, MessageSquare, Share2, Heart, X } from "lucide-react";
@@ -17,6 +19,23 @@ export default function FeedPage() {
   const [image, setImage] = useState<File | null>(null);
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
+  
+  const [stories, setStories] = useState<any[]>([]);
+  const [isCreatorOpen, setIsCreatorOpen] = useState(false);
+  const [viewerGroupIndex, setViewerGroupIndex] = useState<number | null>(null);
+  
+  const loadStories = async () => {
+    try {
+      const res = await fetch("/api/social/stories");
+      const data = await res.json();
+      setStories(data.grouped || []);
+    } catch(e) {}
+  };
+
+  useEffect(() => {
+    loadStories();
+  }, []);
+
   
   const [viewerImage, setViewerImage] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -85,16 +104,34 @@ export default function FeedPage() {
         <h1 className="text-3xl font-bold tracking-tight">Лента</h1>
       </div>
 
-      {/* Stories Banner (Placeholder) */}
+      {/* Stories Banner */}
       <div className="flex gap-4 overflow-x-auto pb-4 scrollbar-hide">
-        <div className="flex flex-col items-center gap-1 cursor-pointer min-w-[72px]">
+        <div className="flex flex-col items-center gap-1 cursor-pointer min-w-[72px]" onClick={() => setIsCreatorOpen(true)}>
           <div className="w-16 h-16 rounded-full border-2 border-dashed border-muted flex items-center justify-center bg-muted/50 hover:bg-muted transition-colors relative">
             <Camera className="w-6 h-6 text-muted-foreground" />
             <div className="absolute -bottom-1 -right-1 bg-primary text-primary-foreground rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold border-2 border-background">+</div>
           </div>
           <span className="text-xs font-medium">Ваша история</span>
         </div>
+        
+        {stories.map((group, idx) => (
+          <div key={group.artistId} className="flex flex-col items-center gap-1 cursor-pointer min-w-[72px]" onClick={() => setViewerGroupIndex(idx)}>
+            <div className="w-16 h-16 rounded-full p-[2px] bg-gradient-to-tr from-[#cd792f] to-purple-600">
+              <Avatar className="w-full h-full border-2 border-background">
+                <AvatarImage src={group.avatarUrl} />
+                <AvatarFallback>{(group.artistName || "A").charAt(0)}</AvatarFallback>
+              </Avatar>
+            </div>
+            <span className="text-xs font-medium truncate w-16 text-center">{group.artistName}</span>
+          </div>
+        ))}
       </div>
+
+      <StoryCreator isOpen={isCreatorOpen} onClose={() => setIsCreatorOpen(false)} onSuccess={loadStories} />
+      {viewerGroupIndex !== null && (
+        <StoryViewer groupedStories={stories} initialGroupIndex={viewerGroupIndex} onClose={() => setViewerGroupIndex(null)} />
+      )}
+
 
       {/* Create Post */}
       <Card>

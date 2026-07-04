@@ -18,7 +18,7 @@ import {
   Wrench,
   Newspaper,
   LifeBuoy,
-  TrendingUp,
+  Globe, Users, TrendingUp,
   ShieldCheck,
   type LucideIcon,
 } from "lucide-react";
@@ -91,6 +91,18 @@ export function ArtistSidebar({ user }: ArtistSidebarProps) {
       icon: CirclePlus,
       active: pathname === "/artist/upload",
       isPrimary: true,
+    },
+    {
+      label: "Лента (Соцсеть)",
+      href: "/artist/feed",
+      icon: Globe,
+      active: pathname === "/artist/feed",
+    },
+    {
+      label: "Сеть артистов",
+      href: "/artist/network",
+      icon: Users,
+      active: pathname.startsWith("/artist/network"),
     },
     {
       label: "Верификация",
