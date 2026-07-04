@@ -2,7 +2,6 @@
 
 import { useUser } from "@/hooks/useUser";
 import { useHeartbeat } from "@/hooks/useHeartbeat";
-import { BottomNav } from "@/components/BottomNav";
 import { ArtistSidebar } from "@/components/ArtistSidebar";
 import { ArtistProfileDropdown } from "@/components/artist-profile-dropdown";
 import { Snowflakes } from "@/components/Snowflakes";
@@ -48,7 +47,6 @@ export default function ArtistLayout({
 
   // Maintenance mode check (except super admin)
   if (!maintenance.loading && maintenance.enabled) {
-      <BottomNav />
     return <MaintenanceScreen initialReason={maintenance.reason} />;
   }
 

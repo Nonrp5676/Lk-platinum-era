@@ -1,0 +1,10 @@
+--- final_deploy_test/src/app/artist/layout.tsx
++++ final_deploy_test/src/app/artist/layout.tsx
+@@ -4,2 +4,3 @@
+ import { ArtistSidebar } from "@/components/ArtistSidebar";
++import { BottomNav } from "@/components/BottomNav";
+ import { MaintenanceScreen } from "@/components/MaintenanceScreen";
+@@ -49,2 +50,3 @@
+       </main>
++      <BottomNav />
+     </div>
