@@ -29,13 +29,13 @@ export async function POST(request: NextRequest) {
     }
 
     const ext = file.name.split('.').pop()?.toLowerCase() || 'jpg';
-    const fileName = \`\${session.userId}/cover_\${Date.now()}-\${Math.random().toString(36).slice(2, 8)}.\${ext}\`;
+    const fileName = `${session.userId}/cover_${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`;
 
     const arrayBuffer = await file.arrayBuffer();
-    const uploadRes = await fetch(\`\${SUPABASE_URL}/storage/v1/object/avatars/\${fileName}\`, {
+    const uploadRes = await fetch(`${SUPABASE_URL}/storage/v1/object/avatars/${fileName}`, {
       method: 'POST',
       headers: {
-        Authorization: \`Bearer \${SUPABASE_KEY}\`,
+        Authorization: `Bearer ${SUPABASE_KEY}`,
         'Content-Type': file.type,
       },
       body: arrayBuffer,
@@ -45,7 +45,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Ошибка загрузки файла' }, { status: 500 });
     }
 
-    const publicUrl = \`\${SUPABASE_URL}/storage/v1/object/public/avatars/\${fileName}\`;
+    const publicUrl = `${SUPABASE_URL}/storage/v1/object/public/avatars/${fileName}`;
 
     await db
       .update(artists)
