@@ -109,7 +109,13 @@ function ProfileContent() {
   if (!profile) return <div className="text-center p-12 text-muted-foreground">Артист не найден</div>;
 
   return (
+    
+    {/* Page Background */}
+    {profile?.isExclusive && profile?.exclusiveColor && (
+      <div className={`fixed inset-0 z-[-1] opacity-20 bg-gradient-to-br ${profile.exclusiveColor}`} />
+    )}
     <div className="max-w-5xl mx-auto pb-24 md:pb-12 animate-in fade-in duration-500">
+
       {/* Mobile Top Bar */}
       <div className="md:hidden flex items-center justify-between p-4 sticky top-0 bg-background/80 backdrop-blur-md z-40 border-b">
         <Button variant="ghost" size="icon" onClick={() => router.push("/artist/network")}>
@@ -136,7 +142,7 @@ function ProfileContent() {
       <Card className="overflow-hidden border-none shadow-xl bg-card/50 backdrop-blur-sm rounded-2xl">
         {/* Cover Image / Gradient */}
         
-        <div className={`h-48 md:h-64 bg-gradient-to-br w-full relative group overflow-hidden ${profile?.isExclusive && profile?.exclusiveColor ? profile.exclusiveColor : "from-[#cd792f] via-purple-900 to-black"}`}>
+        <div className="h-48 md:h-64 bg-gradient-to-br w-full relative group overflow-hidden from-neutral-800 to-neutral-900">
           {profile?.coverUrl && <img src={profile.coverUrl} alt="Cover" className="absolute inset-0 w-full h-full object-cover opacity-90" />}
 
           <div className="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors" />
