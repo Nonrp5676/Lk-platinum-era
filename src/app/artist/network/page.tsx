@@ -68,7 +68,7 @@ export default function NetworkPage() {
                       )}
                       <Avatar className="w-full h-full border bg-muted relative z-10 hover:opacity-80 transition-opacity">
                       <AvatarImage src={artist.avatarUrl || ""} className="object-cover" />
-                      <AvatarFallback className="text-xl">{(artist.artistName || artist.name || "A").charAt(0)}</AvatarFallback>
+                      <AvatarFallback className="text-xl">{(artist?.artistName || artist?.name || "A")?.charAt(0)}</AvatarFallback>
                     </Avatar>
                     </div>
                     <div>
