@@ -4,7 +4,7 @@ import { StoryViewer } from "@/components/StoryViewer";
 import { StoryCreator } from "@/components/StoryCreator";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Camera, Image as ImageIcon, MoreHorizontal, MessageSquare, Share2, Heart, X } from " BadgeCheck } from "lucide-react";
+import { Camera, Image as ImageIcon, MoreHorizontal, MessageSquare, Share2, Heart, X } , BadgeCheck } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useUser } from "@/hooks/useUser";
 import { toast } from "sonner";

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import { X, Heart, AlertTriangle, Send, MoreVertical, Pause, Play } from " BadgeCheck } from "lucide-react";
+import { X, Heart, AlertTriangle, Send, MoreVertical, Pause, Play } , BadgeCheck } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";

@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Search, Users, Loader2 } from " BadgeCheck } from "lucide-react";
+import { Search, Users, Loader2 } , BadgeCheck } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import Link from "next/link";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
