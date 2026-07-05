@@ -23,7 +23,7 @@ export function StoryViewer({ groupedStories, initialGroupIndex, onClose }: Stor
   const [isPaused, setIsPaused] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
   const [showStats, setShowStats] = useState(false);
-  const [stats, setStats] = useState({ views: [], likes: [] });
+  const [stats, setStats] = useState<{views: any[], likes: any[]}>({ views: [], likes: [] });
   
   const currentGroup = groupedStories[groupIndex];
   const currentStory = currentGroup?.stories[storyIndex];
@@ -147,7 +147,7 @@ export function StoryViewer({ groupedStories, initialGroupIndex, onClose }: Stor
           <div className="drop-shadow-md">
             <p className="font-semibold text-sm flex items-center gap-1">{currentGroup.artistName}{currentGroup.isVerified && <BadgeCheck className="w-4 h-4 text-blue-500 fill-blue-500/10 shrink-0" />}</p>
             <p className="text-xs text-white/70">
-              {currentStory?.createdAt ? String(currentStory.createdAt).split("T")[1]?.slice(0,5) : ""}
+              {currentStory?.createdAt ? String(currentStory?.createdAt).split("T")[1]?.slice(0,5) : ""}
             </p>
           </div>
         </div>
@@ -213,12 +213,12 @@ export function StoryViewer({ groupedStories, initialGroupIndex, onClose }: Stor
         <div className="absolute bottom-0 left-0 right-0 z-50 p-4 pb-safe bg-gradient-to-t from-black/80 to-transparent flex justify-between items-end pointer-events-auto" onMouseDown={e => e.stopPropagation()}>
           <div className="flex flex-col items-center gap-1 cursor-pointer hover:opacity-80 transition-opacity" onClick={() => setShowStats(true)}>
             <div className="flex -space-x-2">
-              {stats.views.length === 0 ? (
+              {(stats?.views?.length || 0) === 0 ? (
                 <div className="w-8 h-8 rounded-full bg-white/20 border border-white/30 flex items-center justify-center backdrop-blur-md">
                   <Eye className="w-4 h-4 text-white/70" />
                 </div>
               ) : (
-                stats.views.slice(0, 3).map((v: any, i: number) => (
+                (stats?.views || []).slice(0, 3).map((v: any, i: number) => (
                   <Avatar key={i} className="w-8 h-8 border-2 border-black">
                     <AvatarImage src={v.avatarUrl} className="object-cover" />
                     <AvatarFallback className="text-[10px]">{(v.artistName || v.name || "A").charAt(0)}</AvatarFallback>
@@ -231,10 +231,10 @@ export function StoryViewer({ groupedStories, initialGroupIndex, onClose }: Stor
           
           <div className="flex items-center gap-2 bg-black/40 rounded-full px-3 py-1.5 backdrop-blur-md border border-white/10">
             <Heart className="w-4 h-4 text-white/70" />
-            <span className="text-sm font-semibold">{stats.likes.length}</span>
+            <span className="text-sm font-semibold">{(stats?.likes?.length || 0)}</span>
             <div className="w-px h-3 bg-white/20 mx-1" />
             <Eye className="w-4 h-4 text-white/70" />
-            <span className="text-sm font-semibold">{stats.views.length}</span>
+            <span className="text-sm font-semibold">{(stats?.views?.length || 0)}</span>
           </div>
         </div>
       ) : (
@@ -263,7 +263,7 @@ export function StoryViewer({ groupedStories, initialGroupIndex, onClose }: Stor
             
             <div className="px-6 pb-4 border-b border-zinc-800 flex justify-between items-center">
               <h3 className="text-lg font-bold flex items-center gap-2">
-                <Eye className="w-5 h-5 text-zinc-400" /> Просмотры ({stats.views.length})
+                <Eye className="w-5 h-5 text-zinc-400" /> Просмотры ({(stats?.views?.length || 0)})
               </h3>
               <Button variant="ghost" size="icon" className="text-zinc-400 hover:text-white rounded-full" onClick={() => setShowStats(false)}>
                 <X className="w-5 h-5" />
@@ -271,14 +271,14 @@ export function StoryViewer({ groupedStories, initialGroupIndex, onClose }: Stor
             </div>
             
             <div className="flex-1 overflow-y-auto p-4 space-y-4">
-              {stats.views.length === 0 ? (
+              {(stats?.views?.length || 0) === 0 ? (
                 <div className="flex flex-col items-center justify-center h-full text-zinc-500">
                   <Eye className="w-12 h-12 mb-2 opacity-20" />
                   <p>Пока нет просмотров</p>
                 </div>
               ) : (
-                stats.views.map((v: any) => {
-                  const hasLiked = stats.likes.some((l: any) => l.artistId === v.artistId);
+                (stats?.views || []).map((v: any) => {
+                  const hasLiked = (stats?.likes || []).some((l: any) => l.artistId === v.artistId);
                   return (
                     <div key={v.artistId} className="flex items-center justify-between p-2 hover:bg-zinc-800 rounded-xl transition-colors">
                       <div className="flex items-center gap-3">
