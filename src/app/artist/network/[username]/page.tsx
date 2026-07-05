@@ -109,7 +109,7 @@ function ProfileContent() {
   if (!profile) return <div className="text-center p-12 text-muted-foreground">Артист не найден</div>;
 
   return (
-    
+    <>
     {/* Page Background */}
     {profile?.isExclusive && profile?.exclusiveColor && (
       <div className={`fixed inset-0 z-[-1] opacity-20 bg-gradient-to-br ${profile.exclusiveColor}`} />
@@ -353,5 +353,6 @@ function ProfileContent() {
         </div>
       )}
     </div>
+    </>
   );
 }
