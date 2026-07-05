@@ -24,7 +24,7 @@ export default function ArtistProfilePage() {
 
   const loadData = async () => {
     try {
-      const res = await fetch(\`/api/social/profile/\${username}\`);
+      const res = await fetch(`/api/social/profile/${username}`);
       const data = await res.json();
       if (data.artist) {
         setProfile(data.artist);
