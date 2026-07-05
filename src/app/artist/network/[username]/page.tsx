@@ -135,7 +135,7 @@ function ProfileContent() {
 
       <Card className="overflow-hidden border-none shadow-xl bg-card/50 backdrop-blur-sm rounded-2xl">
         {/* Cover Image / Gradient */}
-        <div className="h-48 md:h-64 bg-gradient-to-br from-[#cd792f] via-purple-900 to-black w-full relative group">
+        <div className={`h-48 md:h-64 bg-gradient-to-br w-full relative group ${profile?.isExclusive && profile?.exclusiveColor ? profile.exclusiveColor : "from-[#cd792f] via-purple-900 to-black"}`}>
           <div className="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors" />
           
           <div className="hidden md:flex absolute top-4 right-4 gap-2">
@@ -159,7 +159,11 @@ function ProfileContent() {
           <div className="flex flex-col md:flex-row gap-6 md:gap-8 items-center md:items-end -mt-20 md:-mt-24 mb-8 relative z-10">
             {/* Avatar */}
             <div className="relative">
-              <Avatar className="w-36 h-36 md:w-44 md:h-44 border-[6px] border-background shadow-2xl bg-muted">
+              
+            {profile?.isExclusive && (
+              <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-amber-400 via-orange-500 to-purple-600 animate-[spin_3s_linear_infinite] -m-1" />
+            )}
+            <Avatar className="w-36 h-36 md:w-44 md:h-44 border-[6px] border-background shadow-2xl bg-muted relative z-10">
                 <AvatarImage src={profile?.avatarUrl || ''} className="object-cover" />
                 <AvatarFallback className="text-5xl font-light">{(profile?.artistName || profile?.name || "A")?.charAt(0) || "A"}</AvatarFallback>
               </Avatar>

@@ -33,6 +33,8 @@ export const artists = sqliteTable('artists', {
   avatarUrl: text('avatar_url'),
   username: text('username').unique(),
   lastActiveAt: text('last_active_at'),
+  isExclusive: integer('is_exclusive', { mode: 'boolean' }).default(false),
+  exclusiveColor: text('exclusive_color').default('from-amber-400 via-orange-500 to-rose-600'),
   label: text('label').notNull().default('PLATINUM ERA MUSIC'),
   lastActiveAt: text('last_active_at'),
   telegramChatId: text('telegram_chat_id'),
