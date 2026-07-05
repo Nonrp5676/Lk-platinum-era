@@ -1,21 +1,15 @@
 "use client";
-import React from 'react';
-
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, MoreHorizontal, Share2, Grid as GridIcon, Heart, MessageSquare, X, CheckCircle2, MapPin, Link as LinkIcon, Flag, Music, Settings, Crown , BadgeCheck } from "lucide-react";
+import { ArrowLeft, MoreHorizontal, Share2, Grid as GridIcon, Heart, MessageSquare, X, MapPin, Flag, Music, Settings, Crown, BadgeCheck } from "lucide-react";
 import Link from "next/link";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { usePathname, useRouter } from "next/navigation";
 import { toast } from "sonner";
-import { formatDistanceToNow } from "date-fns";
-import { ru } from "date-fns/locale";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
-import { StoryViewer } from "@/components/StoryViewer";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { cn } from "@/lib/utils";
-
 
 class ErrorBoundary extends React.Component<any, any> {
   constructor(props: any) {
@@ -30,7 +24,11 @@ class ErrorBoundary extends React.Component<any, any> {
 }
 
 export default function ArtistProfilePage() {
-  return <ErrorBoundary><ProfileContent /></ErrorBoundary>;
+  return (
+    <ErrorBoundary>
+      <ProfileContent />
+    </ErrorBoundary>
+  );
 }
 
 function ProfileContent() {
@@ -42,22 +40,6 @@ function ProfileContent() {
   const [posts, setPosts] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [viewerImage, setViewerImage] = useState<string | null>(null);
-  const [stories, setStories] = useState<any[]>([]);
-  const [viewerGroupIndex, setViewerGroupIndex] = useState<number | null>(null);
-
-  useEffect(() => {
-    fetch("/api/social/stories").then(r => r.json()).then(d => {
-      setStories(d.grouped || []);
-    }).catch(()=>{});
-  }, []);
-
-  const handleAvatarClick = (e: React.MouseEvent) => {
-    if (!profile) return;
-    const idx = stories.findIndex(g => g.artistId === profile.id);
-    if (idx !== -1) {
-      setViewerGroupIndex(idx);
-    }
-  };
 
   const [showIntro, setShowIntro] = useState(false);
   useEffect(() => {
@@ -67,7 +49,6 @@ function ProfileContent() {
       return () => clearTimeout(timer);
     }
   }, [profile?.customBadge]);
-
 
   const loadData = async () => {
     try {
@@ -97,7 +78,7 @@ function ProfileContent() {
         setProfile({
           ...profile,
           isFollowing: data.following,
-          followersCount: profile?.followersCount + (data.following ? 1 : -1)
+          followersCount: (profile?.followersCount || 0) + (data.following ? 1 : -1)
         });
         toast.success(data.following ? "Вы подписались на артиста" : "Вы отписались от артиста");
       }
@@ -124,7 +105,7 @@ function ProfileContent() {
   };
 
   const copyProfileLink = () => {
-    navigator.clipboard.writeText(window.location.href);
+    navigator.clipboard.writeText(window.location.origin + "/artist/network/" + (profile?.username || profile?.uid || ''));
     toast.success("Ссылка на профиль скопирована!");
   };
 
@@ -137,13 +118,6 @@ function ProfileContent() {
 
   return (
     <>
-    {/* Page Background */}
-    {profile?.isExclusive && profile?.exclusiveColor && (
-      <div className={`fixed inset-0 z-[-1] opacity-80 bg-gradient-to-br ${profile.exclusiveColor}`} />
-    )}
-    <div className="max-w-5xl mx-auto pb-24 md:pb-12 animate-in fade-in duration-500">
-
-      
       {showIntro && profile?.customBadge && (
         <div className="fixed inset-0 z-[200] flex flex-col items-center justify-center bg-black/95 backdrop-blur-xl animate-out fade-out duration-1000 delay-[4000ms] fill-mode-forwards">
           <div className="relative flex items-center justify-center mb-12">
@@ -157,256 +131,233 @@ function ProfileContent() {
         </div>
       )}
 
-      {/* Mobile Top Bar */}
-      <div className="md:hidden flex items-center justify-between p-4 sticky top-0 bg-background/80 backdrop-blur-md z-40 border-b">
-        <Button variant="ghost" size="icon" onClick={() => router.push("/artist/network")}>
-          <ArrowLeft className="w-5 h-5" />
-        </Button>
-        <span className="font-semibold text-sm flex items-center gap-1">@{(profile?.username || profile?.uid || "")}{profile?.isVerified && <BadgeCheck className="w-4 h-4 text-blue-500 fill-blue-500/10 shrink-0" />}</span>
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" size="icon"><MoreHorizontal className="w-5 h-5" /></Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuItem onClick={copyProfileLink}><Share2 className="w-4 h-4 mr-2" /> Поделиться</DropdownMenuItem>
-            {!profile?.isMe && <DropdownMenuItem onClick={handleReport} className="text-red-500"><Flag className="w-4 h-4 mr-2" /> Пожаловаться</DropdownMenuItem>}
-          </DropdownMenuContent>
-        </DropdownMenu>
-      </div>
-
-      <div className="hidden md:flex items-center mb-4">
-        <Button variant="ghost" size="sm" onClick={() => router.push("/artist/network")} className="text-muted-foreground hover:text-foreground">
-          <ArrowLeft className="w-4 h-4 mr-2" /> Назад к списку
-        </Button>
-      </div>
-
-      <Card className="overflow-hidden border-none shadow-xl bg-card/50 backdrop-blur-sm rounded-2xl">
-        {/* Cover Image / Gradient */}
+      {/* Full Page Background Wrapper */}
+      <div className="min-h-screen bg-background relative animate-in fade-in duration-500 pb-24 md:pb-12">
         
-        <div className="h-48 md:h-64 bg-gradient-to-br w-full relative group overflow-hidden from-neutral-800 to-neutral-900">
-          {profile?.coverUrl && <img src={profile.coverUrl} alt="Cover" className="absolute inset-0 w-full h-full object-cover opacity-90" />}
-
-          <div className="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors" />
-          
-          <div className="hidden md:flex absolute top-4 right-4 gap-2">
-            <Button variant="secondary" size="sm" onClick={copyProfileLink} className="bg-black/40 text-white hover:bg-black/60 border-none backdrop-blur-md">
-              <Share2 className="w-4 h-4 mr-2" /> Поделиться
-            </Button>
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="secondary" size="icon" className="bg-black/40 text-white hover:bg-black/60 border-none backdrop-blur-md">
-                  <MoreHorizontal className="w-4 h-4" />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="w-48">
-                {!profile?.isMe && <DropdownMenuItem onClick={handleReport} className="text-red-500"><Flag className="w-4 h-4 mr-2" /> Пожаловаться</DropdownMenuItem>}
-              </DropdownMenuContent>
-            </DropdownMenu>
-          </div>
+        {/* Mobile Top Bar */}
+        <div className="md:hidden flex items-center justify-between p-4 sticky top-0 bg-background/60 backdrop-blur-xl z-40 border-b border-border/30">
+          <Button variant="ghost" size="icon" onClick={() => router.push("/artist/network")} className="hover:bg-transparent">
+            <ArrowLeft className="w-5 h-5" />
+          </Button>
+          <span className="font-semibold text-sm flex items-center gap-1">@{(profile?.username || profile?.uid || "")}{profile?.isVerified && <BadgeCheck className="w-4 h-4 text-blue-500 fill-blue-500/10 shrink-0" />}</span>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" size="icon" className="hover:bg-transparent"><MoreHorizontal className="w-5 h-5" /></Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="rounded-2xl">
+              <DropdownMenuItem onClick={copyProfileLink} className="rounded-xl"><Share2 className="w-4 h-4 mr-2" /> Поделиться</DropdownMenuItem>
+              {!profile?.isMe && <DropdownMenuItem onClick={handleReport} className="text-red-500 rounded-xl"><Flag className="w-4 h-4 mr-2" /> Пожаловаться</DropdownMenuItem>}
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
 
-        <CardContent className="p-6 md:p-8 pt-0 relative">
-          <div className="flex flex-col md:flex-row gap-6 md:gap-8 items-center md:items-end -mt-20 md:-mt-24 mb-8 relative z-10">
-            {/* Avatar */}
-            <div className="relative">
-              
+        {/* Desktop Top Bar */}
+        <div className="hidden md:flex items-center p-6 absolute top-0 left-0 z-40 w-full justify-between">
+          <Button variant="secondary" className="rounded-full bg-background/50 backdrop-blur-md border-none shadow-sm hover:bg-background/80" onClick={() => router.push("/artist/network")}>
+            <ArrowLeft className="w-4 h-4 mr-2" /> Назад
+          </Button>
+        </div>
+
+        {/* Modern Header Section */}
+        <div className="relative pt-12 md:pt-32 pb-10 px-6 md:px-12 flex flex-col items-center md:items-end md:flex-row gap-6 md:gap-10 border-b border-border/10 overflow-hidden">
+          
+          {/* Header Background */}
+          <div className="absolute inset-0 z-0 pointer-events-none">
+            {profile?.avatarUrl ? (
+              <>
+                <div className="absolute inset-0 bg-background/80 dark:bg-background/90 z-10 backdrop-blur-[100px]" />
+                <img src={profile.avatarUrl} className="w-full h-full object-cover opacity-50 blur-3xl scale-110" alt="bg" />
+              </>
+            ) : (
+              <div className={`absolute inset-0 opacity-20 bg-gradient-to-br ${profile?.exclusiveColor || 'from-[#cd792f] to-purple-900'}`} />
+            )}
+            <div className="absolute inset-0 bg-gradient-to-t from-background to-transparent z-20" />
+          </div>
+
+          {/* Large Avatar */}
+          <div className="relative z-30 shrink-0">
             {profile?.isExclusive && (
               <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-amber-400 via-orange-500 to-purple-600 animate-[spin_3s_linear_infinite] -m-1" />
             )}
-            {stories.some(s => s.artistId === profile?.id) && (
-              <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-[#cd792f] to-purple-600 p-[3px] -m-2 z-0 animate-pulse">
-                <div className="w-full h-full bg-background rounded-full" />
-              </div>
-            )}
-            <Avatar onClick={handleAvatarClick} className="w-36 h-36 md:w-44 md:h-44 border-[6px] border-background shadow-2xl bg-muted relative z-10 hover:opacity-90 cursor-pointer transition-opacity">
-                <AvatarImage src={profile?.avatarUrl || ''} className="object-cover" />
-                <AvatarFallback className="text-5xl font-light">{(profile?.artistName || profile?.name || "A")?.charAt(0) || "A"}</AvatarFallback>
-              </Avatar>
-              <div className="absolute bottom-2 right-2 w-5 h-5 bg-green-500 border-4 border-background rounded-full shadow-sm" title="В сети"></div>
-            </div>
-            
-            {/* Info */}
-            <div className="flex-1 text-center md:text-left mt-2 md:mt-0">
-              
-              <div className="flex flex-col md:flex-row md:items-center gap-3 mb-2 justify-center md:justify-start">
-                <h1 className="text-2xl md:text-4xl font-extrabold tracking-tight flex items-center justify-center md:justify-start gap-2">{profile?.artistName || profile?.name}{profile?.isVerified && <BadgeCheck className="w-6 h-6 md:w-8 md:h-8 text-blue-500 fill-blue-500/10 shrink-0" />}</h1>
-                {profile?.customBadge && (
-                  <div className="flex items-center gap-1.5 bg-red-500/10 text-red-500 px-3 py-1 rounded-full text-xs font-bold uppercase border border-red-500/20 shadow-[0_0_15px_rgba(239,68,68,0.2)]">
-                    <Crown className="w-3.5 h-3.5" /> {profile.customBadge}
-                  </div>
-                )}
-                
-              </div>
+            <Avatar className="w-32 h-32 md:w-56 md:h-56 border-[6px] border-background shadow-2xl relative z-10 bg-muted">
+              <AvatarImage src={profile?.avatarUrl || ''} className="object-cover" />
+              <AvatarFallback className="text-5xl md:text-7xl font-light">{(profile?.artistName || profile?.name || "A")?.charAt(0)}</AvatarFallback>
+            </Avatar>
+            <div className="absolute bottom-2 right-2 md:bottom-4 md:right-4 w-6 h-6 md:w-8 md:h-8 bg-green-500 border-4 border-background rounded-full shadow-lg z-20" title="В сети"></div>
+          </div>
 
-              <p className="text-muted-foreground font-medium text-lg md:text-xl">@{(profile?.username || profile?.uid || '')}</p>
-              
-              <div className="flex flex-wrap items-center justify-center md:justify-start gap-4 mt-4 text-sm font-medium">
-                <div className="flex items-center gap-1.5 bg-muted/50 px-3 py-1.5 rounded-full"><MapPin className="w-4 h-4 text-[#cd792f]" /> СНГ</div>
-                <div className="flex items-center gap-1.5 bg-muted/50 px-3 py-1.5 rounded-full"><Music className="w-4 h-4 text-[#cd792f]" /> PLATINUM ERA MUSIC</div>
-              </div>
+          {/* Profile Info */}
+          <div className="relative z-30 flex-1 text-center md:text-left pt-2 md:pt-4 w-full">
+            <div className="flex flex-col md:flex-row md:items-center gap-3 mb-1 justify-center md:justify-start">
+              <h1 className="text-3xl md:text-5xl font-black tracking-tight">{profile?.artistName || profile?.name}</h1>
+              {profile?.customBadge && (
+                <div className="flex items-center gap-1.5 bg-red-500/10 text-red-500 px-3 py-1 rounded-full text-xs font-bold uppercase border border-red-500/20 shadow-[0_0_15px_rgba(239,68,68,0.2)]">
+                  <Crown className="w-3.5 h-3.5" /> {profile.customBadge}
+                </div>
+              )}
+              {profile?.isVerified && <BadgeCheck className="w-6 h-6 md:w-8 md:h-8 text-blue-500 fill-blue-500/10 shrink-0" />}
             </div>
             
+            <p className="text-muted-foreground font-semibold text-lg md:text-xl mb-4">@{profile?.username || profile?.uid || ''}</p>
+
+            <div className="flex flex-wrap items-center justify-center md:justify-start gap-3 text-sm font-medium mb-6">
+              <span className="flex items-center gap-1.5 bg-secondary/50 px-4 py-2 rounded-full backdrop-blur-md"><MapPin className="w-4 h-4 text-[#cd792f]" /> СНГ</span>
+              <span className="flex items-center gap-1.5 bg-secondary/50 px-4 py-2 rounded-full backdrop-blur-md"><Music className="w-4 h-4 text-[#cd792f]" /> PLATINUM ERA MUSIC</span>
+            </div>
+
             {/* Action Buttons */}
-            <div className="flex flex-row gap-3 w-full md:w-auto mt-4 md:mt-0">
+            <div className="flex flex-row items-center justify-center md:justify-start gap-3 w-full">
               {profile?.isMe ? (
                 <Link href="/artist/profile" className="w-full md:w-auto">
-                  <Button className="w-full md:w-auto px-8 shadow-md" size="lg" variant="default">
+                  <Button className="w-full md:w-auto px-8 shadow-sm rounded-full bg-secondary text-secondary-foreground hover:bg-secondary/80 h-12" variant="secondary">
                     <Settings className="w-4 h-4 mr-2"/> Настройки профиля
                   </Button>
                 </Link>
               ) : (
                 <Button 
-                  className={cn("w-full md:w-auto px-10 shadow-md transition-all", profile?.isFollowing ? "bg-muted text-foreground hover:bg-muted/80" : "bg-[#cd792f] hover:bg-[#b8661f] text-white")} 
-                  size="lg" 
+                  className={cn("w-full md:w-auto px-10 shadow-lg rounded-full transition-all h-12 font-semibold", profile?.isFollowing ? "bg-secondary text-secondary-foreground hover:bg-secondary/80" : "bg-[#cd792f] hover:bg-[#b8661f] text-white")} 
                   onClick={handleFollow} 
                 >
                   {profile?.isFollowing ? "Отписаться" : "Подписаться"}
                 </Button>
               )}
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-            {/* Left Sidebar - Bio & Stats */}
-            <div className="lg:col-span-4 space-y-6">
-              <div className="bg-muted/30 p-5 rounded-2xl border border-muted/50">
-                <h3 className="font-bold text-lg mb-3 flex items-center gap-2"><span className="w-1 h-5 bg-[#cd792f] rounded-full"></span> Об артисте</h3>
-                <p className="text-sm text-foreground/80 whitespace-pre-wrap leading-relaxed">
-                  {profile?.bio || "Этот артист предпочитает говорить через свою музыку. Описание пока не добавлено."}
-                </p>
-                {profile?.isMe && !profile?.bio && (
-                  <Link href="/artist/profile"><Button variant="link" className="px-0 mt-2 text-[#cd792f]">Добавить описание</Button></Link>
-                )}
-              </div>
               
-              <div className="flex gap-4">
-                <div className="flex-1 bg-muted/30 p-4 rounded-2xl border border-muted/50 text-center">
-                  <div className="text-3xl font-black text-foreground">{profile?.followersCount || 0}</div>
-                  <div className="text-xs text-muted-foreground uppercase font-bold tracking-wider mt-1">Подписчиков</div>
-                </div>
-                <div className="flex-1 bg-muted/30 p-4 rounded-2xl border border-muted/50 text-center">
-                  <div className="text-3xl font-black text-foreground">{profile?.followingCount || 0}</div>
-                  <div className="text-xs text-muted-foreground uppercase font-bold tracking-wider mt-1">Подписок</div>
-                </div>
-              </div>
-            </div>
-            
-            {/* Right Content - Posts & Music */}
-            <div className="lg:col-span-8">
-              <Tabs defaultValue="posts" className="w-full">
-                <TabsList className="w-full justify-start bg-transparent border-b rounded-none p-0 h-auto gap-6">
-                  <TabsTrigger value="posts" className="data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:border-b-2 data-[state=active]:border-[#cd792f] rounded-none px-2 py-3 text-base">
-                    <GridIcon className="w-4 h-4 mr-2" /> Публикации
-                  </TabsTrigger>
-                  <TabsTrigger value="music" className="data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:border-b-2 data-[state=active]:border-[#cd792f] rounded-none px-2 py-3 text-base">
-                    <Music className="w-4 h-4 mr-2" /> Релизы
-                  </TabsTrigger>
-                </TabsList>
-                
-                <TabsContent value="posts" className="pt-6 outline-none">
-                  {posts.length > 0 ? (
-                    <div className="space-y-6">
-                      {posts.map((post) => (
-                        <Card key={post.id} className="border border-muted/60 shadow-sm overflow-hidden bg-card hover:shadow-md transition-shadow">
-                          <CardContent className="p-0">
-                            {/* Post Header */}
-                            <div className="p-4 flex items-center justify-between">
-                              <div className="flex items-center gap-3">
-                                <Avatar className="w-10 h-10 border">
-                                  <AvatarImage src={profile?.avatarUrl || ''} />
-                                  <AvatarFallback>{(profile?.artistName || "A")?.charAt(0) || "A"}</AvatarFallback>
-                                </Avatar>
-                                <div>
-                                  <h4 className="font-bold text-sm leading-none flex items-center gap-1">{profile?.artistName || profile?.name}{profile?.isVerified && <BadgeCheck className="w-4 h-4 text-blue-500 fill-blue-500/10 shrink-0" />}</h4>
-                                  <span className="text-xs text-muted-foreground mt-1 block">
-                                    {post?.createdAt ? String(post.createdAt).split("T")[0] : ""}
-                                  </span>
-                                </div>
-                              </div>
-                              <DropdownMenu>
-                                <DropdownMenuTrigger asChild>
-                                  <Button variant="ghost" size="icon" className="text-muted-foreground"><MoreHorizontal className="w-5 h-5" /></Button>
-                                </DropdownMenuTrigger>
-                                <DropdownMenuContent align="end">
-                                  <DropdownMenuItem onClick={() => { navigator.clipboard.writeText(window.location.origin + "/artist/network/" + (profile?.username || profile?.uid || '')); toast.success("Ссылка скопирована!"); }}>
-                                    <LinkIcon className="w-4 h-4 mr-2" /> Копировать ссылку
-                                  </DropdownMenuItem>
-                                  {!profile?.isMe && <DropdownMenuItem onClick={handleReport} className="text-red-500"><Flag className="w-4 h-4 mr-2" /> Пожаловаться</DropdownMenuItem>}
-                                </DropdownMenuContent>
-                              </DropdownMenu>
-                            </div>
-                            
-                            {/* Post Content */}
-                            {post.content && (
-                              <div className="px-5 pb-4 text-[15px] whitespace-pre-wrap text-foreground/90">
-                                {post.content}
-                              </div>
-                            )}
-                            
-                            {/* Post Image */}
-                            {post.imageUrl && (
-                              <div className="w-full max-h-[600px] bg-neutral-100 dark:bg-neutral-900 flex items-center justify-center cursor-pointer border-y border-muted/30" onClick={() => setViewerImage(post.imageUrl)}>
-                                <img src={post.imageUrl} className="w-full max-h-[600px] object-cover" alt="Post" loading="lazy" />
-                              </div>
-                            )}
-                            
-                            {/* Post Actions */}
-                            <div className="p-3 px-4 flex items-center justify-between bg-muted/10">
-                              <div className="flex gap-1">
-                                <Button variant="ghost" size="sm" className={cn("rounded-full px-4 font-medium transition-colors", post.hasLiked ? 'text-red-500 hover:text-red-600 hover:bg-red-500/10' : 'text-muted-foreground hover:text-red-500 hover:bg-red-500/10')} onClick={() => handleLike(post.id)}>
-                                  <Heart className={cn("w-5 h-5 mr-2", post.hasLiked && "fill-current")} /> 
-                                  {post.likesCount || 0}
-                                </Button>
-                                <Button variant="ghost" size="sm" className="rounded-full px-4 text-muted-foreground font-medium hover:bg-blue-500/10 hover:text-blue-500" onClick={() => toast.info("Комментарии будут доступны в следующем обновлении!")}>
-                                  <MessageSquare className="w-5 h-5 mr-2" /> 0
-                                </Button>
-                                <Button variant="ghost" size="sm" className="rounded-full px-4 text-muted-foreground font-medium hover:bg-green-500/10 hover:text-green-500" onClick={() => { navigator.clipboard.writeText(window.location.origin + "/artist/network/" + (profile?.username || profile?.uid || '')); toast.success("Ссылка скопирована!"); }}>
-                                  <Share2 className="w-5 h-5" />
-                                </Button>
-                              </div>
-                              <span className="text-xs font-medium text-muted-foreground bg-muted px-2 py-1 rounded-md">{post.viewsCount} просмотров</span>
-                            </div>
-                          </CardContent>
-                        </Card>
-                      ))}
-                    </div>
-                  ) : (
-                    <div className="flex flex-col items-center justify-center py-20 text-center bg-muted/20 rounded-2xl border border-dashed border-muted">
-                      <div className="w-16 h-16 bg-muted rounded-full flex items-center justify-center mb-4">
-                        <GridIcon className="w-8 h-8 text-muted-foreground/50" />
-                      </div>
-                      <h3 className="text-lg font-bold">Нет публикаций</h3>
-                      <p className="text-muted-foreground mt-2 max-w-sm">Артист пока не сделал ни одной записи. Следите за обновлениями!</p>
-                    </div>
-                  )}
-                </TabsContent>
-                
-                <TabsContent value="music" className="pt-6 outline-none">
-                  <div className="flex flex-col items-center justify-center py-20 text-center bg-muted/20 rounded-2xl border border-dashed border-muted">
-                    <div className="w-16 h-16 bg-muted rounded-full flex items-center justify-center mb-4">
-                      <Music className="w-8 h-8 text-muted-foreground/50" />
-                    </div>
-                    <h3 className="text-lg font-bold">Дискография скрыта</h3>
-                    <p className="text-muted-foreground mt-2 max-w-sm">Отображение релизов на странице профиля появится в ближайшее время.</p>
-                  </div>
-                </TabsContent>
-              </Tabs>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="secondary" size="icon" className="rounded-full shadow-sm h-12 w-12 bg-secondary text-secondary-foreground hover:bg-secondary/80 shrink-0"><MoreHorizontal className="w-5 h-5" /></Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="rounded-2xl">
+                  <DropdownMenuItem onClick={copyProfileLink} className="rounded-xl py-2"><Share2 className="w-4 h-4 mr-2" /> Поделиться</DropdownMenuItem>
+                  {!profile?.isMe && <DropdownMenuItem onClick={handleReport} className="text-red-500 rounded-xl py-2"><Flag className="w-4 h-4 mr-2" /> Пожаловаться</DropdownMenuItem>}
+                </DropdownMenuContent>
+              </DropdownMenu>
             </div>
           </div>
-        </CardContent>
-      </Card>
+        </div>
 
-      {viewerGroupIndex !== null && <StoryViewer groupedStories={stories} initialGroupIndex={viewerGroupIndex} onClose={() => setViewerGroupIndex(null)} />}
-      {/* Image Viewer */}
+        {/* Content Section */}
+        <div className="max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 p-6 md:p-10">
+          
+          {/* Left Column - Stats & Bio */}
+          <div className="lg:col-span-4 space-y-6">
+            <div className="flex gap-4">
+              <div className="flex-1 bg-secondary/30 p-5 rounded-3xl border border-border/40 text-center">
+                <div className="text-3xl font-black text-foreground">{profile?.followersCount || 0}</div>
+                <div className="text-[11px] text-muted-foreground uppercase font-bold tracking-widest mt-1">Подписчиков</div>
+              </div>
+              <div className="flex-1 bg-secondary/30 p-5 rounded-3xl border border-border/40 text-center">
+                <div className="text-3xl font-black text-foreground">{profile?.followingCount || 0}</div>
+                <div className="text-[11px] text-muted-foreground uppercase font-bold tracking-widest mt-1">Подписок</div>
+              </div>
+            </div>
+
+            <div className="bg-secondary/30 p-6 rounded-3xl border border-border/40">
+              <h3 className="font-bold text-lg mb-3 flex items-center gap-2"><span className="w-1.5 h-5 bg-[#cd792f] rounded-full"></span> Описание</h3>
+              <p className="text-sm text-foreground/80 whitespace-pre-wrap leading-relaxed">
+                {profile?.bio || "Этот артист предпочитает говорить через свою музыку. Описание пока не добавлено."}
+              </p>
+              {profile?.isMe && !profile?.bio && (
+                <Link href="/artist/profile"><Button variant="link" className="px-0 mt-2 text-[#cd792f] h-auto p-0">Добавить описание</Button></Link>
+              )}
+            </div>
+          </div>
+          
+          {/* Right Column - Posts & Music */}
+          <div className="lg:col-span-8">
+            <Tabs defaultValue="posts" className="w-full">
+              <TabsList className="w-full justify-start bg-transparent border-b border-border/50 rounded-none p-0 h-auto gap-8 mb-6">
+                <TabsTrigger value="posts" className="data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:border-b-2 data-[state=active]:border-[#cd792f] rounded-none px-2 py-4 text-base font-semibold transition-none">
+                  <GridIcon className="w-4 h-4 mr-2" /> Публикации
+                </TabsTrigger>
+                <TabsTrigger value="music" className="data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:border-b-2 data-[state=active]:border-[#cd792f] rounded-none px-2 py-4 text-base font-semibold transition-none">
+                  <Music className="w-4 h-4 mr-2" /> Релизы
+                </TabsTrigger>
+              </TabsList>
+              
+              <TabsContent value="posts" className="outline-none space-y-6">
+                {posts.length > 0 ? (
+                  posts.map((post) => (
+                    <Card key={post.id} className="border-none shadow-md overflow-hidden bg-secondary/10 hover:bg-secondary/20 transition-colors rounded-3xl">
+                      <CardContent className="p-0">
+                        <div className="p-5 flex items-center justify-between">
+                          <div className="flex items-center gap-3">
+                            <Avatar className="w-10 h-10 border shadow-sm">
+                              <AvatarImage src={profile?.avatarUrl || ''} className="object-cover" />
+                              <AvatarFallback>{(profile?.artistName || "A")?.charAt(0)}</AvatarFallback>
+                            </Avatar>
+                            <div>
+                              <h4 className="font-bold text-sm leading-none flex items-center gap-1">{profile?.artistName || profile?.name}{profile?.isVerified && <BadgeCheck className="w-3.5 h-3.5 text-blue-500 fill-blue-500/10 shrink-0" />}</h4>
+                              <span className="text-xs text-muted-foreground mt-1 block">
+                                {post?.createdAt ? String(post.createdAt).split("T")[0] : ""}
+                              </span>
+                            </div>
+                          </div>
+                          <Button variant="ghost" size="icon" className="text-muted-foreground rounded-full hover:bg-secondary"><MoreHorizontal className="w-5 h-5" /></Button>
+                        </div>
+                        
+                        {post.content && (
+                          <div className="px-5 pb-4 text-[15px] whitespace-pre-wrap text-foreground/90 leading-relaxed">
+                            {post.content}
+                          </div>
+                        )}
+                        
+                        {post.imageUrl && (
+                          <div className="w-full max-h-[600px] bg-black/5 flex items-center justify-center cursor-pointer border-y border-border/30" onClick={() => setViewerImage(post.imageUrl)}>
+                            <img src={post.imageUrl} className="w-full max-h-[600px] object-cover" alt="Post" loading="lazy" />
+                          </div>
+                        )}
+                        
+                        <div className="p-3 px-5 flex items-center justify-between">
+                          <div className="flex gap-2">
+                            <Button variant="ghost" size="sm" className={cn("rounded-full px-4 font-semibold transition-colors", post.hasLiked ? 'text-red-500 bg-red-500/10 hover:bg-red-500/20' : 'text-muted-foreground hover:bg-secondary')} onClick={() => handleLike(post.id)}>
+                              <Heart className={cn("w-5 h-5 mr-2", post.hasLiked && "fill-current")} /> 
+                              {post.likesCount || 0}
+                            </Button>
+                            <Button variant="ghost" size="sm" className="rounded-full px-4 text-muted-foreground font-semibold hover:bg-secondary" onClick={() => toast.info("Комментарии в разработке")}>
+                              <MessageSquare className="w-5 h-5 mr-2" /> 0
+                            </Button>
+                            <Button variant="ghost" size="sm" className="rounded-full px-4 text-muted-foreground font-semibold hover:bg-secondary" onClick={() => { navigator.clipboard.writeText(window.location.origin + "/artist/network/" + (profile?.username || profile?.uid || '')); toast.success("Ссылка скопирована!"); }}>
+                              <Share2 className="w-5 h-5" />
+                            </Button>
+                          </div>
+                          <span className="text-xs font-semibold text-muted-foreground bg-secondary/50 px-3 py-1.5 rounded-full">{post.viewsCount} просмотров</span>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  ))
+                ) : (
+                  <div className="flex flex-col items-center justify-center py-20 text-center bg-secondary/20 rounded-3xl border border-dashed border-border/50">
+                    <div className="w-16 h-16 bg-secondary/50 rounded-full flex items-center justify-center mb-4">
+                      <GridIcon className="w-8 h-8 text-muted-foreground/50" />
+                    </div>
+                    <h3 className="text-lg font-bold">Нет публикаций</h3>
+                    <p className="text-muted-foreground mt-2 max-w-sm">Артист пока не сделал ни одной записи. Следите за обновлениями!</p>
+                  </div>
+                )}
+              </TabsContent>
+              
+              <TabsContent value="music" className="pt-6 outline-none">
+                <div className="flex flex-col items-center justify-center py-20 text-center bg-secondary/20 rounded-3xl border border-dashed border-border/50">
+                  <div className="w-16 h-16 bg-secondary/50 rounded-full flex items-center justify-center mb-4">
+                    <Music className="w-8 h-8 text-muted-foreground/50" />
+                  </div>
+                  <h3 className="text-lg font-bold">Дискография скрыта</h3>
+                  <p className="text-muted-foreground mt-2 max-w-sm">Отображение релизов на странице профиля появится в ближайшее время.</p>
+                </div>
+              </TabsContent>
+            </Tabs>
+          </div>
+        </div>
+      </div>
+
       {viewerImage && (
-        <div className="fixed inset-0 z-[100] bg-black/95 flex items-center justify-center backdrop-blur-md" onClick={() => setViewerImage(null)}>
-          <button className="absolute top-6 right-6 text-white/50 hover:text-white transition-colors bg-white/10 p-2 rounded-full">
+        <div className="fixed inset-0 z-[100] bg-black/95 flex items-center justify-center backdrop-blur-xl" onClick={() => setViewerImage(null)}>
+          <button className="absolute top-6 right-6 text-white/50 hover:text-white transition-colors bg-white/10 p-3 rounded-full hover:bg-white/20">
             <X className="w-6 h-6" />
           </button>
-          <img src={viewerImage} className="max-w-[95vw] max-h-[90vh] object-contain shadow-2xl rounded-sm" onClick={e => e.stopPropagation()} />
+          <img src={viewerImage} className="max-w-[95vw] max-h-[90vh] object-contain shadow-2xl rounded-lg" onClick={e => e.stopPropagation()} />
         </div>
       )}
-    </div>
     </>
   );
 }
