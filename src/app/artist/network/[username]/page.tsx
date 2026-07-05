@@ -141,7 +141,7 @@ export default function ArtistProfilePage() {
             <div className="relative">
               <Avatar className="w-36 h-36 md:w-44 md:h-44 border-[6px] border-background shadow-2xl bg-muted">
                 <AvatarImage src={profile?.avatarUrl || ''} className="object-cover" />
-                <AvatarFallback className="text-5xl font-light">{(profile?.artistName || profile?.name || "A").charAt(0)}</AvatarFallback>
+                <AvatarFallback className="text-5xl font-light">{(profile?.artistName || profile?.name || "A")?.charAt(0) || "A"}</AvatarFallback>
               </Avatar>
               <div className="absolute bottom-2 right-2 w-5 h-5 bg-green-500 border-4 border-background rounded-full shadow-sm" title="В сети"></div>
             </div>
@@ -228,12 +228,12 @@ export default function ArtistProfilePage() {
                               <div className="flex items-center gap-3">
                                 <Avatar className="w-10 h-10 border">
                                   <AvatarImage src={profile?.avatarUrl || ''} />
-                                  <AvatarFallback>{(profile?.artistName || "A").charAt(0)}</AvatarFallback>
+                                  <AvatarFallback>{(profile?.artistName || "A")?.charAt(0) || "A"}</AvatarFallback>
                                 </Avatar>
                                 <div>
                                   <h4 className="font-bold text-sm leading-none">{profile?.artistName || profile?.name}</h4>
                                   <span className="text-xs text-muted-foreground mt-1 block">
-                                    {post.createdAt ? new Date(post.createdAt).toLocaleDateString("ru-RU") : ""}
+                                    {post?.createdAt ? String(post.createdAt).split("T")[0] : ""}
                                   </span>
                                 </div>
                               </div>

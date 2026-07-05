@@ -119,7 +119,7 @@ export default function FeedPage() {
             <div className="w-16 h-16 rounded-full p-[2px] bg-gradient-to-tr from-[#cd792f] to-purple-600">
               <Avatar className="w-full h-full border-2 border-background">
                 <AvatarImage src={group.avatarUrl} />
-                <AvatarFallback>{(group.artistName || "A").charAt(0)}</AvatarFallback>
+                <AvatarFallback>{(group.artistName || "A")?.charAt(0) || "A"}</AvatarFallback>
               </Avatar>
             </div>
             <span className="text-xs font-medium truncate w-16 text-center">{group.artistName}</span>
@@ -139,7 +139,7 @@ export default function FeedPage() {
           <div className="flex gap-3">
             <Avatar>
               <AvatarImage src={user?.avatarUrl} />
-              <AvatarFallback>{user?.name?.charAt(0) || "U"}</AvatarFallback>
+              <AvatarFallback>{user?.name??.charAt(0) || "A" || "U"}</AvatarFallback>
             </Avatar>
             <div className="flex-1 space-y-3">
               <textarea 
@@ -186,12 +186,12 @@ export default function FeedPage() {
                   <Link href={`/artist/network/${post.username || post.uid}`} className="flex items-center gap-3 group">
                     <Avatar>
                       <AvatarImage src={post.avatarUrl} />
-                      <AvatarFallback>{(post.artistName || post.name || "A").charAt(0)}</AvatarFallback>
+                      <AvatarFallback>{(post.artistName || post.name || "A")?.charAt(0) || "A"}</AvatarFallback>
                     </Avatar>
                     <div>
                       <h4 className="font-semibold text-sm leading-none group-hover:text-[#cd792f] transition-colors">{post.artistName || post.name}</h4>
                       <span className="text-xs text-muted-foreground">
-                        {post.createdAt ? new Date(post.createdAt).toLocaleDateString("ru-RU") : ""}
+                        {post?.createdAt ? String(post.createdAt).split("T")[0] : ""}
                       </span>
                     </div>
                   </Link>
