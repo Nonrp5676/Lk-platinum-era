@@ -139,7 +139,7 @@ export default function FeedPage() {
           <div className="flex gap-3">
             <Avatar>
               <AvatarImage src={user?.avatarUrl} />
-              <AvatarFallback>{user?.name??.charAt(0) || "A" || "U"}</AvatarFallback>
+              <AvatarFallback>{user?.name?.charAt(0) || "A" || "U"}</AvatarFallback>
             </Avatar>
             <div className="flex-1 space-y-3">
               <textarea 
