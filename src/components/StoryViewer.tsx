@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import { createPortal } from "react-dom";
+
 import { X, Heart, AlertTriangle, Send, MoreVertical, Pause, Play, BadgeCheck, Volume2, VolumeX, Eye } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -115,7 +115,7 @@ export function StoryViewer({ groupedStories, initialGroupIndex, onClose }: Stor
 
   if (!mounted) return null;
 
-  return createPortal(
+  return (
     <div className="fixed inset-0 z-[99999] bg-black text-white flex flex-col select-none touch-none w-screen h-[100dvh] overflow-hidden" style={{ WebkitTouchCallout: "none", WebkitUserSelect: "none" }}
          onMouseDown={() => !showStats && setIsPaused(true)} onMouseUp={() => !showStats && setIsPaused(false)}
          onTouchStart={() => !showStats && setIsPaused(true)} onTouchEnd={() => !showStats && setIsPaused(false)}>
@@ -147,7 +147,7 @@ export function StoryViewer({ groupedStories, initialGroupIndex, onClose }: Stor
           <div className="drop-shadow-md">
             <p className="font-semibold text-sm flex items-center gap-1">{currentGroup.artistName}{currentGroup.isVerified && <BadgeCheck className="w-4 h-4 text-blue-500 fill-blue-500/10 shrink-0" />}</p>
             <p className="text-xs text-white/70">
-              {currentStory.createdAt ? new Date(currentStory.createdAt).toLocaleTimeString("ru-RU", {hour: '2-digit', minute:'2-digit'}) : ""}
+              {currentStory?.createdAt ? String(currentStory.createdAt).split("T")[1]?.slice(0,5) : ""}
             </p>
           </div>
         </div>
@@ -301,7 +301,6 @@ export function StoryViewer({ groupedStories, initialGroupIndex, onClose }: Stor
         </div>
       )}
 
-    </div>,
-    document.body
+    </div>
   );
 }
