@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import { Camera, X, ImageIcon, Type, Wand2, Loader2, Video, SwitchCamera, CircleDot, Play } , ArrowLeft } from "lucide-react";
+import { Camera, X, ImageIcon, Type, Wand2, Loader2, Video, SwitchCamera, CircleDot, Play , ArrowLeft } from "lucide-react";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
