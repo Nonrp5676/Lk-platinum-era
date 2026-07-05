@@ -50,7 +50,7 @@ export default function ArtistProfilePage() {
         setProfile({
           ...profile,
           isFollowing: data.following,
-          followersCount: profile.followersCount + (data.following ? 1 : -1)
+          followersCount: profile?.followersCount + (data.following ? 1 : -1)
         });
         toast.success(data.following ? "Вы подписались на артиста" : "Вы отписались от артиста");
       }
@@ -102,7 +102,7 @@ export default function ArtistProfilePage() {
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <DropdownMenuItem onClick={copyProfileLink}><Share2 className="w-4 h-4 mr-2" /> Поделиться</DropdownMenuItem>
-            {!profile.isMe && <DropdownMenuItem onClick={handleReport} className="text-red-500"><Flag className="w-4 h-4 mr-2" /> Пожаловаться</DropdownMenuItem>}
+            {!profile?.isMe && <DropdownMenuItem onClick={handleReport} className="text-red-500"><Flag className="w-4 h-4 mr-2" /> Пожаловаться</DropdownMenuItem>}
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
@@ -129,7 +129,7 @@ export default function ArtistProfilePage() {
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-48">
-                {!profile.isMe && <DropdownMenuItem onClick={handleReport} className="text-red-500"><Flag className="w-4 h-4 mr-2" /> Пожаловаться</DropdownMenuItem>}
+                {!profile?.isMe && <DropdownMenuItem onClick={handleReport} className="text-red-500"><Flag className="w-4 h-4 mr-2" /> Пожаловаться</DropdownMenuItem>}
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
@@ -162,7 +162,7 @@ export default function ArtistProfilePage() {
             
             {/* Action Buttons */}
             <div className="flex flex-row gap-3 w-full md:w-auto mt-4 md:mt-0">
-              {profile.isMe ? (
+              {profile?.isMe ? (
                 <Link href="/artist/profile" className="w-full md:w-auto">
                   <Button className="w-full md:w-auto px-8 shadow-md" size="lg" variant="default">
                     <Settings className="w-4 h-4 mr-2"/> Настройки профиля
@@ -170,11 +170,11 @@ export default function ArtistProfilePage() {
                 </Link>
               ) : (
                 <Button 
-                  className={cn("w-full md:w-auto px-10 shadow-md transition-all", profile.isFollowing ? "bg-muted text-foreground hover:bg-muted/80" : "bg-[#cd792f] hover:bg-[#b8661f] text-white")} 
+                  className={cn("w-full md:w-auto px-10 shadow-md transition-all", profile?.isFollowing ? "bg-muted text-foreground hover:bg-muted/80" : "bg-[#cd792f] hover:bg-[#b8661f] text-white")} 
                   size="lg" 
                   onClick={handleFollow} 
                 >
-                  {profile.isFollowing ? "Отписаться" : "Подписаться"}
+                  {profile?.isFollowing ? "Отписаться" : "Подписаться"}
                 </Button>
               )}
             </div>
@@ -188,18 +188,18 @@ export default function ArtistProfilePage() {
                 <p className="text-sm text-foreground/80 whitespace-pre-wrap leading-relaxed">
                   {profile.bio || "Этот артист предпочитает говорить через свою музыку. Описание пока не добавлено."}
                 </p>
-                {profile.isMe && !profile.bio && (
+                {profile?.isMe && !profile.bio && (
                   <Link href="/artist/profile"><Button variant="link" className="px-0 mt-2 text-[#cd792f]">Добавить описание</Button></Link>
                 )}
               </div>
               
               <div className="flex gap-4">
                 <div className="flex-1 bg-muted/30 p-4 rounded-2xl border border-muted/50 text-center">
-                  <div className="text-3xl font-black text-foreground">{profile.followersCount || 0}</div>
+                  <div className="text-3xl font-black text-foreground">{profile?.followersCount || 0}</div>
                   <div className="text-xs text-muted-foreground uppercase font-bold tracking-wider mt-1">Подписчиков</div>
                 </div>
                 <div className="flex-1 bg-muted/30 p-4 rounded-2xl border border-muted/50 text-center">
-                  <div className="text-3xl font-black text-foreground">{profile.followingCount || 0}</div>
+                  <div className="text-3xl font-black text-foreground">{profile?.followingCount || 0}</div>
                   <div className="text-xs text-muted-foreground uppercase font-bold tracking-wider mt-1">Подписок</div>
                 </div>
               </div>
@@ -245,7 +245,7 @@ export default function ArtistProfilePage() {
                                   <DropdownMenuItem onClick={() => { navigator.clipboard.writeText(window.location.origin + "/artist/network/" + profile.username); toast.success("Ссылка скопирована!"); }}>
                                     <LinkIcon className="w-4 h-4 mr-2" /> Копировать ссылку
                                   </DropdownMenuItem>
-                                  {!profile.isMe && <DropdownMenuItem onClick={handleReport} className="text-red-500"><Flag className="w-4 h-4 mr-2" /> Пожаловаться</DropdownMenuItem>}
+                                  {!profile?.isMe && <DropdownMenuItem onClick={handleReport} className="text-red-500"><Flag className="w-4 h-4 mr-2" /> Пожаловаться</DropdownMenuItem>}
                                 </DropdownMenuContent>
                               </DropdownMenu>
                             </div>
