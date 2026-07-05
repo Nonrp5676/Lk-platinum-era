@@ -3,6 +3,8 @@
 import { useState, useRef, useEffect } from "react";
 import { Camera, X, ImageIcon, Type, Wand2, Loader2, Video, SwitchCamera, CircleDot, Play , ArrowLeft } from "lucide-react";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Link as LinkIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
@@ -23,6 +25,8 @@ export function StoryCreator({ isOpen, onClose, onSuccess }: { isOpen: boolean, 
   // Editor state
   const [text, setText] = useState("");
   const [showTextInput, setShowTextInput] = useState(false);
+  const [linkUrl, setLinkUrl] = useState("");
+  const [showLink, setShowLink] = useState(false);
   const [textPos, setTextPos] = useState({ x: 50, y: 50 }); // percentages
   const [filter, setFilter] = useState("");
   const [showFilters, setShowFilters] = useState(false);
@@ -144,6 +148,7 @@ export function StoryCreator({ isOpen, onClose, onSuccess }: { isOpen: boolean, 
     setUploading(true);
     
     const overlayData = JSON.stringify({ text, x: textPos.x, y: textPos.y, filter });
+    if (linkUrl) formData.append("linkUrl", linkUrl);
     const formData = new FormData();
     formData.append("file", file);
     formData.append("textOverlay", overlayData);
@@ -164,7 +169,7 @@ export function StoryCreator({ isOpen, onClose, onSuccess }: { isOpen: boolean, 
   };
 
   const reset = () => {
-    setFile(null); setText(""); setFilter(""); setShowFilters(false);
+    setFile(null); setText(""); setFilter(""); setShowFilters(false); setLinkUrl(""); setShowLink(false);
     setTextPos({ x: 50, y: 50 }); setMode('init'); stopCamera();
   };
 
@@ -249,6 +254,9 @@ export function StoryCreator({ isOpen, onClose, onSuccess }: { isOpen: boolean, 
               <div className="flex gap-3">
                 <Button variant="ghost" size="icon" onClick={() => setShowFilters(!showFilters)} className={cn("rounded-full text-white backdrop-blur-md", showFilters ? "bg-white/30" : "bg-black/40 hover:bg-black/60")}><Wand2 className="w-5 h-5" /></Button>
                 <Button variant="ghost" size="icon" onClick={() => setShowTextInput(true)} className="rounded-full bg-black/40 text-white hover:bg-black/60 backdrop-blur-md"><Type className="w-5 h-5" /></Button>
+
+                <Button variant="ghost" size="icon" onClick={() => setShowLink(!showLink)} className={cn("rounded-full text-white backdrop-blur-md", showLink ? "bg-white/30" : "bg-black/40 hover:bg-black/60")}><LinkIcon className="w-5 h-5" /></Button>
+
               </div>
             </div>
 
@@ -266,6 +274,23 @@ export function StoryCreator({ isOpen, onClose, onSuccess }: { isOpen: boolean, 
                 <Button className="absolute top-6 right-6 text-black bg-white rounded-full font-bold px-6" onClick={() => setShowTextInput(false)}>Готово</Button>
               </div>
             )}
+
+            
+            {showLink && (
+              <div className="absolute bottom-20 left-4 right-4 z-[100] p-4 bg-zinc-900 rounded-xl border border-zinc-800 shadow-2xl">
+                <p className="text-sm font-medium mb-2 text-zinc-300">Добавить ссылку</p>
+                <div className="flex gap-2">
+                  <Input 
+                    value={linkUrl} 
+                    onChange={e => setLinkUrl(e.target.value)} 
+                    placeholder="https://" 
+                    className="bg-zinc-800 border-zinc-700 text-white placeholder:text-zinc-500"
+                  />
+                  <Button variant="secondary" onClick={() => setShowLink(false)}>ОК</Button>
+                </div>
+              </div>
+            )}
+
 
             {/* Filters Slider */}
             {showFilters && !showTextInput && (
