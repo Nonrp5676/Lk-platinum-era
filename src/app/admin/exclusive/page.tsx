@@ -43,7 +43,8 @@ export default function ExclusiveArtistsPage() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           isExclusive: !!artist.isExclusive,
-          exclusiveColor: artist.exclusiveColor || "from-[#cd792f] via-purple-900 to-black"
+          exclusiveColor: artist.exclusiveColor || "from-[#cd792f] via-purple-900 to-black",
+          customBadge: artist.customBadge || ""
         })
       });
       if (res.ok) {
@@ -105,6 +106,7 @@ export default function ExclusiveArtistsPage() {
                 <TableHead>Артист</TableHead>
                 <TableHead>Статус эксклюзива</TableHead>
                 <TableHead>Цвет (Tailwind)</TableHead>
+                <TableHead>Бейдж (Корона)</TableHead>
                 <TableHead>Предпросмотр</TableHead>
                 <TableHead className="text-right">Действие</TableHead>
               </TableRow>
@@ -149,6 +151,15 @@ export default function ExclusiveArtistsPage() {
                         onChange={(e) => updateArtist(artist.id, "exclusiveColor", e.target.value)}
                         placeholder="from-amber-400 via-orange-500 to-rose-600"
                         className="max-w-[200px]"
+                        disabled={!artist.isExclusive}
+                      />
+                    </TableCell>
+                    <TableCell>
+                      <Input 
+                        value={artist.customBadge || ""} 
+                        onChange={(e) => updateArtist(artist.id, "customBadge", e.target.value)}
+                        placeholder="ADMIN"
+                        className="max-w-[120px]"
                         disabled={!artist.isExclusive}
                       />
                     </TableCell>
