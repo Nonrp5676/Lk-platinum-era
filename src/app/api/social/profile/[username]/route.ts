@@ -58,7 +58,8 @@ export async function GET(req: NextRequest, { params }: { params: { username: st
         isFollowing,
         isMe: currentUserId === artist.id,
         isExclusive: !!artist.isExclusive,
-        exclusiveColor: artist.exclusiveColor
+        exclusiveColor: artist.exclusiveColor,
+        customBadge: artist.customBadge
       },
       posts
     });

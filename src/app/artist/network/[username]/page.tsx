@@ -121,7 +121,7 @@ function ProfileContent() {
     <>
     {/* Page Background */}
     {profile?.isExclusive && profile?.exclusiveColor && (
-      <div className={`fixed inset-0 z-[-1] opacity-20 bg-gradient-to-br ${profile.exclusiveColor}`} />
+      <div className={`fixed inset-0 z-[-1] opacity-80 bg-gradient-to-br ${profile.exclusiveColor}`} />
     )}
     <div className="max-w-5xl mx-auto pb-24 md:pb-12 animate-in fade-in duration-500">
 
