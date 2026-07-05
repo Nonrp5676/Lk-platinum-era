@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
+import { createPortal } from "react-dom";
 import { X, Heart, AlertTriangle, Send, MoreVertical, Pause, Play, BadgeCheck, Volume2, VolumeX, Eye } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -31,6 +32,15 @@ export function StoryViewer({ groupedStories, initialGroupIndex, onClose }: Stor
   const isMyStory = user && (currentGroup?.artistId === user.id || currentGroup?.username === user.username || currentGroup?.uid === user.uid);
   
   const STORY_DURATION = 5000;
+
+
+  useEffect(() => {
+    if (videoRef.current) {
+      if (isPaused || showStats) videoRef.current.pause();
+      else videoRef.current.play();
+    }
+  }, [isPaused, showStats]);
+
 
   useEffect(() => { 
     setProgress(0); 
@@ -103,8 +113,10 @@ export function StoryViewer({ groupedStories, initialGroupIndex, onClose }: Stor
     }
   } catch(e) {}
 
-  return (
-    <div className="fixed inset-0 z-[99999] bg-black text-white flex flex-col select-none touch-none" style={{ WebkitTouchCallout: "none", WebkitUserSelect: "none" }}
+  if (!mounted) return null;
+
+  return createPortal(
+    <div className="fixed inset-0 z-[99999] bg-black text-white flex flex-col select-none touch-none w-screen h-[100dvh] overflow-hidden" style={{ WebkitTouchCallout: "none", WebkitUserSelect: "none" }}
          onMouseDown={() => !showStats && setIsPaused(true)} onMouseUp={() => !showStats && setIsPaused(false)}
          onTouchStart={() => !showStats && setIsPaused(true)} onTouchEnd={() => !showStats && setIsPaused(false)}>
       
@@ -289,6 +301,7 @@ export function StoryViewer({ groupedStories, initialGroupIndex, onClose }: Stor
         </div>
       )}
 
-    </div>
+    </div>,
+    document.body
   );
 }
