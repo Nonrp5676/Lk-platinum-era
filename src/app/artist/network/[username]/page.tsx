@@ -43,7 +43,7 @@ export default function ArtistProfilePage() {
       const res = await fetch("/api/social/follow", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ targetId: profile.id })
+        body: JSON.stringify({ targetId: profile?.id })
       });
       const data = await res.json();
       if (res.ok) {
@@ -95,7 +95,7 @@ export default function ArtistProfilePage() {
         <Button variant="ghost" size="icon" onClick={() => router.push("/artist/network")}>
           <ArrowLeft className="w-5 h-5" />
         </Button>
-        <span className="font-semibold text-sm">@{profile.username}</span>
+        <span className="font-semibold text-sm">@{profile?.username || ''}</span>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" size="icon"><MoreHorizontal className="w-5 h-5" /></Button>
@@ -140,8 +140,8 @@ export default function ArtistProfilePage() {
             {/* Avatar */}
             <div className="relative">
               <Avatar className="w-36 h-36 md:w-44 md:h-44 border-[6px] border-background shadow-2xl bg-muted">
-                <AvatarImage src={profile.avatarUrl} className="object-cover" />
-                <AvatarFallback className="text-5xl font-light">{(profile.artistName || profile.name || "A").charAt(0)}</AvatarFallback>
+                <AvatarImage src={profile?.avatarUrl || ''} className="object-cover" />
+                <AvatarFallback className="text-5xl font-light">{(profile?.artistName || profile?.name || "A").charAt(0)}</AvatarFallback>
               </Avatar>
               <div className="absolute bottom-2 right-2 w-5 h-5 bg-green-500 border-4 border-background rounded-full shadow-sm" title="В сети"></div>
             </div>
@@ -149,10 +149,10 @@ export default function ArtistProfilePage() {
             {/* Info */}
             <div className="flex-1 text-center md:text-left mt-2 md:mt-0">
               <div className="flex flex-col md:flex-row md:items-center gap-2 mb-1 justify-center md:justify-start">
-                <h1 className="text-2xl md:text-4xl font-extrabold tracking-tight">{profile.artistName || profile.name}</h1>
+                <h1 className="text-2xl md:text-4xl font-extrabold tracking-tight">{profile?.artistName || profile?.name}</h1>
                 <CheckCircle2 className="w-6 h-6 text-blue-500 shrink-0 hidden md:block" />
               </div>
-              <p className="text-muted-foreground font-medium text-lg md:text-xl">@{profile.username}</p>
+              <p className="text-muted-foreground font-medium text-lg md:text-xl">@{profile?.username || ''}</p>
               
               <div className="flex flex-wrap items-center justify-center md:justify-start gap-4 mt-4 text-sm font-medium">
                 <div className="flex items-center gap-1.5 bg-muted/50 px-3 py-1.5 rounded-full"><MapPin className="w-4 h-4 text-[#cd792f]" /> СНГ</div>
@@ -186,9 +186,9 @@ export default function ArtistProfilePage() {
               <div className="bg-muted/30 p-5 rounded-2xl border border-muted/50">
                 <h3 className="font-bold text-lg mb-3 flex items-center gap-2"><span className="w-1 h-5 bg-[#cd792f] rounded-full"></span> Об артисте</h3>
                 <p className="text-sm text-foreground/80 whitespace-pre-wrap leading-relaxed">
-                  {profile.bio || "Этот артист предпочитает говорить через свою музыку. Описание пока не добавлено."}
+                  {profile?.bio || "Этот артист предпочитает говорить через свою музыку. Описание пока не добавлено."}
                 </p>
-                {profile?.isMe && !profile.bio && (
+                {profile?.isMe && !profile?.bio && (
                   <Link href="/artist/profile"><Button variant="link" className="px-0 mt-2 text-[#cd792f]">Добавить описание</Button></Link>
                 )}
               </div>
@@ -227,11 +227,11 @@ export default function ArtistProfilePage() {
                             <div className="p-4 flex items-center justify-between">
                               <div className="flex items-center gap-3">
                                 <Avatar className="w-10 h-10 border">
-                                  <AvatarImage src={profile.avatarUrl} />
-                                  <AvatarFallback>{(profile.artistName || "A").charAt(0)}</AvatarFallback>
+                                  <AvatarImage src={profile?.avatarUrl || ''} />
+                                  <AvatarFallback>{(profile?.artistName || "A").charAt(0)}</AvatarFallback>
                                 </Avatar>
                                 <div>
-                                  <h4 className="font-bold text-sm leading-none">{profile.artistName || profile.name}</h4>
+                                  <h4 className="font-bold text-sm leading-none">{profile?.artistName || profile?.name}</h4>
                                   <span className="text-xs text-muted-foreground mt-1 block">
                                     {formatDistanceToNow(new Date(post.createdAt), { addSuffix: true, locale: ru })}
                                   </span>
@@ -242,7 +242,7 @@ export default function ArtistProfilePage() {
                                   <Button variant="ghost" size="icon" className="text-muted-foreground"><MoreHorizontal className="w-5 h-5" /></Button>
                                 </DropdownMenuTrigger>
                                 <DropdownMenuContent align="end">
-                                  <DropdownMenuItem onClick={() => { navigator.clipboard.writeText(window.location.origin + "/artist/network/" + profile.username); toast.success("Ссылка скопирована!"); }}>
+                                  <DropdownMenuItem onClick={() => { navigator.clipboard.writeText(window.location.origin + "/artist/network/" + profile?.username || ''); toast.success("Ссылка скопирована!"); }}>
                                     <LinkIcon className="w-4 h-4 mr-2" /> Копировать ссылку
                                   </DropdownMenuItem>
                                   {!profile?.isMe && <DropdownMenuItem onClick={handleReport} className="text-red-500"><Flag className="w-4 h-4 mr-2" /> Пожаловаться</DropdownMenuItem>}
@@ -274,7 +274,7 @@ export default function ArtistProfilePage() {
                                 <Button variant="ghost" size="sm" className="rounded-full px-4 text-muted-foreground font-medium hover:bg-blue-500/10 hover:text-blue-500" onClick={() => toast.info("Комментарии будут доступны в следующем обновлении!")}>
                                   <MessageSquare className="w-5 h-5 mr-2" /> 0
                                 </Button>
-                                <Button variant="ghost" size="sm" className="rounded-full px-4 text-muted-foreground font-medium hover:bg-green-500/10 hover:text-green-500" onClick={() => { navigator.clipboard.writeText(window.location.origin + "/artist/network/" + profile.username); toast.success("Ссылка скопирована!"); }}>
+                                <Button variant="ghost" size="sm" className="rounded-full px-4 text-muted-foreground font-medium hover:bg-green-500/10 hover:text-green-500" onClick={() => { navigator.clipboard.writeText(window.location.origin + "/artist/network/" + profile?.username || ''); toast.success("Ссылка скопирована!"); }}>
                                   <Share2 className="w-5 h-5" />
                                 </Button>
                               </div>
