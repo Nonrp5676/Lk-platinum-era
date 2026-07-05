@@ -1,4 +1,6 @@
 "use client";
+import React from 'react';
+
 import { useEffect, useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -12,7 +14,24 @@ import { ru } from "date-fns/locale";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
+
+class ErrorBoundary extends React.Component<any, any> {
+  constructor(props: any) {
+    super(props);
+    this.state = { hasError: false, error: null };
+  }
+  static getDerivedStateFromError(error: any) { return { hasError: true, error }; }
+  render() {
+    if (this.state.hasError) return <div className="p-12 text-center text-red-500">Render Error: {this.state.error?.message}</div>;
+    return this.props.children;
+  }
+}
+
 export default function ArtistProfilePage() {
+  return <ErrorBoundary><ProfileContent /></ErrorBoundary>;
+}
+
+function ProfileContent() {
   const pathname = usePathname();
   const router = useRouter();
   const username = pathname.split('/').pop();
