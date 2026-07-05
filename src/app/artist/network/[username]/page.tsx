@@ -12,6 +12,7 @@ import { toast } from "sonner";
 import { formatDistanceToNow } from "date-fns";
 import { ru } from "date-fns/locale";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import { StoryViewer } from "@/components/StoryViewer";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { cn } from "@/lib/utils";
 
@@ -41,6 +42,23 @@ function ProfileContent() {
   const [posts, setPosts] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [viewerImage, setViewerImage] = useState<string | null>(null);
+  const [stories, setStories] = useState<any[]>([]);
+  const [viewerGroupIndex, setViewerGroupIndex] = useState<number | null>(null);
+
+  useEffect(() => {
+    fetch("/api/social/stories").then(r => r.json()).then(d => {
+      setStories(d.grouped || []);
+    }).catch(()=>{});
+  }, []);
+
+  const handleAvatarClick = (e: React.MouseEvent) => {
+    if (!profile) return;
+    const idx = stories.findIndex(g => g.artistId === profile.id);
+    if (idx !== -1) {
+      setViewerGroupIndex(idx);
+    }
+  };
+
   const [showIntro, setShowIntro] = useState(false);
   useEffect(() => {
     if (profile?.customBadge) {
@@ -195,7 +213,12 @@ function ProfileContent() {
             {profile?.isExclusive && (
               <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-amber-400 via-orange-500 to-purple-600 animate-[spin_3s_linear_infinite] -m-1" />
             )}
-            <Avatar className="w-36 h-36 md:w-44 md:h-44 border-[6px] border-background shadow-2xl bg-muted relative z-10">
+            {stories.some(s => s.artistId === profile?.id) && (
+              <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-[#cd792f] to-purple-600 p-[3px] -m-2 z-0 animate-pulse">
+                <div className="w-full h-full bg-background rounded-full" />
+              </div>
+            )}
+            <Avatar onClick={handleAvatarClick} className="w-36 h-36 md:w-44 md:h-44 border-[6px] border-background shadow-2xl bg-muted relative z-10 hover:opacity-90 cursor-pointer transition-opacity">
                 <AvatarImage src={profile?.avatarUrl || ''} className="object-cover" />
                 <AvatarFallback className="text-5xl font-light">{(profile?.artistName || profile?.name || "A")?.charAt(0) || "A"}</AvatarFallback>
               </Avatar>
@@ -373,6 +396,7 @@ function ProfileContent() {
         </CardContent>
       </Card>
 
+      {viewerGroupIndex !== null && <StoryViewer groupedStories={stories} initialGroupIndex={viewerGroupIndex} onClose={() => setViewerGroupIndex(null)} />}
       {/* Image Viewer */}
       {viewerImage && (
         <div className="fixed inset-0 z-[100] bg-black/95 flex items-center justify-center backdrop-blur-md" onClick={() => setViewerImage(null)}>

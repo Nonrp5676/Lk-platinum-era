@@ -10,6 +10,23 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 export default function NetworkPage() {
   const [artists, setArtists] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [stories, setStories] = useState<any[]>([]);
+  const [viewerGroupIndex, setViewerGroupIndex] = useState<number | null>(null);
+
+  useEffect(() => {
+    fetch("/api/social/stories").then(r => r.json()).then(d => {
+      setStories(d.grouped || []);
+    }).catch(()=>{});
+  }, []);
+
+  const handleAvatarClick = (e: React.MouseEvent, artistId: number) => {
+    const idx = stories.findIndex(g => g.artistId === artistId);
+    if (idx !== -1) {
+      e.preventDefault(); // Prevent navigating to profile
+      setViewerGroupIndex(idx);
+    }
+  };
+
 
   useEffect(() => {
     fetch("/api/social/users")
@@ -43,9 +60,16 @@ export default function NetworkPage() {
               <Card className="hover:border-[#cd792f]/50 transition-colors cursor-pointer group h-full">
                 <CardContent className="p-6">
                   <div className="flex items-start gap-4">
-                    <Avatar className="w-16 h-16 border bg-muted">
+                    <div className="relative w-16 h-16" onClick={(e) => handleAvatarClick(e, artist.id)}>
+                      {stories.some(s => s.artistId === artist.id) && (
+                        <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-[#cd792f] to-purple-600 p-[2px] -m-[3px] z-0">
+                          <div className="w-full h-full bg-background rounded-full" />
+                        </div>
+                      )}
+                      <Avatar className="w-full h-full border bg-muted relative z-10 hover:opacity-80 transition-opacity">
                       {artist.avatarUrl ? <AvatarImage src={artist.avatarUrl} /> : <AvatarFallback><Users className="w-6 h-6 text-muted-foreground" /></AvatarFallback>}
                     </Avatar>
+                    </div>
                     <div>
                       <h3 className="font-semibold text-lg group-hover:text-[#cd792f] transition-colors line-clamp-1 flex items-center gap-1">{artist.artistName || artist.name}{artist.isVerified && <BadgeCheck className="w-4 h-4 text-blue-500 fill-blue-500/10 shrink-0" />}</h3>
                       <p className="text-sm text-muted-foreground">@{artist.username || artist.uid}</p>
@@ -59,6 +83,8 @@ export default function NetworkPage() {
           {artists.length === 0 && <p className="text-muted-foreground p-4">Артисты не найдены.</p>}
         </div>
       )}
+      {viewerGroupIndex !== null && <StoryViewer groupedStories={stories} initialGroupIndex={viewerGroupIndex} onClose={() => setViewerGroupIndex(null)} />}
+
     </div>
   );
 }
