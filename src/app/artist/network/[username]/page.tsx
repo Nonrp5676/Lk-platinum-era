@@ -95,7 +95,7 @@ export default function ArtistProfilePage() {
         <Button variant="ghost" size="icon" onClick={() => router.push("/artist/network")}>
           <ArrowLeft className="w-5 h-5" />
         </Button>
-        <span className="font-semibold text-sm">@{profile?.username || ''}</span>
+        <span className="font-semibold text-sm">@{(profile?.username || profile?.uid || '')}</span>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" size="icon"><MoreHorizontal className="w-5 h-5" /></Button>
@@ -152,7 +152,7 @@ export default function ArtistProfilePage() {
                 <h1 className="text-2xl md:text-4xl font-extrabold tracking-tight">{profile?.artistName || profile?.name}</h1>
                 <CheckCircle2 className="w-6 h-6 text-blue-500 shrink-0 hidden md:block" />
               </div>
-              <p className="text-muted-foreground font-medium text-lg md:text-xl">@{profile?.username || ''}</p>
+              <p className="text-muted-foreground font-medium text-lg md:text-xl">@{(profile?.username || profile?.uid || '')}</p>
               
               <div className="flex flex-wrap items-center justify-center md:justify-start gap-4 mt-4 text-sm font-medium">
                 <div className="flex items-center gap-1.5 bg-muted/50 px-3 py-1.5 rounded-full"><MapPin className="w-4 h-4 text-[#cd792f]" /> СНГ</div>
@@ -242,7 +242,7 @@ export default function ArtistProfilePage() {
                                   <Button variant="ghost" size="icon" className="text-muted-foreground"><MoreHorizontal className="w-5 h-5" /></Button>
                                 </DropdownMenuTrigger>
                                 <DropdownMenuContent align="end">
-                                  <DropdownMenuItem onClick={() => { navigator.clipboard.writeText(window.location.origin + "/artist/network/" + profile?.username || ''); toast.success("Ссылка скопирована!"); }}>
+                                  <DropdownMenuItem onClick={() => { navigator.clipboard.writeText(window.location.origin + "/artist/network/" + (profile?.username || profile?.uid || '')); toast.success("Ссылка скопирована!"); }}>
                                     <LinkIcon className="w-4 h-4 mr-2" /> Копировать ссылку
                                   </DropdownMenuItem>
                                   {!profile?.isMe && <DropdownMenuItem onClick={handleReport} className="text-red-500"><Flag className="w-4 h-4 mr-2" /> Пожаловаться</DropdownMenuItem>}
@@ -274,7 +274,7 @@ export default function ArtistProfilePage() {
                                 <Button variant="ghost" size="sm" className="rounded-full px-4 text-muted-foreground font-medium hover:bg-blue-500/10 hover:text-blue-500" onClick={() => toast.info("Комментарии будут доступны в следующем обновлении!")}>
                                   <MessageSquare className="w-5 h-5 mr-2" /> 0
                                 </Button>
-                                <Button variant="ghost" size="sm" className="rounded-full px-4 text-muted-foreground font-medium hover:bg-green-500/10 hover:text-green-500" onClick={() => { navigator.clipboard.writeText(window.location.origin + "/artist/network/" + profile?.username || ''); toast.success("Ссылка скопирована!"); }}>
+                                <Button variant="ghost" size="sm" className="rounded-full px-4 text-muted-foreground font-medium hover:bg-green-500/10 hover:text-green-500" onClick={() => { navigator.clipboard.writeText(window.location.origin + "/artist/network/" + (profile?.username || profile?.uid || '')); toast.success("Ссылка скопирована!"); }}>
                                   <Share2 className="w-5 h-5" />
                                 </Button>
                               </div>
