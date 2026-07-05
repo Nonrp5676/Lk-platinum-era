@@ -191,7 +191,7 @@ export default function FeedPage() {
                     <div>
                       <h4 className="font-semibold text-sm leading-none group-hover:text-[#cd792f] transition-colors">{post.artistName || post.name}</h4>
                       <span className="text-xs text-muted-foreground">
-                        {formatDistanceToNow(new Date(post.createdAt), { addSuffix: true, locale: ru })}
+                        {post.createdAt ? new Date(post.createdAt).toLocaleDateString("ru-RU") : ""}
                       </span>
                     </div>
                   </Link>
