@@ -4,7 +4,7 @@ import React from 'react';
 import { useEffect, useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, MoreHorizontal, Share2, Grid as GridIcon, Heart, MessageSquare, X, CheckCircle2, MapPin, Link as LinkIcon, Flag, Music, Settings, Crown } from "lucide-react";
+import { ArrowLeft, MoreHorizontal, Share2, Grid as GridIcon, Heart, MessageSquare, X, CheckCircle2, MapPin, Link as LinkIcon, Flag, Music, Settings, Crown } from " BadgeCheck } from "lucide-react";
 import Link from "next/link";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { usePathname, useRouter } from "next/navigation";
@@ -144,7 +144,7 @@ function ProfileContent() {
         <Button variant="ghost" size="icon" onClick={() => router.push("/artist/network")}>
           <ArrowLeft className="w-5 h-5" />
         </Button>
-        <span className="font-semibold text-sm">@{(profile?.username || profile?.uid || '')}</span>
+        <span className="font-semibold text-sm flex items-center gap-1">@{(profile?.username || profile?.uid || "")}{profile?.isVerified && <BadgeCheck className="w-4 h-4 text-blue-500 fill-blue-500/10 shrink-0" />}</span>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" size="icon"><MoreHorizontal className="w-5 h-5" /></Button>
@@ -206,13 +206,13 @@ function ProfileContent() {
             <div className="flex-1 text-center md:text-left mt-2 md:mt-0">
               
               <div className="flex flex-col md:flex-row md:items-center gap-3 mb-2 justify-center md:justify-start">
-                <h1 className="text-2xl md:text-4xl font-extrabold tracking-tight">{profile?.artistName || profile?.name}</h1>
+                <h1 className="text-2xl md:text-4xl font-extrabold tracking-tight flex items-center justify-center md:justify-start gap-2">{profile?.artistName || profile?.name}{profile?.isVerified && <BadgeCheck className="w-6 h-6 md:w-8 md:h-8 text-blue-500 fill-blue-500/10 shrink-0" />}</h1>
                 {profile?.customBadge && (
                   <div className="flex items-center gap-1.5 bg-red-500/10 text-red-500 px-3 py-1 rounded-full text-xs font-bold uppercase border border-red-500/20 shadow-[0_0_15px_rgba(239,68,68,0.2)]">
                     <Crown className="w-3.5 h-3.5" /> {profile.customBadge}
                   </div>
                 )}
-                <CheckCircle2 className="w-6 h-6 text-blue-500 shrink-0 hidden md:block" />
+                
               </div>
 
               <p className="text-muted-foreground font-medium text-lg md:text-xl">@{(profile?.username || profile?.uid || '')}</p>
@@ -294,7 +294,7 @@ function ProfileContent() {
                                   <AvatarFallback>{(profile?.artistName || "A")?.charAt(0) || "A"}</AvatarFallback>
                                 </Avatar>
                                 <div>
-                                  <h4 className="font-bold text-sm leading-none">{profile?.artistName || profile?.name}</h4>
+                                  <h4 className="font-bold text-sm leading-none flex items-center gap-1">{profile?.artistName || profile?.name}{profile?.isVerified && <BadgeCheck className="w-4 h-4 text-blue-500 fill-blue-500/10 shrink-0" />}</h4>
                                   <span className="text-xs text-muted-foreground mt-1 block">
                                     {post?.createdAt ? String(post.createdAt).split("T")[0] : ""}
                                   </span>

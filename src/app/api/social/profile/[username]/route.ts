@@ -39,7 +39,7 @@ export async function GET(req: NextRequest, { params }: { params: { username: st
         const [like] = await db.select().from(postLikes).where(and(eq(postLikes.postId, post.id), eq(postLikes.artistId, currentUserId))).limit(1);
         hasLiked = !!like;
       }
-      return { ...post, likesCount: count, hasLiked };
+      return { ...post, likesCount: count, hasLiked, isVerified: !!artist.contractSigned };
     }));
 
     return NextResponse.json({
@@ -57,6 +57,7 @@ export async function GET(req: NextRequest, { params }: { params: { username: st
         followingCount: following,
         isFollowing,
         isMe: currentUserId === artist.id,
+        isVerified: !!artist.contractSigned,
         isExclusive: !!artist.isExclusive,
         exclusiveColor: artist.exclusiveColor,
         customBadge: artist.customBadge

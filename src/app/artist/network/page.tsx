@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Search, Users, Loader2 } from "lucide-react";
+import { Search, Users, Loader2 } from " BadgeCheck } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import Link from "next/link";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -47,7 +47,7 @@ export default function NetworkPage() {
                       {artist.avatarUrl ? <AvatarImage src={artist.avatarUrl} /> : <AvatarFallback><Users className="w-6 h-6 text-muted-foreground" /></AvatarFallback>}
                     </Avatar>
                     <div>
-                      <h3 className="font-semibold text-lg group-hover:text-[#cd792f] transition-colors line-clamp-1">{artist.artistName || artist.name}</h3>
+                      <h3 className="font-semibold text-lg group-hover:text-[#cd792f] transition-colors line-clamp-1 flex items-center gap-1">{artist.artistName || artist.name}{artist.isVerified && <BadgeCheck className="w-4 h-4 text-blue-500 fill-blue-500/10 shrink-0" />}</h3>
                       <p className="text-sm text-muted-foreground">@{artist.username || artist.uid}</p>
                       <p className="text-xs text-muted-foreground mt-2 line-clamp-2">{artist.bio || "Нет информации"}</p>
                     </div>

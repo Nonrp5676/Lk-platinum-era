@@ -14,6 +14,7 @@ export async function GET() {
       avatarUrl: artists.avatarUrl,
       bio: artists.bio,
       lastActiveAt: artists.lastActiveAt,
+      isVerified: artists.contractSigned,
     }).from(artists).where(eq(artists.isApproved, true)).orderBy(desc(artists.createdAt));
 
     // Fallback username for users who don't have one yet

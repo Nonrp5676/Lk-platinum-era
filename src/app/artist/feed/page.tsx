@@ -4,7 +4,7 @@ import { StoryViewer } from "@/components/StoryViewer";
 import { StoryCreator } from "@/components/StoryCreator";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Camera, Image as ImageIcon, MoreHorizontal, MessageSquare, Share2, Heart, X } from "lucide-react";
+import { Camera, Image as ImageIcon, MoreHorizontal, MessageSquare, Share2, Heart, X } from " BadgeCheck } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useUser } from "@/hooks/useUser";
 import { toast } from "sonner";
@@ -122,7 +122,7 @@ export default function FeedPage() {
                 <AvatarFallback>{(group.artistName || "A")?.charAt(0) || "A"}</AvatarFallback>
               </Avatar>
             </div>
-            <span className="text-xs font-medium truncate w-16 text-center">{group.artistName}</span>
+            <span className="text-xs font-medium truncate w-16 text-center flex items-center justify-center gap-0.5">{group.artistName}{group.isVerified && <BadgeCheck className="w-3 h-3 text-blue-500 fill-blue-500/10 shrink-0" />}</span>
           </div>
         ))}
       </div>
@@ -189,7 +189,7 @@ export default function FeedPage() {
                       <AvatarFallback>{(post.artistName || post.name || "A")?.charAt(0) || "A"}</AvatarFallback>
                     </Avatar>
                     <div>
-                      <h4 className="font-semibold text-sm leading-none group-hover:text-[#cd792f] transition-colors">{post.artistName || post.name}</h4>
+                      <h4 className="font-semibold text-sm leading-none group-hover:text-[#cd792f] transition-colors flex items-center gap-1">{post.artistName || post.name}{post.isVerified && <BadgeCheck className="w-4 h-4 text-blue-500 fill-blue-500/10 shrink-0" />}</h4>
                       <span className="text-xs text-muted-foreground">
                         {post?.createdAt ? String(post.createdAt).split("T")[0] : ""}
                       </span>

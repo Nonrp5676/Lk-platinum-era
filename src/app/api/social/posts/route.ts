@@ -22,6 +22,7 @@ export async function GET() {
       username: artists.username,
       uid: artists.uid,
       avatarUrl: artists.avatarUrl,
+      isVerified: artists.contractSigned,
     }).from(artistPosts)
       .leftJoin(artists, eq(artistPosts.artistId, artists.id))
       .orderBy(desc(artistPosts.createdAt))

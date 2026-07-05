@@ -22,6 +22,7 @@ export async function GET() {
       username: artists.username,
       uid: artists.uid,
       avatarUrl: artists.avatarUrl,
+      isVerified: artists.contractSigned,
     })
     .from(artistStories)
     .leftJoin(artists, eq(artistStories.artistId, artists.id))
@@ -37,6 +38,7 @@ export async function GET() {
           artistName: story.artistName || story.name,
           username: story.username || story.uid,
           avatarUrl: story.avatarUrl,
+          isVerified: story.isVerified,
           stories: []
         };
       }

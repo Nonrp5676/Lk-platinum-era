@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import { X, Heart, AlertTriangle, Send, MoreVertical, Pause, Play } from "lucide-react";
+import { X, Heart, AlertTriangle, Send, MoreVertical, Pause, Play } from " BadgeCheck } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
@@ -134,7 +134,7 @@ export function StoryViewer({ groupedStories, initialGroupIndex, onClose }: Stor
             <AvatarFallback className="text-black bg-white">{(currentGroup.artistName || "A").charAt(0)}</AvatarFallback>
           </Avatar>
           <div className="drop-shadow-md">
-            <p className="font-semibold text-sm">{currentGroup.artistName}</p>
+            <p className="font-semibold text-sm flex items-center gap-1">{currentGroup.artistName}{currentGroup.isVerified && <BadgeCheck className="w-4 h-4 text-blue-500 fill-blue-500/10 shrink-0" />}</p>
             <p className="text-xs text-white/70">{formatDistanceToNow(new Date(currentStory.createdAt), { addSuffix: true, locale: ru })}</p>
           </div>
         </div>
