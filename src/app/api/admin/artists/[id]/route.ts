@@ -141,6 +141,9 @@ export async function PATCH(
     if (data.exclusiveColor !== undefined) {
       updateData.exclusiveColor = data.exclusiveColor;
     }
+    if (data.customBadge !== undefined) {
+      updateData.customBadge = data.customBadge;
+    }
 
     if (data.password) {
       const hashedPassword = bcrypt.hashSync(data.password, 10);

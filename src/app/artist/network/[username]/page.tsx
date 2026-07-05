@@ -4,7 +4,7 @@ import React from 'react';
 import { useEffect, useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, MoreHorizontal, Share2, Grid as GridIcon, Heart, MessageSquare, X, CheckCircle2, MapPin, Link as LinkIcon, Flag, Music, Settings } from "lucide-react";
+import { ArrowLeft, MoreHorizontal, Share2, Grid as GridIcon, Heart, MessageSquare, X, CheckCircle2, MapPin, Link as LinkIcon, Flag, Music, Settings, Crown } from "lucide-react";
 import Link from "next/link";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { usePathname, useRouter } from "next/navigation";
@@ -41,6 +41,15 @@ function ProfileContent() {
   const [posts, setPosts] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [viewerImage, setViewerImage] = useState<string | null>(null);
+  const [showIntro, setShowIntro] = useState(false);
+  useEffect(() => {
+    if (profile?.customBadge) {
+      setShowIntro(true);
+      const timer = setTimeout(() => setShowIntro(false), 5000);
+      return () => clearTimeout(timer);
+    }
+  }, [profile?.customBadge]);
+
 
   const loadData = async () => {
     try {
@@ -116,6 +125,20 @@ function ProfileContent() {
     )}
     <div className="max-w-5xl mx-auto pb-24 md:pb-12 animate-in fade-in duration-500">
 
+      
+      {showIntro && profile?.customBadge && (
+        <div className="fixed inset-0 z-[200] flex flex-col items-center justify-center bg-black/95 backdrop-blur-xl animate-out fade-out duration-1000 delay-[4000ms] fill-mode-forwards">
+          <div className="relative flex items-center justify-center mb-12">
+            <div className={`absolute inset-0 rounded-full bg-gradient-to-tr ${profile?.exclusiveColor || 'from-amber-400 to-rose-600'} animate-[spin_2s_linear_infinite] blur-[40px] opacity-80 w-64 h-64 -m-20`} />
+            <Crown className="w-32 h-32 text-red-500 relative z-10 animate-bounce drop-shadow-[0_0_30px_rgba(239,68,68,0.8)]" />
+          </div>
+          <h2 className="text-6xl font-black text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-red-800 animate-pulse uppercase tracking-[0.2em] drop-shadow-2xl text-center">
+            {profile.customBadge}
+          </h2>
+          <p className="text-white/70 mt-6 font-medium text-2xl tracking-widest uppercase text-center">{profile?.artistName || profile?.name}</p>
+        </div>
+      )}
+
       {/* Mobile Top Bar */}
       <div className="md:hidden flex items-center justify-between p-4 sticky top-0 bg-background/80 backdrop-blur-md z-40 border-b">
         <Button variant="ghost" size="icon" onClick={() => router.push("/artist/network")}>
@@ -181,10 +204,17 @@ function ProfileContent() {
             
             {/* Info */}
             <div className="flex-1 text-center md:text-left mt-2 md:mt-0">
-              <div className="flex flex-col md:flex-row md:items-center gap-2 mb-1 justify-center md:justify-start">
+              
+              <div className="flex flex-col md:flex-row md:items-center gap-3 mb-2 justify-center md:justify-start">
                 <h1 className="text-2xl md:text-4xl font-extrabold tracking-tight">{profile?.artistName || profile?.name}</h1>
+                {profile?.customBadge && (
+                  <div className="flex items-center gap-1.5 bg-red-500/10 text-red-500 px-3 py-1 rounded-full text-xs font-bold uppercase border border-red-500/20 shadow-[0_0_15px_rgba(239,68,68,0.2)]">
+                    <Crown className="w-3.5 h-3.5" /> {profile.customBadge}
+                  </div>
+                )}
                 <CheckCircle2 className="w-6 h-6 text-blue-500 shrink-0 hidden md:block" />
               </div>
+
               <p className="text-muted-foreground font-medium text-lg md:text-xl">@{(profile?.username || profile?.uid || '')}</p>
               
               <div className="flex flex-wrap items-center justify-center md:justify-start gap-4 mt-4 text-sm font-medium">
