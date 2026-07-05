@@ -233,7 +233,7 @@ export default function ArtistProfilePage() {
                                 <div>
                                   <h4 className="font-bold text-sm leading-none">{profile?.artistName || profile?.name}</h4>
                                   <span className="text-xs text-muted-foreground mt-1 block">
-                                    {post.createdAt ? formatDistanceToNow(new Date(post.createdAt), { addSuffix: true, locale: ru }) : ""}
+                                    {(() => { try { return post.createdAt ? formatDistanceToNow(new Date(post.createdAt), { addSuffix: true, locale: ru }) : ""; } catch(e) { return ""; } })()}
                                   </span>
                                 </div>
                               </div>
