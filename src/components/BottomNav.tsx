@@ -24,7 +24,7 @@ export function BottomNav() {
   ];
 
   return (
-    <div className="md:hidden fixed bottom-0 left-0 right-0 bg-background/90 backdrop-blur-md border-t z-[100] flex items-center justify-around h-[70px] pb-safe">
+    <div className="md:hidden fixed bottom-0 left-0 right-0 bg-background/90 backdrop-blur-md border-t z-[50] flex items-center justify-around h-[70px] pb-safe">
       {navs.map((nav) => {
         // Active logic: if the href is the current pathname exactly, or if we are inside network for Artists (but not inside a specific profile if it's the Artists tab)
         let isActive = false;

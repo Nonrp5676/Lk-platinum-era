@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import { createPortal } from "react-dom";
+
 import { X, Heart, AlertTriangle, Send, MoreVertical, Pause, Play, BadgeCheck, Volume2, VolumeX } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -72,9 +72,7 @@ export function StoryViewer({ groupedStories, initialGroupIndex, onClose }: Stor
     }
   } catch(e) {}
 
-  if (!mounted) return null;
-
-  return createPortal(
+  return (
     <div className="fixed inset-0 z-[99999] bg-black text-white flex flex-col select-none touch-none" style={{ WebkitTouchCallout: "none", WebkitUserSelect: "none" }}
          onMouseDown={() => setIsPaused(true)} onMouseUp={() => setIsPaused(false)}
          onTouchStart={() => setIsPaused(true)} onTouchEnd={() => setIsPaused(false)}>
