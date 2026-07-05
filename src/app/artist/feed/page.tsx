@@ -4,7 +4,7 @@ import { StoryViewer } from "@/components/StoryViewer";
 import { StoryCreator } from "@/components/StoryCreator";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Camera, Image as ImageIcon, MoreHorizontal, MessageSquare, Share2, Heart, X } , BadgeCheck } from "lucide-react";
+import { Camera, Image as ImageIcon, MoreHorizontal, MessageSquare, Share2, Heart, X , BadgeCheck } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useUser } from "@/hooks/useUser";
 import { toast } from "sonner";
@@ -116,8 +116,9 @@ export default function FeedPage() {
         
         {stories.map((group, idx) => (
           <div key={group.artistId} className="flex flex-col items-center gap-1 cursor-pointer min-w-[72px]" onClick={() => setViewerGroupIndex(idx)}>
-            <div className="w-16 h-16 rounded-full p-[2px] bg-gradient-to-tr from-[#cd792f] to-purple-600">
-              <Avatar className="w-full h-full border-2 border-background">
+            <div className="w-16 h-16 relative flex items-center justify-center">
+              <StoryRing count={group.stories?.length || 1} />
+              <Avatar className="w-[58px] h-[58px] border-2 border-background relative z-10">
                 <AvatarImage src={group.avatarUrl} />
                 <AvatarFallback>{(group.artistName || "A")?.charAt(0) || "A"}</AvatarFallback>
               </Avatar>
@@ -241,5 +242,34 @@ export default function FeedPage() {
         </div>
       )}
     </div>
+  );
+}
+
+
+function StoryRing({ count }: { count: number }) {
+  if (count <= 1) {
+    return <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-[#cd792f] to-purple-600" style={{ padding: '2px' }} />;
+  }
+  const r = 48;
+  const c = 2 * Math.PI * r;
+  const gap = 15;
+  const segment = Math.max(0, (c - count * gap) / count);
+  return (
+    <svg className="absolute inset-0 w-full h-full -rotate-90" viewBox="0 0 100 100" style={{ padding: '1px' }}>
+      <defs>
+        <linearGradient id="story-grad" x1="0%" y1="100%" x2="100%" y2="0%">
+          <stop offset="0%" stopColor="#cd792f" />
+          <stop offset="100%" stopColor="#9333ea" />
+        </linearGradient>
+      </defs>
+      <circle
+        cx="50" cy="50" r="48"
+        fill="none"
+        stroke="url(#story-grad)"
+        strokeWidth="3.5"
+        strokeDasharray={`${segment} ${gap}`}
+        strokeLinecap="round"
+      />
+    </svg>
   );
 }

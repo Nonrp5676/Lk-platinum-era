@@ -4,7 +4,7 @@ import React from 'react';
 import { useEffect, useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, MoreHorizontal, Share2, Grid as GridIcon, Heart, MessageSquare, X, CheckCircle2, MapPin, Link as LinkIcon, Flag, Music, Settings, Crown } , BadgeCheck } from "lucide-react";
+import { ArrowLeft, MoreHorizontal, Share2, Grid as GridIcon, Heart, MessageSquare, X, CheckCircle2, MapPin, Link as LinkIcon, Flag, Music, Settings, Crown , BadgeCheck } from "lucide-react";
 import Link from "next/link";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { usePathname, useRouter } from "next/navigation";
