@@ -118,8 +118,8 @@ export default function FeedPage() {
           <div key={group.artistId} className="flex flex-col items-center gap-1 cursor-pointer min-w-[72px]" onClick={() => setViewerGroupIndex(idx)}>
             <div className="w-16 h-16 relative flex items-center justify-center">
               <StoryRing count={group.stories?.length || 1} />
-              <Avatar className="w-[58px] h-[58px] border-2 border-background relative z-10">
-                <AvatarImage src={group.avatarUrl} />
+              <Avatar className="w-[58px] h-[58px] border-2 border-background relative z-10 shrink-0 aspect-square">
+                <AvatarImage src={group.avatarUrl || ""} className="object-cover" />
                 <AvatarFallback>{(group.artistName || "A")?.charAt(0) || "A"}</AvatarFallback>
               </Avatar>
             </div>
@@ -138,8 +138,8 @@ export default function FeedPage() {
       <Card>
         <CardContent className="p-4">
           <div className="flex gap-3">
-            <Avatar>
-              <AvatarImage src={user?.avatarUrl} />
+            <Avatar className="shrink-0 aspect-square">
+              <AvatarImage src={user?.avatarUrl || ""} className="object-cover" />
               <AvatarFallback>{user?.name?.charAt(0) || "A" || "U"}</AvatarFallback>
             </Avatar>
             <div className="flex-1 space-y-3">
@@ -186,7 +186,7 @@ export default function FeedPage() {
                 <div className="p-4 flex items-center justify-between">
                   <Link href={`/artist/network/${post.username || post.uid}`} className="flex items-center gap-3 group">
                     <Avatar>
-                      <AvatarImage src={post.avatarUrl} />
+                      <AvatarImage src={post.avatarUrl || ""} className="object-cover" />
                       <AvatarFallback>{(post.artistName || post.name || "A")?.charAt(0) || "A"}</AvatarFallback>
                     </Avatar>
                     <div>

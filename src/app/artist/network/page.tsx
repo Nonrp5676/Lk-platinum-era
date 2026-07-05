@@ -60,13 +60,13 @@ export default function NetworkPage() {
               <Card className="hover:border-[#cd792f]/50 transition-colors cursor-pointer group h-full">
                 <CardContent className="p-6">
                   <div className="flex items-start gap-4">
-                    <div className="relative w-16 h-16" onClick={(e) => handleAvatarClick(e, artist.id)}>
+                    <div className="relative w-16 h-16 shrink-0 rounded-full" onClick={(e) => handleAvatarClick(e, artist.id)}>
                       {stories.some(s => s.artistId === artist.id) && (
                         <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-[#cd792f] to-purple-600 p-[2px] -m-[3px] z-0">
                           <div className="w-full h-full bg-background rounded-full" />
                         </div>
                       )}
-                      <Avatar className="w-full h-full border bg-muted relative z-10 hover:opacity-80 transition-opacity">
+                      <Avatar className="w-full h-full border bg-muted relative z-10 hover:opacity-80 transition-opacity aspect-square">
                       <AvatarImage src={artist.avatarUrl || ""} className="object-cover" />
                       <AvatarFallback className="text-xl">{(artist?.artistName || artist?.name || "A")?.charAt(0)}</AvatarFallback>
                     </Avatar>
