@@ -14,6 +14,7 @@ import { MaintenanceScreen } from "@/components/MaintenanceScreen";
 const ROUTE_PERMISSION_MAP: Record<string, keyof AdminPermissions> = {
   "/admin/wallets": "canAccessWallets",
   "/admin/artists": "canAccessArtists",
+  "/admin/exclusive": "canAccessArtists",
   "/admin/verifications": "canAccessArtists",
   "/admin/releases": "canAccessReleases",
   "/admin/news": "canAccessNews",
