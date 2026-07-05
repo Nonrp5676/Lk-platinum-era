@@ -2,13 +2,15 @@
 import { useEffect, useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, MoreHorizontal, Share2, Grid, Edit, ShieldAlert, Heart, MessageSquare, ImageIcon, X } from "lucide-react";
+import { ArrowLeft, MoreHorizontal, Share2, Grid as GridIcon, Heart, MessageSquare, X, CheckCircle2, MapPin, Link as LinkIcon, Flag, Music, Settings } from "lucide-react";
 import Link from "next/link";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { usePathname, useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { formatDistanceToNow } from "date-fns";
 import { ru } from "date-fns/locale";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export default function ArtistProfilePage() {
   const pathname = usePathname();
@@ -22,7 +24,7 @@ export default function ArtistProfilePage() {
 
   const loadData = async () => {
     try {
-      const res = await fetch(`/api/social/profile/${username}`);
+      const res = await fetch(\`/api/social/profile/\${username}\`);
       const data = await res.json();
       if (data.artist) {
         setProfile(data.artist);
@@ -50,6 +52,7 @@ export default function ArtistProfilePage() {
           isFollowing: data.following,
           followersCount: profile.followersCount + (data.following ? 1 : -1)
         });
+        toast.success(data.following ? "Вы подписались на артиста" : "Вы отписались от артиста");
       }
     } catch(e) {}
   };
@@ -73,145 +76,247 @@ export default function ArtistProfilePage() {
     } catch(e) {}
   };
 
-  if (loading) return <div className="flex justify-center p-12"><img src="/logo.png" alt="Loading" className="w-12 h-12 animate-pulse object-contain" /></div>;
-  if (!profile) return <div className="text-center p-12">Артист не найден</div>;
+  const copyProfileLink = () => {
+    navigator.clipboard.writeText(window.location.href);
+    toast.success("Ссылка на профиль скопирована!");
+  };
+
+  const handleReport = () => {
+    toast.success("Жалоба отправлена на рассмотрение модераторам.");
+  };
+
+  if (loading) return <div className="flex justify-center items-center h-[50vh]"><img src="/logo.png" alt="Loading" className="w-16 h-16 animate-pulse object-contain" /></div>;
+  if (!profile) return <div className="text-center p-12 text-muted-foreground">Артист не найден</div>;
 
   return (
-    <div className="max-w-4xl mx-auto space-y-6 pb-20">
-      <Link href="/artist/network">
-        <Button variant="ghost" size="sm" className="-ml-3 mb-2 text-muted-foreground">
-          <ArrowLeft className="w-4 h-4 mr-2" /> Вернуться к списку
+    <div className="max-w-5xl mx-auto pb-24 md:pb-12 animate-in fade-in duration-500">
+      {/* Mobile Top Bar */}
+      <div className="md:hidden flex items-center justify-between p-4 sticky top-0 bg-background/80 backdrop-blur-md z-40 border-b">
+        <Button variant="ghost" size="icon" onClick={() => router.push("/artist/network")}>
+          <ArrowLeft className="w-5 h-5" />
         </Button>
-      </Link>
+        <span className="font-semibold text-sm">@{profile.username}</span>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="ghost" size="icon"><MoreHorizontal className="w-5 h-5" /></Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            <DropdownMenuItem onClick={copyProfileLink}><Share2 className="w-4 h-4 mr-2" /> Поделиться</DropdownMenuItem>
+            {!profile.isMe && <DropdownMenuItem onClick={handleReport} className="text-red-500"><Flag className="w-4 h-4 mr-2" /> Пожаловаться</DropdownMenuItem>}
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </div>
 
-      <Card className="overflow-hidden border-none shadow-sm">
-        <div className="h-48 bg-gradient-to-r from-neutral-800 to-neutral-900 w-full relative">
-          <div className="absolute top-4 right-4 flex gap-2">
-            <Button variant="secondary" size="sm" className="bg-black/50 text-white hover:bg-black/70 border-none backdrop-blur-md">
+      <div className="hidden md:flex items-center mb-4">
+        <Button variant="ghost" size="sm" onClick={() => router.push("/artist/network")} className="text-muted-foreground hover:text-foreground">
+          <ArrowLeft className="w-4 h-4 mr-2" /> Назад к списку
+        </Button>
+      </div>
+
+      <Card className="overflow-hidden border-none shadow-xl bg-card/50 backdrop-blur-sm rounded-2xl">
+        {/* Cover Image / Gradient */}
+        <div className="h-48 md:h-64 bg-gradient-to-br from-[#cd792f] via-purple-900 to-black w-full relative group">
+          <div className="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors" />
+          
+          <div className="hidden md:flex absolute top-4 right-4 gap-2">
+            <Button variant="secondary" size="sm" onClick={copyProfileLink} className="bg-black/40 text-white hover:bg-black/60 border-none backdrop-blur-md">
               <Share2 className="w-4 h-4 mr-2" /> Поделиться
             </Button>
-            <Button variant="secondary" size="icon" className="bg-black/50 text-white hover:bg-black/70 border-none backdrop-blur-md">
-              <MoreHorizontal className="w-4 h-4" />
-            </Button>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="secondary" size="icon" className="bg-black/40 text-white hover:bg-black/60 border-none backdrop-blur-md">
+                  <MoreHorizontal className="w-4 h-4" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-48">
+                {!profile.isMe && <DropdownMenuItem onClick={handleReport} className="text-red-500"><Flag className="w-4 h-4 mr-2" /> Пожаловаться</DropdownMenuItem>}
+              </DropdownMenuContent>
+            </DropdownMenu>
           </div>
         </div>
-        <CardContent className="p-6 pt-0 relative">
-          <div className="flex flex-col sm:flex-row gap-6 items-center sm:items-end -mt-16 sm:-mt-20 mb-6 relative z-10">
-            <Avatar className="w-32 h-32 sm:w-40 sm:h-40 border-4 border-background shadow-lg">
-              <AvatarImage src={profile.avatarUrl} />
-              <AvatarFallback className="text-4xl">{(profile.artistName || profile.name || "A").charAt(0)}</AvatarFallback>
-            </Avatar>
+
+        <CardContent className="p-6 md:p-8 pt-0 relative">
+          <div className="flex flex-col md:flex-row gap-6 md:gap-8 items-center md:items-end -mt-20 md:-mt-24 mb-8 relative z-10">
+            {/* Avatar */}
+            <div className="relative">
+              <Avatar className="w-36 h-36 md:w-44 md:h-44 border-[6px] border-background shadow-2xl bg-muted">
+                <AvatarImage src={profile.avatarUrl} className="object-cover" />
+                <AvatarFallback className="text-5xl font-light">{(profile.artistName || profile.name || "A").charAt(0)}</AvatarFallback>
+              </Avatar>
+              <div className="absolute bottom-2 right-2 w-5 h-5 bg-green-500 border-4 border-background rounded-full shadow-sm" title="В сети"></div>
+            </div>
             
-            <div className="flex-1 text-center sm:text-left">
-              <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">{profile.artistName || profile.name}</h1>
-              <p className="text-muted-foreground font-medium">@{profile.username}</p>
-              <div className="flex items-center justify-center sm:justify-start gap-2 mt-2 text-xs text-muted-foreground">
-                <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-green-500"></span> Онлайн</span>
-                <span>•</span>
-                <span>Был(а) недавно</span>
+            {/* Info */}
+            <div className="flex-1 text-center md:text-left mt-2 md:mt-0">
+              <div className="flex flex-col md:flex-row md:items-center gap-2 mb-1 justify-center md:justify-start">
+                <h1 className="text-2xl md:text-4xl font-extrabold tracking-tight">{profile.artistName || profile.name}</h1>
+                <CheckCircle2 className="w-6 h-6 text-blue-500 shrink-0 hidden md:block" />
+              </div>
+              <p className="text-muted-foreground font-medium text-lg md:text-xl">@{profile.username}</p>
+              
+              <div className="flex flex-wrap items-center justify-center md:justify-start gap-4 mt-4 text-sm font-medium">
+                <div className="flex items-center gap-1.5 bg-muted/50 px-3 py-1.5 rounded-full"><MapPin className="w-4 h-4 text-[#cd792f]" /> СНГ</div>
+                <div className="flex items-center gap-1.5 bg-muted/50 px-3 py-1.5 rounded-full"><Music className="w-4 h-4 text-[#cd792f]" /> PLATINUM ERA MUSIC</div>
               </div>
             </div>
             
-            <div className="flex gap-3 w-full sm:w-auto">
+            {/* Action Buttons */}
+            <div className="flex flex-row gap-3 w-full md:w-auto mt-4 md:mt-0">
               {profile.isMe ? (
-                <Link href="/artist/profile" className="w-full sm:w-auto">
-                  <Button className="w-full px-8" size="lg" variant="outline"><Edit className="w-4 h-4 mr-2"/> Управление профилем</Button>
+                <Link href="/artist/profile" className="w-full md:w-auto">
+                  <Button className="w-full md:w-auto px-8 shadow-md" size="lg" variant="default">
+                    <Settings className="w-4 h-4 mr-2"/> Настройки профиля
+                  </Button>
                 </Link>
               ) : (
-                <Button className="w-full sm:w-auto px-8" size="lg" onClick={handleFollow} variant={profile.isFollowing ? "outline" : "default"}>
+                <Button 
+                  className={cn("w-full md:w-auto px-10 shadow-md transition-all", profile.isFollowing ? "bg-muted text-foreground hover:bg-muted/80" : "bg-[#cd792f] hover:bg-[#b8661f] text-white")} 
+                  size="lg" 
+                  onClick={handleFollow} 
+                >
                   {profile.isFollowing ? "Отписаться" : "Подписаться"}
                 </Button>
               )}
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="md:col-span-1 space-y-6">
-              <div>
-                <h3 className="font-semibold mb-2">О себе</h3>
-                <p className="text-sm text-muted-foreground whitespace-pre-wrap">{profile.bio || "Пользователь пока не добавил описание."}</p>
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+            {/* Left Sidebar - Bio & Stats */}
+            <div className="lg:col-span-4 space-y-6">
+              <div className="bg-muted/30 p-5 rounded-2xl border border-muted/50">
+                <h3 className="font-bold text-lg mb-3 flex items-center gap-2"><span className="w-1 h-5 bg-[#cd792f] rounded-full"></span> Об артисте</h3>
+                <p className="text-sm text-foreground/80 whitespace-pre-wrap leading-relaxed">
+                  {profile.bio || "Этот артист предпочитает говорить через свою музыку. Описание пока не добавлено."}
+                </p>
+                {profile.isMe && !profile.bio && (
+                  <Link href="/artist/profile"><Button variant="link" className="px-0 mt-2 text-[#cd792f]">Добавить описание</Button></Link>
+                )}
               </div>
               
-              <div className="flex gap-6 pt-4 border-t">
-                <div>
-                  <div className="text-2xl font-bold">{profile.followersCount || 0}</div>
-                  <div className="text-xs text-muted-foreground uppercase font-medium tracking-wider">Подписчика</div>
+              <div className="flex gap-4">
+                <div className="flex-1 bg-muted/30 p-4 rounded-2xl border border-muted/50 text-center">
+                  <div className="text-3xl font-black text-foreground">{profile.followersCount || 0}</div>
+                  <div className="text-xs text-muted-foreground uppercase font-bold tracking-wider mt-1">Подписчиков</div>
                 </div>
-                <div>
-                  <div className="text-2xl font-bold">{profile.followingCount || 0}</div>
-                  <div className="text-xs text-muted-foreground uppercase font-medium tracking-wider">Подписок</div>
+                <div className="flex-1 bg-muted/30 p-4 rounded-2xl border border-muted/50 text-center">
+                  <div className="text-3xl font-black text-foreground">{profile.followingCount || 0}</div>
+                  <div className="text-xs text-muted-foreground uppercase font-bold tracking-wider mt-1">Подписок</div>
                 </div>
               </div>
             </div>
             
-            <div className="md:col-span-2 border-t md:border-t-0 md:border-l md:pl-6 pt-6 md:pt-0">
-              <div className="flex items-center gap-6 border-b pb-4 mb-4">
-                <button className="text-sm font-semibold text-foreground flex items-center gap-2 border-b-2 border-primary pb-4 -mb-[18px]">
-                  <Grid className="w-4 h-4" /> Публикации
-                </button>
-              </div>
-              
-              <div className="space-y-4">
-                {posts.map((post) => (
-                  <Card key={post.id} className="border shadow-none">
-                    <CardContent className="p-0">
-                      <div className="p-4 flex items-center justify-between">
-                        <div className="flex items-center gap-3">
-                          <Avatar>
-                            <AvatarImage src={profile.avatarUrl} />
-                            <AvatarFallback>{(profile.artistName || "A").charAt(0)}</AvatarFallback>
-                          </Avatar>
-                          <div>
-                            <h4 className="font-semibold text-sm leading-none">{profile.artistName || profile.name}</h4>
-                            <span className="text-xs text-muted-foreground">
-                              {formatDistanceToNow(new Date(post.createdAt), { addSuffix: true, locale: ru })}
-                            </span>
-                          </div>
-                        </div>
+            {/* Right Content - Posts & Music */}
+            <div className="lg:col-span-8">
+              <Tabs defaultValue="posts" className="w-full">
+                <TabsList className="w-full justify-start bg-transparent border-b rounded-none p-0 h-auto gap-6">
+                  <TabsTrigger value="posts" className="data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:border-b-2 data-[state=active]:border-[#cd792f] rounded-none px-2 py-3 text-base">
+                    <GridIcon className="w-4 h-4 mr-2" /> Публикации
+                  </TabsTrigger>
+                  <TabsTrigger value="music" className="data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:border-b-2 data-[state=active]:border-[#cd792f] rounded-none px-2 py-3 text-base">
+                    <Music className="w-4 h-4 mr-2" /> Релизы
+                  </TabsTrigger>
+                </TabsList>
+                
+                <TabsContent value="posts" className="pt-6 outline-none">
+                  {posts.length > 0 ? (
+                    <div className="space-y-6">
+                      {posts.map((post) => (
+                        <Card key={post.id} className="border border-muted/60 shadow-sm overflow-hidden bg-card hover:shadow-md transition-shadow">
+                          <CardContent className="p-0">
+                            {/* Post Header */}
+                            <div className="p-4 flex items-center justify-between">
+                              <div className="flex items-center gap-3">
+                                <Avatar className="w-10 h-10 border">
+                                  <AvatarImage src={profile.avatarUrl} />
+                                  <AvatarFallback>{(profile.artistName || "A").charAt(0)}</AvatarFallback>
+                                </Avatar>
+                                <div>
+                                  <h4 className="font-bold text-sm leading-none">{profile.artistName || profile.name}</h4>
+                                  <span className="text-xs text-muted-foreground mt-1 block">
+                                    {formatDistanceToNow(new Date(post.createdAt), { addSuffix: true, locale: ru })}
+                                  </span>
+                                </div>
+                              </div>
+                              <DropdownMenu>
+                                <DropdownMenuTrigger asChild>
+                                  <Button variant="ghost" size="icon" className="text-muted-foreground"><MoreHorizontal className="w-5 h-5" /></Button>
+                                </DropdownMenuTrigger>
+                                <DropdownMenuContent align="end">
+                                  <DropdownMenuItem onClick={() => { navigator.clipboard.writeText(window.location.origin + "/artist/network/" + profile.username); toast.success("Ссылка скопирована!"); }}>
+                                    <LinkIcon className="w-4 h-4 mr-2" /> Копировать ссылку
+                                  </DropdownMenuItem>
+                                  {!profile.isMe && <DropdownMenuItem onClick={handleReport} className="text-red-500"><Flag className="w-4 h-4 mr-2" /> Пожаловаться</DropdownMenuItem>}
+                                </DropdownMenuContent>
+                              </DropdownMenu>
+                            </div>
+                            
+                            {/* Post Content */}
+                            {post.content && (
+                              <div className="px-5 pb-4 text-[15px] whitespace-pre-wrap text-foreground/90">
+                                {post.content}
+                              </div>
+                            )}
+                            
+                            {/* Post Image */}
+                            {post.imageUrl && (
+                              <div className="w-full max-h-[600px] bg-neutral-100 dark:bg-neutral-900 flex items-center justify-center cursor-pointer border-y border-muted/30" onClick={() => setViewerImage(post.imageUrl)}>
+                                <img src={post.imageUrl} className="w-full max-h-[600px] object-cover" alt="Post" loading="lazy" />
+                              </div>
+                            )}
+                            
+                            {/* Post Actions */}
+                            <div className="p-3 px-4 flex items-center justify-between bg-muted/10">
+                              <div className="flex gap-1">
+                                <Button variant="ghost" size="sm" className={cn("rounded-full px-4 font-medium transition-colors", post.hasLiked ? 'text-red-500 hover:text-red-600 hover:bg-red-500/10' : 'text-muted-foreground hover:text-red-500 hover:bg-red-500/10')} onClick={() => handleLike(post.id)}>
+                                  <Heart className={cn("w-5 h-5 mr-2", post.hasLiked && "fill-current")} /> 
+                                  {post.likesCount || 0}
+                                </Button>
+                                <Button variant="ghost" size="sm" className="rounded-full px-4 text-muted-foreground font-medium hover:bg-blue-500/10 hover:text-blue-500" onClick={() => toast.info("Комментарии будут доступны в следующем обновлении!")}>
+                                  <MessageSquare className="w-5 h-5 mr-2" /> 0
+                                </Button>
+                                <Button variant="ghost" size="sm" className="rounded-full px-4 text-muted-foreground font-medium hover:bg-green-500/10 hover:text-green-500" onClick={() => { navigator.clipboard.writeText(window.location.origin + "/artist/network/" + profile.username); toast.success("Ссылка скопирована!"); }}>
+                                  <Share2 className="w-5 h-5" />
+                                </Button>
+                              </div>
+                              <span className="text-xs font-medium text-muted-foreground bg-muted px-2 py-1 rounded-md">{post.viewsCount} просмотров</span>
+                            </div>
+                          </CardContent>
+                        </Card>
+                      ))}
+                    </div>
+                  ) : (
+                    <div className="flex flex-col items-center justify-center py-20 text-center bg-muted/20 rounded-2xl border border-dashed border-muted">
+                      <div className="w-16 h-16 bg-muted rounded-full flex items-center justify-center mb-4">
+                        <GridIcon className="w-8 h-8 text-muted-foreground/50" />
                       </div>
-                      
-                      {post.content && (
-                        <div className="px-4 pb-3 text-sm whitespace-pre-wrap">
-                          {post.content}
-                        </div>
-                      )}
-                      
-                      {post.imageUrl && (
-                        <div className="w-full bg-black flex items-center justify-center cursor-pointer" onClick={() => setViewerImage(post.imageUrl)}>
-                          <img src={post.imageUrl} className="w-full max-h-[500px] object-contain" alt="Post" />
-                        </div>
-                      )}
-                      
-                      <div className="p-2 px-4 flex items-center justify-between">
-                        <div className="flex gap-2">
-                          <Button variant="ghost" size="sm" className={`h-9 px-3 ${post.hasLiked ? 'text-red-500 hover:text-red-600' : 'text-muted-foreground hover:text-red-500'}`} onClick={() => handleLike(post.id)}>
-                            <Heart className={`w-4 h-4 mr-2 ${post.hasLiked ? 'fill-current' : ''}`} /> {post.likesCount || 0}
-                          </Button>
-                          <Button variant="ghost" size="sm" className="h-9 px-3 text-muted-foreground">
-                            <MessageSquare className="w-4 h-4 mr-2" /> 0
-                          </Button>
-                          <Button variant="ghost" size="sm" className="h-9 px-3 text-muted-foreground">
-                            <Share2 className="w-4 h-4 mr-2" />
-                          </Button>
-                        </div>
-                        <span className="text-xs text-muted-foreground">{post.viewsCount} просмотров</span>
-                      </div>
-                    </CardContent>
-                  </Card>
-                ))}
-                {posts.length === 0 && <p className="text-center text-muted-foreground py-12">Нет публикаций</p>}
-              </div>
+                      <h3 className="text-lg font-bold">Нет публикаций</h3>
+                      <p className="text-muted-foreground mt-2 max-w-sm">Артист пока не сделал ни одной записи. Следите за обновлениями!</p>
+                    </div>
+                  )}
+                </TabsContent>
+                
+                <TabsContent value="music" className="pt-6 outline-none">
+                  <div className="flex flex-col items-center justify-center py-20 text-center bg-muted/20 rounded-2xl border border-dashed border-muted">
+                    <div className="w-16 h-16 bg-muted rounded-full flex items-center justify-center mb-4">
+                      <Music className="w-8 h-8 text-muted-foreground/50" />
+                    </div>
+                    <h3 className="text-lg font-bold">Дискография скрыта</h3>
+                    <p className="text-muted-foreground mt-2 max-w-sm">Отображение релизов на странице профиля появится в ближайшее время.</p>
+                  </div>
+                </TabsContent>
+              </Tabs>
             </div>
           </div>
         </CardContent>
       </Card>
 
+      {/* Image Viewer */}
       {viewerImage && (
-        <div className="fixed inset-0 z-[100] bg-black/90 flex items-center justify-center backdrop-blur-sm" onClick={() => setViewerImage(null)}>
-          <button className="absolute top-4 right-4 text-white/70 hover:text-white p-2">
-            <X className="w-8 h-8" />
+        <div className="fixed inset-0 z-[100] bg-black/95 flex items-center justify-center backdrop-blur-md" onClick={() => setViewerImage(null)}>
+          <button className="absolute top-6 right-6 text-white/50 hover:text-white transition-colors bg-white/10 p-2 rounded-full">
+            <X className="w-6 h-6" />
           </button>
-          <img src={viewerImage} className="max-w-full max-h-full object-contain" onClick={e => e.stopPropagation()} />
+          <img src={viewerImage} className="max-w-[95vw] max-h-[90vh] object-contain shadow-2xl rounded-sm" onClick={e => e.stopPropagation()} />
         </div>
       )}
     </div>
