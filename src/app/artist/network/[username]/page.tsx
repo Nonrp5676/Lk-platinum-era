@@ -135,7 +135,10 @@ function ProfileContent() {
 
       <Card className="overflow-hidden border-none shadow-xl bg-card/50 backdrop-blur-sm rounded-2xl">
         {/* Cover Image / Gradient */}
-        <div className={`h-48 md:h-64 bg-gradient-to-br w-full relative group ${profile?.isExclusive && profile?.exclusiveColor ? profile.exclusiveColor : "from-[#cd792f] via-purple-900 to-black"}`}>
+        
+        <div className={`h-48 md:h-64 bg-gradient-to-br w-full relative group overflow-hidden ${profile?.isExclusive && profile?.exclusiveColor ? profile.exclusiveColor : "from-[#cd792f] via-purple-900 to-black"}`}>
+          {profile?.coverUrl && <img src={profile.coverUrl} alt="Cover" className="absolute inset-0 w-full h-full object-cover opacity-90" />}
+
           <div className="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors" />
           
           <div className="hidden md:flex absolute top-4 right-4 gap-2">

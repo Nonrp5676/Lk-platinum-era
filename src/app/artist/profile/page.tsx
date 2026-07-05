@@ -23,10 +23,12 @@ export default function ArtistProfile() {
   const { user, loading, refreshUser } = useUser();
   const router = useRouter();
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const coverInputRef = useRef<HTMLInputElement>(null);
 
   const [isEditing, setIsEditing] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [isUploadingAvatar, setIsUploadingAvatar] = useState(false);
+  const [isUploadingCover, setIsUploadingCover] = useState(false);
   const [verificationStatus, setVerificationStatus] = useState<string | null>(null);
 
   // Editable fields
@@ -60,6 +62,41 @@ export default function ArtistProfile() {
     }
   }, [user]);
 
+  
+  const handleCoverUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    if (file.size > 10 * 1024 * 1024) {
+      toast.error("Файл слишком большой (макс. 10 МБ)");
+      return;
+    }
+
+    setIsUploadingCover(true);
+    const formData = new FormData();
+    formData.append("file", file);
+
+    try {
+      const res = await fetch("/api/user/cover", {
+        method: "POST",
+        body: formData,
+      });
+
+      if (!res.ok) {
+        const error = await res.json();
+        throw new Error(error.error || "Ошибка загрузки");
+      }
+
+      const data = await res.json();
+      setUser({ ...user, coverUrl: data.coverUrl } as UserType);
+      toast.success("Обложка успешно обновлена");
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : "Ошибка при загрузке обложки");
+    } finally {
+      setIsUploadingCover(false);
+    }
+  };
+  
   const handleAvatarUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;

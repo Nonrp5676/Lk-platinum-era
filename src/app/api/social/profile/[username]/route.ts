@@ -50,6 +50,7 @@ export async function GET(req: NextRequest, { params }: { params: { username: st
         artistName: artist.artistName,
         username: artist.username,
         avatarUrl: artist.avatarUrl,
+          coverUrl: artist.coverUrl,
         bio: artist.bio,
         lastActiveAt: artist.lastActiveAt,
         followersCount: followers,
