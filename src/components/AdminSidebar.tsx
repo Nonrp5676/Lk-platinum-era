@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import {
+  Star, useState } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { motion } from "framer-motion";
@@ -44,6 +45,7 @@ export function AdminSidebar({ user }: AdminSidebarProps) {
   const allMenuItems = [
     { icon: LayoutDashboard, label: "Дашборд", href: "/admin/dashboard", permKey: "canAccessDashboard" as const },
     { icon: Users, label: "Артисты", href: "/admin/artists", permKey: "canAccessArtists" as const },
+    { icon: Star, label: "Эксклюзив", href: "/admin/exclusive", permKey: "canAccessArtists" as const },
     { icon: Music2, label: "Релизы", href: "/admin/releases", permKey: "canAccessReleases" as const },
     { icon: ShieldCheck, label: "Верификации", href: "/admin/verifications", permKey: "canAccessArtists" as const },
     { icon: Wallet, label: "Кошельки", href: "/admin/wallets", permKey: "canAccessWallets" as const },
