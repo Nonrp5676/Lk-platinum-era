@@ -170,7 +170,7 @@ export function StoryCreator({ isOpen, onClose, onSuccess }: { isOpen: boolean, 
 
   return (
     <Dialog open={isOpen} onOpenChange={(o) => !o && onClose()}>
-      <DialogContent className="sm:max-w-md p-0 overflow-hidden bg-black text-white border-zinc-900 h-[100dvh] md:h-[80vh] flex flex-col rounded-none md:rounded-3xl">
+      <DialogContent className="sm:max-w-md p-0 overflow-hidden bg-black text-white border-zinc-900 h-[100dvh] md:h-[80vh] flex flex-col rounded-none md:rounded-3xl select-none" style={{ WebkitTouchCallout: "none", WebkitUserSelect: "none" }}>
         
         {mode === 'init' && (
           <div className="flex-1 flex flex-col items-center justify-center p-6 text-center">
@@ -201,8 +201,9 @@ export function StoryCreator({ isOpen, onClose, onSuccess }: { isOpen: boolean, 
               </Button>
               
               <button 
-                className={cn("w-20 h-20 rounded-full border-4 flex items-center justify-center transition-all", isRecording ? "border-red-500 scale-110" : "border-white")}
+                className={cn("w-20 h-20 rounded-full border-4 flex items-center justify-center transition-all select-none", isRecording ? "border-red-500 scale-110" : "border-white")}
                 onPointerDown={startRecording}
+                style={{ WebkitTouchCallout: "none", WebkitUserSelect: "none", touchAction: "none" }}
                 onPointerUp={stopRecording}
                 onPointerLeave={stopRecording}
                 onClick={takePhoto}

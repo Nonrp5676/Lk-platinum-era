@@ -1,7 +1,8 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import { X, Heart, AlertTriangle, Send, MoreVertical, Pause, Play, BadgeCheck } from "lucide-react";
+import { createPortal } from "react-dom";
+import { X, Heart, AlertTriangle, Send, MoreVertical, Pause, Play, BadgeCheck, Volume2, VolumeX } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
@@ -20,6 +21,9 @@ export function StoryViewer({ groupedStories, initialGroupIndex, onClose }: Stor
   const [storyIndex, setStoryIndex] = useState(0);
   const [progress, setProgress] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
+  const [isMuted, setIsMuted] = useState(false);
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
   
   const currentGroup = groupedStories[groupIndex];
   const currentStory = currentGroup?.stories[storyIndex];
@@ -68,8 +72,10 @@ export function StoryViewer({ groupedStories, initialGroupIndex, onClose }: Stor
     }
   } catch(e) {}
 
-  return (
-    <div className="fixed inset-0 z-[200] bg-black text-white flex flex-col"
+  if (!mounted) return null;
+
+  return createPortal(
+    <div className="fixed inset-0 z-[99999] bg-black text-white flex flex-col select-none touch-none" style={{ WebkitTouchCallout: "none", WebkitUserSelect: "none" }}
          onMouseDown={() => setIsPaused(true)} onMouseUp={() => setIsPaused(false)}
          onTouchStart={() => setIsPaused(true)} onTouchEnd={() => setIsPaused(false)}>
       
