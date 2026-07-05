@@ -134,6 +134,14 @@ export async function PATCH(
       updateData.contractSigned = data.contractSigned;
     }
 
+    if (data.isExclusive !== undefined) {
+      updateData.isExclusive = data.isExclusive;
+    }
+    
+    if (data.exclusiveColor !== undefined) {
+      updateData.exclusiveColor = data.exclusiveColor;
+    }
+
     if (data.password) {
       const hashedPassword = bcrypt.hashSync(data.password, 10);
       updateData.password = hashedPassword;
