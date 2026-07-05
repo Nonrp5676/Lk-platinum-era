@@ -5,7 +5,7 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import {
-  LayoutDashboard,
+  Star, LayoutDashboard,
   Users,
   Music2,
   Newspaper,
