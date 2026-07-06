@@ -221,7 +221,7 @@ export function StoryViewer({ groupedStories, initialGroupIndex, onClose }: Stor
                 (stats?.views || []).slice(0, 3).map((v: any, i: number) => (
                   <Avatar key={i} className="w-8 h-8 border-2 border-black">
                     <AvatarImage src={v.avatarUrl} className="object-cover" />
-                    <AvatarFallback className="text-[10px]">{(v.artistName || v.name || "A").charAt(0)}</AvatarFallback>
+                    <AvatarFallback className="text-[10px]">{(v?.artistName || v?.name || "A")?.charAt(0)}</AvatarFallback>
                   </Avatar>
                 ))
               )}
