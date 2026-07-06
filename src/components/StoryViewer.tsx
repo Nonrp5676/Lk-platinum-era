@@ -150,7 +150,7 @@ export function StoryViewer({ groupedStories, initialGroupIndex, onClose }: Stor
         <div className="flex items-center gap-3">
           <Avatar className="w-10 h-10 border border-white/20">
             <AvatarImage src={currentGroup.avatarUrl} className="object-cover" />
-            <AvatarFallback className="text-black bg-white">{(currentGroup?.artistName || "A")?.charAt(0)}</AvatarFallback>
+            <AvatarFallback className="text-black bg-white">{String(currentGroup?.artistName || currentGroup?.name || "A").charAt(0)}</AvatarFallback>
           </Avatar>
           <div className="drop-shadow-md">
             <p className="font-semibold text-sm flex items-center gap-1">{currentGroup.artistName}{currentGroup.isVerified && <BadgeCheck className="w-4 h-4 text-blue-500 fill-blue-500/10 shrink-0" />}</p>
@@ -229,7 +229,7 @@ export function StoryViewer({ groupedStories, initialGroupIndex, onClose }: Stor
                 (stats?.views || []).slice(0, 3).map((v: any, i: number) => (
                   <Avatar key={i} className="w-8 h-8 border-2 border-black">
                     <AvatarImage src={v.avatarUrl} className="object-cover" />
-                    <AvatarFallback className="text-[10px]">{(v?.artistName || v?.name || "A")?.charAt(0)}</AvatarFallback>
+                    <AvatarFallback className="text-[10px]">{String(v?.artistName || v?.name || "A").charAt(0)}</AvatarFallback>
                   </Avatar>
                 ))
               )}
@@ -292,7 +292,7 @@ export function StoryViewer({ groupedStories, initialGroupIndex, onClose }: Stor
                       <div className="flex items-center gap-3">
                         <Avatar className="w-12 h-12 border border-zinc-700">
                           <AvatarImage src={v.avatarUrl} className="object-cover" />
-                          <AvatarFallback className="text-zinc-400 bg-zinc-800">{(v?.artistName || v?.name || "A")?.charAt(0)}</AvatarFallback>
+                          <AvatarFallback className="text-zinc-400 bg-zinc-800">{String(v?.artistName || v?.name || "A").charAt(0)}</AvatarFallback>
                         </Avatar>
                         <div>
                           <p className="font-semibold text-sm flex items-center gap-1">{v.artistName || v.name}{v.isVerified && <BadgeCheck className="w-3.5 h-3.5 text-blue-500 fill-blue-500/10 shrink-0" />}</p>
