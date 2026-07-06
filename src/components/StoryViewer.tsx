@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 
 import { X, Heart, AlertTriangle, Send, MoreVertical, Pause, Play, BadgeCheck, Volume2, VolumeX, Eye } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -13,6 +13,13 @@ interface StoryViewerProps {
   groupedStories: any[];
   initialGroupIndex: number;
   onClose: () => void;
+}
+
+
+class StoryErrorBoundary extends React.Component<any, any> {
+  constructor(props: any) { super(props); this.state = { hasError: false }; }
+  static getDerivedStateFromError() { return { hasError: true }; }
+  render() { if (this.state.hasError) return <div className="fixed inset-0 z-[99999] bg-black text-red-500 p-8" onClick={this.props.onClose}>Story Render Error. Tap to close.</div>; return this.props.children; }
 }
 
 export function StoryViewer({ groupedStories, initialGroupIndex, onClose }: StoryViewerProps) {
@@ -116,6 +123,7 @@ export function StoryViewer({ groupedStories, initialGroupIndex, onClose }: Stor
   if (!mounted) return null;
 
   return (
+    <StoryErrorBoundary onClose={onClose}>
     <div className="fixed inset-0 z-[99999] bg-black text-white flex flex-col select-none touch-none w-screen h-[100dvh] overflow-hidden" style={{ WebkitTouchCallout: "none", WebkitUserSelect: "none" }}
          onMouseDown={() => !showStats && setIsPaused(true)} onMouseUp={() => !showStats && setIsPaused(false)}
          onTouchStart={() => !showStats && setIsPaused(true)} onTouchEnd={() => !showStats && setIsPaused(false)}>
@@ -302,5 +310,6 @@ export function StoryViewer({ groupedStories, initialGroupIndex, onClose }: Stor
       )}
 
     </div>
+    </StoryErrorBoundary>
   );
 }
