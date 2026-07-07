@@ -112,13 +112,7 @@ export function StoryViewer({ groupedStories, initialGroupIndex, onClose }: Stor
 
   if (!currentStory) return null;
 
-  let overlay = { text: currentStory.textOverlay, x: 50, y: 50, filter: "" };
-  try {
-    if (currentStory.textOverlay?.startsWith('{')) {
-      const parsed = JSON.parse(currentStory.textOverlay);
-      overlay = { ...overlay, ...parsed };
-    }
-  } catch(e) {}
+  let overlay = { text: currentStory.textOverlay || "", x: 50, y: 50, filter: "" };
 
   if (!mounted) return null;
 
@@ -155,7 +149,7 @@ export function StoryViewer({ groupedStories, initialGroupIndex, onClose }: Stor
           <div className="drop-shadow-md">
             <p className="font-semibold text-sm flex items-center gap-1">{currentGroup.artistName}{currentGroup.isVerified && <BadgeCheck className="w-4 h-4 text-blue-500 fill-blue-500/10 shrink-0" />}</p>
             <p className="text-xs text-white/70">
-              {currentStory?.createdAt ? String(currentStory?.createdAt).split("T")[1]?.slice(0,5) : ""}
+              {currentStory?.createdAt ? "Недавно" : ""}
             </p>
           </div>
         </div>
@@ -285,7 +279,7 @@ export function StoryViewer({ groupedStories, initialGroupIndex, onClose }: Stor
                   <p>Пока нет просмотров</p>
                 </div>
               ) : (
-                (stats?.views || []).map((v: any) => {
+                ([]).map((v: any) => {
                   const hasLiked = (stats?.likes || []).some((l: any) => l.artistId === v.artistId);
                   return (
                     <div key={v.artistId} className="flex items-center justify-between p-2 hover:bg-zinc-800 rounded-xl transition-colors">
