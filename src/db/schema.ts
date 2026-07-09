@@ -461,3 +461,21 @@ export const appNotifications = sqliteTable('app_notifications', {
   isRead: integer('is_read', { mode: 'boolean' }).default(false).notNull(),
   createdAt: text('created_at').notNull(),
 });
+
+// --- PROMO LINKS ---
+export const promoLinks = sqliteTable('promo_links', {
+  id: integer('id').primaryKey({ autoIncrement: true }),
+  artistId: integer('artist_id').references(() => artists.id).notNull(),
+  releaseId: integer('release_id').references(() => releases.id).notNull(),
+  slug: text('slug').notNull().unique(),
+  viewsCount: integer('views_count').default(0).notNull(),
+  createdAt: text('created_at').notNull(),
+});
+
+export const promoPlatforms = sqliteTable('promo_platforms', {
+  id: integer('id').primaryKey({ autoIncrement: true }),
+  promoLinkId: integer('promo_link_id').references(() => promoLinks.id).notNull(),
+  platform: text('platform').notNull(),
+  url: text('url').notNull(),
+  clicksCount: integer('clicks_count').default(0).notNull(),
+});
