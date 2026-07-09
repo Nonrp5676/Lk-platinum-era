@@ -175,11 +175,28 @@ export default function ArtistProfile() {
         </Button>
       </motion.div>
 
-      {/* Profile header card with avatar */}
+      {/* Profile header card with avatar & cover */}
       <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}>
-        <Card>
-          <CardContent className="pt-6">
-            <div className="flex flex-col sm:flex-row items-center gap-6">
+        <Card className="overflow-hidden p-0 border-none bg-white/5 backdrop-blur-xl">
+          
+          {/* Cover Section */}
+          <div className="relative h-48 md:h-64 w-full bg-neutral-900 group border-b border-white/10 rounded-t-[2rem]">
+            {(user as any)?.coverUrl ? (
+              <img src={(user as any).coverUrl} alt="Cover" className="w-full h-full object-cover opacity-80" />
+            ) : (
+              <div className="w-full h-full bg-gradient-to-br from-neutral-800 to-black" />
+            )}
+            <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity backdrop-blur-sm cursor-pointer" onClick={() => coverInputRef.current?.click()}>
+              <input type="file" accept="image/jpeg,image/png,image/webp" className="hidden" ref={coverInputRef} onChange={handleCoverUpload} />
+              <Button variant="secondary" className="bg-white/20 hover:bg-white/30 text-white rounded-full pointer-events-none">
+                {isUploadingCover ? <Loader2 className="w-4 h-4 animate-spin mr-2" /> : <Camera className="w-4 h-4 mr-2" />}
+                Изменить шапку профиля
+              </Button>
+            </div>
+          </div>
+
+          <CardContent className="px-6 pb-6 pt-0 relative z-10">
+            <div className="flex flex-col sm:flex-row items-center sm:items-end gap-6 -mt-16 sm:-mt-20">
               {/* Avatar */}
               <div className="relative group shrink-0">
                 <div className="w-28 h-28 rounded-full overflow-hidden bg-muted ring-4 ring-background shadow-lg">
