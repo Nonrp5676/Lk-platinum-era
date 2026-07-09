@@ -309,7 +309,7 @@ export function StoryCreator({ isOpen, onClose, onSuccess }: { isOpen: boolean, 
             {/* Bottom Bar */}
             <div className="absolute bottom-0 left-0 right-0 p-6 flex justify-between items-center bg-gradient-to-t from-black/80 to-transparent z-30 pb-safe">
               <span className="text-xs text-white/70 bg-black/40 px-3 py-1.5 rounded-full backdrop-blur-md">Будет доступно 24 часа</span>
-              <Button onClick={handlePublish} disabled={uploading} className="bg-white text-black hover:bg-neutral-200 text-white px-8 rounded-full h-12 text-base font-bold shadow-xl">
+              <Button onClick={handlePublish} disabled={uploading} className="bg-white text-black hover:bg-neutral-200 px-8 rounded-full h-12 text-base font-bold shadow-xl">
                 {uploading ? <Loader2 className="w-5 h-5 animate-spin mr-2" /> : null}
                 {uploading ? "Публикация..." : "В историю >"}
               </Button>

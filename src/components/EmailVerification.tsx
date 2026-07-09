@@ -114,7 +114,7 @@ export function EmailVerification({
           </div>
           <Button
             type="submit"
-            className="w-full h-[48px] bg-white text-black hover:bg-neutral-200 text-white text-base font-medium rounded-lg transition-colors"
+            className="w-full h-[48px] bg-white text-black hover:bg-neutral-200 text-base font-medium rounded-lg transition-colors"
             disabled={isLoading}
           >
             {isLoading ? (

@@ -204,7 +204,7 @@ function ProfileContent() {
                 </Link>
               ) : (
                 <Button 
-                  className={cn("w-full px-10 shadow-lg rounded-full transition-all h-14 font-semibold text-base", profile?.isFollowing ? "bg-secondary text-secondary-foreground hover:bg-secondary/80" : "bg-white text-black hover:bg-neutral-200 text-white")} 
+                  className={cn("w-full px-10 shadow-lg rounded-full transition-all h-14 font-semibold text-base", profile?.isFollowing ? "bg-secondary text-secondary-foreground hover:bg-secondary/80" : "bg-white text-black hover:bg-neutral-200")} 
                   onClick={handleFollow} 
                 >
                   {profile?.isFollowing ? "Отписаться" : "Подписаться"}

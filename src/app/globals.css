@@ -44,9 +44,9 @@
 }
 
 :root, .dark {
-  --background: oklch(0.02 0 0); /* Pure pitch black */
+  --background: oklch(0.13 0 0); /* Sleek dark gray, not pitch black */
   --foreground: oklch(0.98 0 0);
-  --card: oklch(0.08 0 0 / 0.6); /* Translucent dark gray */
+  --card: oklch(0.18 0 0 / 0.6); /* Slightly lighter cards */
   --card-foreground: oklch(0.98 0 0);
   --popover: oklch(0.05 0 0);
   --popover-foreground: oklch(0.98 0 0);

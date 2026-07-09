@@ -166,7 +166,7 @@ export default function FeedPage() {
                     <ImageIcon className="w-4 h-4 mr-2" /> Фото
                   </Button>
                 </div>
-                <Button size="sm" className="h-8 bg-white text-black hover:bg-neutral-200 text-white" onClick={handlePost} disabled={submitting || (!content.trim() && !image)}>
+                <Button size="sm" className="h-8 bg-white text-black hover:bg-neutral-200" onClick={handlePost} disabled={submitting || (!content.trim() && !image)}>
                   {submitting ? "Публикация..." : "Опубликовать"}
                 </Button>
               </div>
