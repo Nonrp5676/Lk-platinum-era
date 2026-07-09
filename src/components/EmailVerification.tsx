@@ -81,10 +81,10 @@ export function EmailVerification({
 
   return (
     <div className="bg-white rounded-xl shadow-sm border border-[#e1e5eb] p-8 sm:p-10">
-      <h1 className="text-[28px] font-semibold text-gray-900 mb-2">
+      <h1 className="text-[28px] font-semibold text-white mb-2">
         Подтверждение почты
       </h1>
-      <p className="text-gray-600 mb-6">
+      <p className="text-neutral-400 mb-6">
         Мы отправили код подтверждения на <strong>{email}</strong>
       </p>
 

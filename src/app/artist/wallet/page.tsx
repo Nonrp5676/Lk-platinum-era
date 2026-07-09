@@ -343,7 +343,7 @@ export default function WalletPage() {
                         <div className="flex items-center gap-4">
                           <span className="font-semibold">{formatAmount(report.amountRub, "rub")}</span>
                           {report.status === "agreed" ? (
-                            <span className="px-3 py-1 text-xs font-medium rounded-full bg-gray-100 text-gray-500 dark:bg-gray-800 dark:text-gray-400">
+                            <span className="px-3 py-1 text-xs font-medium rounded-full bg-gray-100 text-neutral-500 dark:bg-gray-800 dark:text-gray-400">
                               Согласован
                             </span>
                           ) : (

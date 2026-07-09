@@ -1,108 +1,165 @@
 "use client";
+
 import { useState } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { Search, LayoutDashboard, Users, Music2, Newspaper, HelpCircle, Sparkles, UserCog, Ticket, UserPlus, Wallet, TrendingUp, ShieldCheck, BotMessageSquare, ChevronsUpDown, Star } from "lucide-react";
-import { User as UserType } from "@/hooks/useUser";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import { motion } from "framer-motion";
+import {
+  Star, LayoutDashboard,
+  Users,
+  Music2,
+  Newspaper,
+  HelpCircle,
+  Sparkles,
+  LogOut,
+  Menu,
+  X,
+  Shield,
+  UserCog,
+  Ticket,
+  UserPlus,
+  Wallet,
+  TrendingUp,
+  ShieldCheck,
+  BotMessageSquare,
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
+import { User as UserType, hasPermission } from "@/hooks/useUser";
 
-export function AdminSidebar({ user }: { user: UserType }) {
+interface AdminSidebarProps {
+  user: UserType;
+}
+
+export function AdminSidebar({ user }: AdminSidebarProps) {
   const pathname = usePathname();
   const router = useRouter();
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
-  const groups = [
-    {
-      label: "HOME",
-      items: [
-        { label: "Дашборд", href: "/admin/dashboard", icon: LayoutDashboard },
-        { label: "Артисты", href: "/admin/artists", icon: Users },
-        { label: "Эксклюзив", href: "/admin/exclusive", icon: Star },
-        { label: "Верификации", href: "/admin/verifications", icon: ShieldCheck },
-      ]
-    },
-    {
-      label: "CONTENT",
-      items: [
-        { label: "Релизы", href: "/admin/releases", icon: Music2 },
-        { label: "Питчинги", href: "/admin/pitchings", icon: TrendingUp },
-        { label: "Заявки текстов", href: "/admin/lyrics", icon: Sparkles },
-        { label: "Новости", href: "/admin/news", icon: Newspaper },
-      ]
-    },
-    {
-      label: "MANAGEMENT",
-      items: [
-        { label: "Кошельки", href: "/admin/wallets", icon: Wallet },
-        { label: "Тикеты", href: "/admin/tickets", icon: Ticket },
-        { label: "Заявки", href: "/admin/pending-users", icon: UserPlus },
-        { label: "Telegram", href: "/admin/telegram", icon: BotMessageSquare },
-        { label: "Администрация", href: "/admin/staff", icon: UserCog },
-      ]
-    }
+  const handleLogout = async () => {
+    await fetch("/api/auth/logout", { method: "POST" });
+    router.push("/");
+  };
+
+  const allMenuItems = [
+    { icon: LayoutDashboard, label: "Дашборд", href: "/admin/dashboard", permKey: "canAccessDashboard" as const },
+    { icon: Users, label: "Артисты", href: "/admin/artists", permKey: "canAccessArtists" as const },
+    { icon: Star, label: "Эксклюзив", href: "/admin/exclusive", permKey: "canAccessArtists" as const },
+    { icon: Music2, label: "Релизы", href: "/admin/releases", permKey: "canAccessReleases" as const },
+    { icon: ShieldCheck, label: "Верификации", href: "/admin/verifications", permKey: "canAccessArtists" as const },
+    { icon: Wallet, label: "Кошельки", href: "/admin/wallets", permKey: "canAccessWallets" as const },
+    { icon: Newspaper, label: "Новости", href: "/admin/news", permKey: "canAccessNews" as const },
+    { icon: HelpCircle, label: "FAQ", href: "/admin/faq", permKey: "canAccessFaq" as const },
+    { icon: Ticket, label: "Тикеты", href: "/admin/tickets", permKey: "canAccessTickets" as const },
+    { icon: UserPlus, label: "Заявки", href: "/admin/pending-users", permKey: "canAccessPendingUsers" as const },
+    { icon: Sparkles, label: "Заявки на тексты", href: "/admin/lyrics", permKey: "canAccessLyrics" as const },
+    { icon: TrendingUp, label: "Питчинги", href: "/admin/pitchings", permKey: "canAccessReleases" as const },
+    { icon: BotMessageSquare, label: "Telegram", href: "/admin/telegram", permKey: "canAccessStaff" as const },
+    { icon: UserCog, label: "Администрация", href: "/admin/staff", permKey: "canAccessStaff" as const },
   ];
 
+  // Filter menu items based on admin permissions
+  const menuItems = allMenuItems.filter((item) => hasPermission(user, item.permKey));
+
   return (
-    <aside className="hidden md:flex flex-col w-[260px] h-screen bg-[#0E0E0E] border-none text-[#8E8E93] font-sans p-4 shrink-0">
-      <div className="flex items-center gap-3 px-2 mb-8 cursor-pointer text-white" onClick={() => router.push('/')}>
-        <img src="/logo.png" className="w-6 h-6 object-contain" alt="Logo" />
-        <span className="font-bold text-lg tracking-tight">PLATINUM ERA</span>
+    <>
+      {/* Mobile menu button */}
+      <div className="lg:hidden fixed top-4 left-4 z-50">
+        <Button
+          variant="outline"
+          size="icon"
+          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+        >
+          {isMobileMenuOpen ? <X /> : <Menu />}
+        </Button>
       </div>
 
-      <div className="relative mb-8 px-1">
-        <Search className="w-4 h-4 absolute left-4 top-1/2 -translate-y-1/2 text-neutral-500" />
-        <input 
-          className="w-full bg-[#1A1A1A] border border-white/5 rounded-xl pl-10 pr-12 py-2.5 text-white text-sm outline-none focus:border-indigo-500/50 transition-colors placeholder:text-neutral-600" 
-          placeholder="Search..." 
-        />
-        <div className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-1">
-          <span className="bg-white/5 border border-white/10 text-neutral-400 text-[10px] px-1.5 py-0.5 rounded shadow-sm">⌘</span>
-          <span className="bg-white/5 border border-white/10 text-neutral-400 text-[10px] px-1.5 py-0.5 rounded shadow-sm">F</span>
+      {/* Sidebar */}
+      <motion.aside
+        initial={{ x: -300 }}
+        animate={{ x: 0 }}
+        className={cn(
+          "fixed lg:static inset-y-0 left-0 z-40 w-64 bg-card border-r border-border flex flex-col font-[Manrope,sans-serif]",
+          isMobileMenuOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0",
+          "transition-transform duration-300 lg:transition-none"
+        )}
+      >
+        {/* Header */}
+        <div className="p-6 border-b border-border">
+          <div className="flex items-center gap-4">
+            <img
+              src="/logo.png"
+              alt="PLATINUM ERA MUSIC Logo"
+              className="w-14 h-14 object-contain"
+            />
+            <div>
+              <h2 className="font-bold text-xl leading-tight">PLATINUM ERA MUSIC</h2>
+              <p className="text-xs text-muted-foreground">Админ-панель</p>
+            </div>
+          </div>
         </div>
-      </div>
 
-      <div className="flex-1 overflow-y-auto space-y-6 scrollbar-hide px-1">
-        {groups.map((group, gIdx) => (
-          <div key={gIdx}>
-            {group.label && <div className="text-[10px] font-bold text-neutral-500 uppercase tracking-widest mb-3 px-3">{group.label}</div>}
-            <div className="space-y-1">
-              {group.items.map(item => {
-                const isActive = pathname === item.href || pathname.startsWith(item.href + '/');
-                return (
-                  <Link key={item.href} href={item.href} className={`relative flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all ${isActive ? 'text-white bg-white/[0.04]' : 'hover:text-white hover:bg-white/[0.02]'}`}>
-                    <item.icon className={`w-4 h-4 ${isActive ? 'text-white' : 'text-neutral-500'}`} />
-                    <span className="text-sm font-medium">{item.label}</span>
-                    {isActive && (
-                      <div className="absolute right-0 top-0 bottom-0 w-16 bg-indigo-500/40 blur-[15px] pointer-events-none rounded-r-xl" />
-                    )}
-                  </Link>
-                )
-              })}
-            </div>
-          </div>
-        ))}
-      </div>
+        {/* Navigation */}
+        <nav className="flex-1 p-4 space-y-1 overflow-y-auto">
+          {menuItems.map((item, index) => {
+            const Icon = item.icon;
+            const isActive = pathname === item.href || pathname.startsWith(item.href + "/");
 
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <div className="mt-4 p-2 rounded-2xl border border-white/5 bg-[#161616] flex items-center gap-3 cursor-pointer hover:bg-[#1A1A1A] transition-colors">
-            <Avatar className="w-10 h-10 border border-white/10 rounded-xl">
-              <AvatarImage src={user?.avatarUrl || ''} className="object-cover rounded-xl" />
-              <AvatarFallback className="bg-neutral-800 text-neutral-300 text-xs rounded-xl">{(user?.name || 'A').charAt(0)}</AvatarFallback>
-            </Avatar>
-            <div className="flex-1 min-w-0">
-              <p className="text-sm text-white font-semibold truncate flex items-center gap-1">{user?.artistName || user?.name}</p>
-              <p className="text-[11px] text-neutral-500 truncate">Admin</p>
+            return (
+              <motion.div
+                key={item.href}
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: index * 0.05 }}
+              >
+                <Link
+                  href={item.href}
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className={cn(
+                    "flex items-center gap-3 px-4 py-3 rounded-full transition-all duration-200",
+                    isActive
+                      ? "bg-primary text-primary-foreground shadow-md"
+                      : "hover:bg-accent hover:text-accent-foreground"
+                  )}
+                >
+                  <Icon className="w-5 h-5" />
+                  <span className="font-medium">{item.label}</span>
+                </Link>
+              </motion.div>
+            );
+          })}
+        </nav>
+
+        {/* Footer */}
+        <div className="p-4 border-t border-border">
+          <div className="mb-3 p-3 rounded-full bg-muted">
+            <div className="flex items-center gap-2 mb-1">
+              {user.isSuperAdmin ? (
+                <Shield className="w-3.5 h-3.5 text-purple-500" />
+              ) : (
+                <UserCog className="w-3.5 h-3.5 text-blue-500" />
+              )}
+              <p className="text-xs font-medium text-muted-foreground">
+                {user.isSuperAdmin ? "Супер-администратор" : "Администратор"}
+              </p>
             </div>
-            <ChevronsUpDown className="w-4 h-4 text-neutral-600 shrink-0 mr-1" />
+            <p className="text-sm font-semibold truncate">{user.name}</p>
+            <p className="text-xs text-muted-foreground truncate">{user.email}</p>
           </div>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent align="end" className="w-56 bg-[#161616] border-white/10 text-white rounded-xl">
-          <DropdownMenuItem onClick={async () => { await fetch("/api/auth/logout", { method: "POST" }); window.location.href = "/"; }} className="text-red-400 hover:bg-red-500/10 focus:bg-red-500/10 cursor-pointer rounded-lg">
+          <Button variant="outline" className="w-full" onClick={handleLogout}>
+            <LogOut className="w-4 h-4 mr-2" />
             Выйти
-          </DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
-    </aside>
+          </Button>
+        </div>
+      </motion.aside>
+
+      {/* Mobile overlay */}
+      {isMobileMenuOpen && (
+        <div
+          className="fixed inset-0 bg-black/50 z-30 lg:hidden"
+          onClick={() => setIsMobileMenuOpen(false)}
+        />
+      )}
+    </>
   );
 }
