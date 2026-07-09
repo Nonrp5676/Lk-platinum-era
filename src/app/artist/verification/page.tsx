@@ -343,8 +343,8 @@ function setTimeoutRef() {
 // ─── Role / Contract Cards ────────────────────────────────────────────────────
 function RoleCard({ icon: Icon, title, desc, active, onClick }: { icon: any; title: string; desc: string; active: boolean; onClick: () => void; }) {
   return (
-    <button onClick={onClick} className={`text-left p-4 rounded-xl border-2 transition-all ${active ? "border-[#cd792f] bg-[#cd792f]/5" : "border-border hover:border-[#cd792f]/40"}`}>
-      <Icon className={`w-6 h-6 mb-2 ${active ? "text-[#cd792f]" : "text-muted-foreground"}`} />
+    <button onClick={onClick} className={`text-left p-4 rounded-xl border-2 transition-all ${active ? "border-fuchsia-500 bg-white text-black/5" : "border-border hover:border-fuchsia-500/40"}`}>
+      <Icon className={`w-6 h-6 mb-2 ${active ? "text-fuchsia-400" : "text-muted-foreground"}`} />
       <p className="font-semibold mb-1">{title}</p>
       <p className="text-xs text-muted-foreground">{desc}</p>
     </button>
@@ -353,7 +353,7 @@ function RoleCard({ icon: Icon, title, desc, active, onClick }: { icon: any; tit
 
 function ContractCard({ title, desc, active, onClick }: { title: string; desc?: string; active: boolean; onClick: () => void; }) {
   return (
-    <button onClick={onClick} className={`text-left p-4 rounded-xl border-2 transition-all ${active ? "border-[#cd792f] bg-[#cd792f]/5" : "border-border hover:border-[#cd792f]/40"}`}>
+    <button onClick={onClick} className={`text-left p-4 rounded-xl border-2 transition-all ${active ? "border-fuchsia-500 bg-white text-black/5" : "border-border hover:border-fuchsia-500/40"}`}>
       <p className="font-semibold">{title}</p>
       {desc && <p className="text-xs text-muted-foreground mt-1">{desc}</p>}
     </button>
@@ -513,7 +513,7 @@ function BankStep({ draft, update, errors }: { draft: DraftData; update: any; er
 function CheckboxRow({ checked, onChange, label }: { checked: boolean; onChange: (v: boolean) => void; label: string }) {
   return (
     <div className="flex items-start gap-3">
-      <button type="button" onClick={() => onChange(!checked)} className={`mt-0.5 w-5 h-5 rounded border-2 flex items-center justify-center shrink-0 transition-colors ${checked ? "border-[#cd792f] bg-[#cd792f]" : "border-border"}`}>
+      <button type="button" onClick={() => onChange(!checked)} className={`mt-0.5 w-5 h-5 rounded border-2 flex items-center justify-center shrink-0 transition-colors ${checked ? "border-fuchsia-500 bg-white text-black" : "border-border"}`}>
         {checked && <Check className="w-3 h-3 text-white" />}
       </button>
       <label className="text-sm cursor-pointer select-none" onClick={() => onChange(!checked)}>{label}</label>

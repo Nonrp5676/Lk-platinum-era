@@ -152,7 +152,7 @@ export default function ArtistReleases() {
   const statusColor = (status: string) => {
     const map: Record<string, string> = {
       approved: "bg-green-500/15 text-green-600 dark:text-green-400",
-      published: "bg-[#cd792f]/15 text-[#b8661f]",
+      published: "bg-white text-black/15 text-[#b8661f]",
       re_moderation: "bg-blue-500/15 text-blue-600 dark:text-blue-400",
       deactivated: "bg-red-500/15 text-red-600 dark:text-red-400",
     };

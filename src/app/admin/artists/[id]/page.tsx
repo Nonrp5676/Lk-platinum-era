@@ -226,7 +226,7 @@ export default function ArtistDetailPage() {
               {artist.avatarUrl ? (
                 <Image src={artist.avatarUrl} alt={artist.name} width={80} height={80} className="object-cover w-full h-full" unoptimized />
               ) : (
-                <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-[#cd792f] to-[#b8661f] text-white text-3xl font-bold">
+                <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-fuchsia-600 to-[#b8661f] text-white text-3xl font-bold">
                   {artist.name.charAt(0).toUpperCase()}
                 </div>
               )}
@@ -609,7 +609,7 @@ export default function ArtistDetailPage() {
                   <div>
                     <p className="text-muted-foreground">Социальные сети</p>
                     {artist.socialNetwork.startsWith("http") ? (
-                      <a href={artist.socialNetwork} target="_blank" rel="noopener noreferrer" className="font-medium text-[#cd792f] hover:underline break-all text-xs">
+                      <a href={artist.socialNetwork} target="_blank" rel="noopener noreferrer" className="font-medium text-fuchsia-400 hover:underline break-all text-xs">
                         {artist.socialNetwork}
                       </a>
                     ) : (

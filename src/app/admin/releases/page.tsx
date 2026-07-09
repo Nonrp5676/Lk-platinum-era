@@ -45,7 +45,7 @@ const statusMap: Record<string, { label: string; color: string }> = {
   draft:            { label: "Черновик",            color: "bg-muted text-muted-foreground border-border" },
   on_moderation:    { label: "На модерации",         color: "bg-yellow-500/15 text-yellow-600 dark:text-yellow-400 border-yellow-500/30" },
   approved:         { label: "Одобрено",            color: "bg-green-500/15 text-green-600 dark:text-green-400 border-green-500/30" },
-  published:        { label: "Опубликован",          color: "bg-[#cd792f]/15 text-[#b8661f] dark:text-[#b8661f] border-[#cd792f]/30" },
+  published:        { label: "Опубликован",          color: "bg-white text-black/15 text-[#b8661f] dark:text-[#b8661f] border-fuchsia-500/30" },
   rejected:         { label: "Отклонено",           color: "bg-destructive/15 text-destructive border-destructive/30" },
   requires_changes: { label: "Требуются изменения", color: "bg-orange-500/15 text-orange-600 dark:text-orange-400 border-orange-500/30" },
   re_moderation:    { label: "Повторная модерация",  color: "bg-blue-500/15 text-blue-600 dark:text-blue-400 border-blue-500/30" },

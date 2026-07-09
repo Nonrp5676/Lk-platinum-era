@@ -186,7 +186,7 @@ export default function ArtistProfile() {
                   {user.avatarUrl ? (
                     <Image src={user.avatarUrl} alt={user.name} fill className="object-cover" unoptimized />
                   ) : (
-                    <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-[#cd792f] to-[#b8661f] text-white text-4xl font-bold">
+                    <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-fuchsia-600 to-[#b8661f] text-white text-4xl font-bold">
                       {user.name.charAt(0).toUpperCase()}
                     </div>
                   )}
@@ -392,7 +392,7 @@ function InfoRow({ icon: Icon, label, value, isLink }: { icon: any; label: strin
       <div className="flex-1 min-w-0">
         <p className="text-xs text-muted-foreground mb-0.5">{label}</p>
         {isLink && value.startsWith("http") ? (
-          <a href={value} target="_blank" rel="noopener noreferrer" className="text-sm font-medium text-[#cd792f] hover:underline break-all">
+          <a href={value} target="_blank" rel="noopener noreferrer" className="text-sm font-medium text-fuchsia-400 hover:underline break-all">
             {value}
           </a>
         ) : (

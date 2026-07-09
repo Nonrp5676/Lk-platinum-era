@@ -57,12 +57,12 @@ export default function NetworkPage() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {artists.map((artist) => (
             <Link key={artist.id} href={`/artist/network/${artist.username || artist.uid}`}>
-              <Card className="hover:border-[#cd792f]/50 transition-colors cursor-pointer group h-full">
+              <Card className="hover:border-fuchsia-500/50 transition-colors cursor-pointer group h-full">
                 <CardContent className="p-6">
                   <div className="flex items-start gap-4">
                     <div className="relative w-16 h-16 shrink-0 rounded-full" onClick={(e) => handleAvatarClick(e, artist.id)}>
                       {stories.some(s => s.artistId === artist.id) && (
-                        <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-[#cd792f] to-purple-600 p-[2px] -m-[3px] z-0">
+                        <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-fuchsia-600 to-purple-600 p-[2px] -m-[3px] z-0">
                           <div className="w-full h-full bg-background rounded-full" />
                         </div>
                       )}
@@ -72,7 +72,7 @@ export default function NetworkPage() {
                     </Avatar>
                     </div>
                     <div>
-                      <h3 className="font-semibold text-lg group-hover:text-[#cd792f] transition-colors line-clamp-1 flex items-center gap-1">{artist.artistName || artist.name}{artist.isVerified && <BadgeCheck className="w-4 h-4 text-blue-500 fill-blue-500/10 shrink-0" />}</h3>
+                      <h3 className="font-semibold text-lg group-hover:text-fuchsia-400 transition-colors line-clamp-1 flex items-center gap-1">{artist.artistName || artist.name}{artist.isVerified && <BadgeCheck className="w-4 h-4 text-blue-500 fill-blue-500/10 shrink-0" />}</h3>
                       <p className="text-sm text-muted-foreground">@{artist.username || artist.uid}</p>
                       <p className="text-xs text-muted-foreground mt-2 line-clamp-2">{artist.bio || "Нет информации"}</p>
                     </div>

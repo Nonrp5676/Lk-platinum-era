@@ -103,10 +103,10 @@ export function RegisterForm() {
   };
 
   const inputClass =
-    "h-[48px] text-base placeholder:text-gray-400 border-[#cfd6e0] focus-visible:ring-2 focus-visible:ring-[#cd792f] focus-visible:border-[#cd792f]";
+    "h-[48px] text-base placeholder:text-gray-400 border-white/10 focus-visible:ring-2 focus-visible:ring-[#cd792f] focus-visible:border-fuchsia-500";
 
   const header = (
-    <header className="w-full border-b border-[#e6e9ee] bg-white flex-shrink-0">
+    <header className="w-full border-b border-white/10 bg-white/5 backdrop-blur-2xl flex-shrink-0">
       <div className="px-4 sm:px-6 py-4 sm:py-5 flex items-center gap-4">
         <img
           src="/logo.png"
@@ -114,8 +114,8 @@ export function RegisterForm() {
           className="w-14 h-14 object-contain"
         />
         <div className="leading-tight">
-          <div className="text-2xl font-bold text-gray-900">PLATINUM ERA MUSIC</div>
-          <div className="text-sm text-gray-500">Label/Distributor</div>
+          <div className="text-2xl font-bold text-white">PLATINUM ERA MUSIC</div>
+          <div className="text-sm text-neutral-400">Label/Distributor</div>
         </div>
       </div>
     </header>
@@ -124,23 +124,23 @@ export function RegisterForm() {
   // ─── Экран: Регистрация завершена ──────────────────────────────────────
   if (step === "done") {
     return (
-      <div className="fixed inset-0 flex flex-col bg-[#f7f9fb] text-gray-900 overflow-hidden">
+      <div className="fixed inset-0 flex flex-col bg-transparent text-white overflow-hidden">
         {header}
         <main className="flex-1 flex items-center justify-center px-4 sm:px-6 py-12 overflow-y-auto">
           <div className="w-full max-w-md my-auto">
-            <div className="bg-white rounded-xl shadow-sm border border-[#e1e5eb] p-8 sm:p-10 text-center">
+            <div className="bg-white/5 backdrop-blur-2xl rounded-xl shadow-sm border border-white/10 p-8 sm:p-10 text-center">
               <div className="w-16 h-16 bg-green-50 text-green-600 rounded-full flex items-center justify-center mx-auto mb-6">
                 <CheckCircle className="w-10 h-10" />
               </div>
-              <h1 className="text-2xl font-bold text-gray-900 mb-4">
+              <h1 className="text-2xl font-bold text-white mb-4">
                 Добро пожаловать!
               </h1>
-              <p className="text-gray-600 mb-8">
+              <p className="text-neutral-400 mb-8">
                 Ваш аккаунт активирован. Теперь вы можете войти в личный кабинет.
               </p>
               <Button
                 onClick={() => router.push("/")}
-                className="w-full h-[48px] bg-[#cd792f] hover:bg-[#b8661f] text-white text-base font-medium rounded-lg transition-colors"
+                className="w-full h-[48px] bg-white/5 backdrop-blur-2xl text-black hover:bg-neutral-200 text-white text-base font-medium rounded-lg transition-colors"
               >
                 Войти в кабинет
               </Button>
@@ -154,28 +154,28 @@ export function RegisterForm() {
   // ─── Экран: Ввод кода подтверждения ────────────────────────────────────
   if (step === "verify") {
     return (
-      <div className="fixed inset-0 flex flex-col bg-[#f7f9fb] text-gray-900 overflow-hidden">
+      <div className="fixed inset-0 flex flex-col bg-transparent text-white overflow-hidden">
         {header}
         <main className="flex-1 flex items-center justify-center px-4 sm:px-6 py-12 overflow-y-auto">
           <div className="w-full max-w-md my-auto">
-            <div className="bg-white rounded-xl shadow-sm border border-[#e1e5eb] p-8 sm:p-10">
+            <div className="bg-white/5 backdrop-blur-2xl rounded-xl shadow-sm border border-white/10 p-8 sm:p-10">
               <button
                 onClick={() => setStep("form")}
-                className="flex items-center gap-1.5 text-sm text-gray-500 hover:text-gray-900 transition-colors mb-6"
+                className="flex items-center gap-1.5 text-sm text-neutral-400 hover:text-white transition-colors mb-6"
               >
                 <ArrowLeft className="w-4 h-4" /> Назад
               </button>
 
-              <div className="w-16 h-16 bg-[#cd792f]/10 text-[#cd792f] rounded-full flex items-center justify-center mx-auto mb-6">
+              <div className="w-16 h-16 bg-white/5 backdrop-blur-2xl text-black/10 text-fuchsia-400 rounded-full flex items-center justify-center mx-auto mb-6">
                 <Mail className="w-8 h-8" />
               </div>
 
-              <h1 className="text-2xl font-bold text-gray-900 mb-3 text-center">
+              <h1 className="text-2xl font-bold text-white mb-3 text-center">
                 Подтвердите почту
               </h1>
-              <p className="text-gray-500 text-sm text-center mb-8">
+              <p className="text-neutral-400 text-sm text-center mb-8">
                 Мы отправили 6-значный код на<br />
-                <span className="font-semibold text-gray-900">{registeredEmail}</span>
+                <span className="font-semibold text-white">{registeredEmail}</span>
               </p>
 
               <form onSubmit={handleVerify} className="space-y-4">
@@ -201,7 +201,7 @@ export function RegisterForm() {
 
                 <Button
                   type="submit"
-                  className="w-full h-[48px] bg-[#cd792f] hover:bg-[#b8661f] text-white text-base font-medium rounded-lg transition-colors"
+                  className="w-full h-[48px] bg-white/5 backdrop-blur-2xl text-black hover:bg-neutral-200 text-white text-base font-medium rounded-lg transition-colors"
                   disabled={isLoading || verifyCode.length !== 6}
                 >
                   {isLoading ? (
@@ -221,7 +221,7 @@ export function RegisterForm() {
                   <button
                     onClick={handleResend}
                     disabled={isLoading}
-                    className="text-sm text-[#cd792f] font-medium hover:underline"
+                    className="text-sm text-fuchsia-400 font-medium hover:underline"
                   >
                     Отправить код повторно
                   </button>
@@ -236,13 +236,13 @@ export function RegisterForm() {
 
   // ─── Экран: Форма регистрации ──────────────────────────────────────────
   return (
-    <div className="fixed inset-0 flex flex-col bg-[#f7f9fb] text-gray-900 overflow-hidden">
+    <div className="fixed inset-0 flex flex-col bg-transparent text-white overflow-hidden">
       {header}
 
       <main className="flex-1 overflow-y-auto px-4 sm:px-6 py-10">
         <div className="w-full max-w-md mx-auto">
-          <div className="bg-white rounded-xl shadow-sm border border-[#e1e5eb] p-8 sm:p-10">
-            <h1 className="text-[26px] font-semibold text-gray-900 mb-6">
+          <div className="bg-white/5 backdrop-blur-2xl rounded-xl shadow-sm border border-white/10 p-8 sm:p-10">
+            <h1 className="text-[26px] font-semibold text-white mb-6">
               Регистрация
             </h1>
 
@@ -296,7 +296,7 @@ export function RegisterForm() {
                 </div>
               )}
 
-              <Button type="submit" className="w-full h-[48px] bg-[#cd792f] hover:bg-[#b8661f] text-white text-base font-medium rounded-lg transition-colors" disabled={isLoading}>
+              <Button type="submit" className="w-full h-[48px] bg-white/5 backdrop-blur-2xl text-black hover:bg-neutral-200 text-white text-base font-medium rounded-lg transition-colors" disabled={isLoading}>
                 {isLoading ? (
                   <><Loader2 className="mr-2 h-5 w-5 animate-spin" /> Отправка...</>
                 ) : (
@@ -307,8 +307,8 @@ export function RegisterForm() {
           </div>
 
           <div className="mt-6 text-center">
-            <span className="text-gray-600">Уже есть аккаунт? </span>
-            <button type="button" onClick={() => router.push("/")} className="text-[#cd792f] font-medium hover:underline bg-transparent border-none p-0 cursor-pointer">
+            <span className="text-neutral-400">Уже есть аккаунт? </span>
+            <button type="button" onClick={() => router.push("/")} className="text-fuchsia-400 font-medium hover:underline bg-transparent border-none p-0 cursor-pointer">
               Войти
             </button>
           </div>

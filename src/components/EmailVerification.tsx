@@ -109,12 +109,12 @@ export function EmailVerification({
               onChange={(e) => setVerificationCode(e.target.value)}
               required
               disabled={isLoading}
-              className="h-[48px] text-base placeholder:text-gray-400 border-[#cfd6e0] focus-visible:ring-2 focus-visible:ring-[#cd792f] focus-visible:border-[#cd792f]"
+              className="h-[48px] text-base placeholder:text-gray-400 border-[#cfd6e0] focus-visible:ring-2 focus-visible:ring-[#cd792f] focus-visible:border-fuchsia-500"
             />
           </div>
           <Button
             type="submit"
-            className="w-full h-[48px] bg-[#cd792f] hover:bg-[#b8661f] text-white text-base font-medium rounded-lg transition-colors"
+            className="w-full h-[48px] bg-white text-black hover:bg-neutral-200 text-white text-base font-medium rounded-lg transition-colors"
             disabled={isLoading}
           >
             {isLoading ? (
@@ -131,7 +131,7 @@ export function EmailVerification({
           <button
             onClick={handleResendCode}
             disabled={resendLoading || isLoading}
-            className="text-sm text-[#cd792f] font-medium hover:underline disabled:opacity-50"
+            className="text-sm text-fuchsia-400 font-medium hover:underline disabled:opacity-50"
           >
             {resendLoading ? "Отправка..." : "Отправить код еще раз"}
           </button>

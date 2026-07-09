@@ -27,8 +27,8 @@ export function MaintenanceScreen({ initialReason = "" }: MaintenanceScreenProps
     <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-neutral-950 dark:bg-black overflow-hidden">
       {/* Animated background glow */}
       <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-[#cd792f]/10 rounded-full blur-[120px] animate-pulse" />
-        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-[#cd792f]/5 rounded-full blur-[120px] animate-pulse" style={{ animationDelay: "1s" }} />
+        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-white text-black/10 rounded-full blur-[120px] animate-pulse" />
+        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-white text-black/5 rounded-full blur-[120px] animate-pulse" style={{ animationDelay: "1s" }} />
       </div>
 
       <motion.div
@@ -42,13 +42,13 @@ export function MaintenanceScreen({ initialReason = "" }: MaintenanceScreenProps
           initial={{ scale: 0.8 }}
           animate={{ scale: 1 }}
           transition={{ delay: 0.2, type: "spring" }}
-          className="mx-auto w-24 h-24 rounded-3xl bg-[#cd792f]/15 flex items-center justify-center mb-8"
+          className="mx-auto w-24 h-24 rounded-3xl bg-white text-black/15 flex items-center justify-center mb-8"
         >
           <motion.div
             animate={{ rotate: [0, -10, 10, -10, 0] }}
             transition={{ duration: 2, repeat: Infinity, repeatDelay: 1 }}
           >
-            <Wrench className="w-12 h-12 text-[#cd792f]" />
+            <Wrench className="w-12 h-12 text-fuchsia-400" />
           </motion.div>
         </motion.div>
 

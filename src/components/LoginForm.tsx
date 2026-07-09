@@ -85,7 +85,7 @@ export function LoginForm() {
   };
 
   const header = (
-    <header className="w-full border-b border-[#e6e9ee] bg-white flex-shrink-0">
+    <header className="w-full border-b border-white/10 bg-white/5 backdrop-blur-2xl flex-shrink-0">
       <div className="px-4 sm:px-6 py-4 sm:py-5 flex items-center gap-4">
         <img
           src="/logo.png"
@@ -93,8 +93,8 @@ export function LoginForm() {
           className="w-14 h-14 object-contain"
         />
         <div className="leading-tight">
-          <div className="text-2xl font-bold text-gray-900">PLATINUM ERA MUSIC</div>
-          <div className="text-sm text-gray-500">Label/Distributor</div>
+          <div className="text-2xl font-bold text-white">PLATINUM ERA MUSIC</div>
+          <div className="text-sm text-neutral-400">Label/Distributor</div>
         </div>
       </div>
     </header>
@@ -102,8 +102,8 @@ export function LoginForm() {
 
   if (needVerify) {
     return (
-      <div className="fixed inset-0 flex flex-col bg-[#f7f9fb] text-gray-900 overflow-hidden">
-        <header className="w-full border-b border-[#e6e9ee] bg-white flex-shrink-0">
+      <div className="fixed inset-0 flex flex-col bg-transparent text-white overflow-hidden">
+        <header className="w-full border-b border-white/10 bg-white/5 backdrop-blur-2xl flex-shrink-0">
           <div className="px-4 sm:px-6 py-4 sm:py-5 flex items-center gap-4">
             <img
               src="/logo.png"
@@ -111,21 +111,21 @@ export function LoginForm() {
               className="w-14 h-14 object-contain"
             />
             <div className="leading-tight">
-              <div className="text-2xl font-bold text-gray-900">PLATINUM ERA MUSIC</div>
-              <div className="text-sm text-gray-500">Label/Distributor</div>
+              <div className="text-2xl font-bold text-white">PLATINUM ERA MUSIC</div>
+              <div className="text-sm text-neutral-400">Label/Distributor</div>
             </div>
           </div>
         </header>
         <main className="flex-1 flex items-center justify-center px-4 sm:px-6 py-12 overflow-y-auto">
           <div className="w-full max-w-md my-auto">
-            <div className="bg-white rounded-xl shadow-sm border border-[#e1e5eb] p-8 sm:p-10">
-              <div className="w-16 h-16 bg-[#cd792f]/10 text-[#cd792f] rounded-full flex items-center justify-center mx-auto mb-6">
+            <div className="bg-white/5 backdrop-blur-2xl rounded-xl shadow-sm border border-white/10 p-8 sm:p-10">
+              <div className="w-16 h-16 bg-white/5 backdrop-blur-2xl text-black/10 text-fuchsia-400 rounded-full flex items-center justify-center mx-auto mb-6">
                 <Mail className="w-8 h-8" />
               </div>
-              <h1 className="text-2xl font-bold text-gray-900 mb-3 text-center">Подтвердите почту</h1>
-              <p className="text-gray-500 text-sm text-center mb-8">
+              <h1 className="text-2xl font-bold text-white mb-3 text-center">Подтвердите почту</h1>
+              <p className="text-neutral-400 text-sm text-center mb-8">
                 Мы отправили код на<br />
-                <span className="font-semibold text-gray-900">{verifyEmail}</span>
+                <span className="font-semibold text-white">{verifyEmail}</span>
               </p>
               <form
                 onSubmit={async (e) => {
@@ -156,11 +156,11 @@ export function LoginForm() {
                   value={verifyCode}
                   onChange={(e) => setVerifyCode(e.target.value.replace(/\D/g, "").slice(0, 6))}
                   placeholder="000000"
-                  className="h-[48px] text-center text-2xl tracking-[0.5em] font-bold border-[#cfd6e0] focus-visible:ring-2 focus-visible:ring-[#cd792f] focus-visible:border-[#cd792f]"
+                  className="h-[48px] text-center text-2xl tracking-[0.5em] font-bold border-white/10 focus-visible:ring-2 focus-visible:ring-[#cd792f] focus-visible:border-fuchsia-500"
                   autoFocus
                 />
                 {error && <div className="bg-red-50 text-red-600 p-3 rounded-lg text-sm">{error}</div>}
-                <Button type="submit" className="w-full h-[48px] bg-[#cd792f] hover:bg-[#b8661f] text-white text-base font-medium rounded-lg transition-colors" disabled={isLoading || verifyCode.length !== 6}>
+                <Button type="submit" className="w-full h-[48px] bg-white/5 backdrop-blur-2xl text-black hover:bg-neutral-200 text-white text-base font-medium rounded-lg transition-colors" disabled={isLoading || verifyCode.length !== 6}>
                   {isLoading ? <><Loader2 className="mr-2 h-5 w-5 animate-spin" /> Проверка...</> : "Подтвердить"}
                 </Button>
               </form>
@@ -177,13 +177,13 @@ export function LoginForm() {
                         body: JSON.stringify({ email: verifyEmail }),
                       });
                     }}
-                    className="text-sm text-[#cd792f] font-medium hover:underline"
+                    className="text-sm text-fuchsia-400 font-medium hover:underline"
                   >
                     Отправить код повторно
                   </button>
                 )}
               </div>
-              <button onClick={() => { setNeedVerify(false); setError(""); }} className="block mx-auto mt-4 text-sm text-gray-500 hover:text-gray-900">
+              <button onClick={() => { setNeedVerify(false); setError(""); }} className="block mx-auto mt-4 text-sm text-neutral-400 hover:text-white">
                 ← Назад к входу
               </button>
             </div>
@@ -195,25 +195,25 @@ export function LoginForm() {
 
   if (pending) {
     return (
-      <div className="fixed inset-0 flex flex-col bg-[#f7f9fb] text-gray-900 overflow-hidden">
+      <div className="fixed inset-0 flex flex-col bg-transparent text-white overflow-hidden">
         {header}
         <main className="flex-1 flex items-center justify-center px-4 sm:px-6 py-12 overflow-y-auto">
           <div className="w-full max-w-md my-auto">
-            <div className="bg-white rounded-xl shadow-sm border border-[#e1e5eb] p-8 sm:p-10 text-center">
+            <div className="bg-white/5 backdrop-blur-2xl rounded-xl shadow-sm border border-white/10 p-8 sm:p-10 text-center">
               <div className="w-16 h-16 bg-amber-50 text-amber-500 rounded-full flex items-center justify-center mx-auto mb-6">
                 <Clock className="w-9 h-9" />
               </div>
-              <h1 className="text-2xl font-bold text-gray-900 mb-3">
+              <h1 className="text-2xl font-bold text-white mb-3">
                 Заявка на рассмотрении
               </h1>
-              <p className="text-gray-600 mb-8">
+              <p className="text-neutral-400 mb-8">
                 Ваша заявка ещё не была одобрена администратором. Войти в
                 систему можно только после активации аккаунта. С вами свяжется
                 менеджер в указанной при регистрации социальной сети.
               </p>
               <Button
                 onClick={() => setPending(false)}
-                className="w-full h-[48px] bg-[#cd792f] hover:bg-[#b8661f] text-white text-base font-medium rounded-lg transition-colors"
+                className="w-full h-[48px] bg-white/5 backdrop-blur-2xl text-black hover:bg-neutral-200 text-white text-base font-medium rounded-lg transition-colors"
               >
                 Вернуться к форме входа
               </Button>
@@ -225,13 +225,13 @@ export function LoginForm() {
   }
 
   return (
-    <div className="fixed inset-0 flex flex-col bg-[#f7f9fb] text-gray-900 overflow-hidden">
+    <div className="fixed inset-0 flex flex-col bg-transparent text-white overflow-hidden">
       {header}
 
       <main className="flex-1 flex items-center justify-center px-4 sm:px-6 py-12 overflow-y-auto">
         <div className="w-full max-w-md my-auto">
-          <div className="bg-white rounded-xl shadow-sm border border-[#e1e5eb] p-8 sm:p-10">
-            <h1 className="text-[28px] font-semibold text-gray-900 mb-6">Вход</h1>
+          <div className="bg-white/5 backdrop-blur-2xl rounded-xl shadow-sm border border-white/10 p-8 sm:p-10">
+            <h1 className="text-[28px] font-semibold text-white mb-6">Вход</h1>
 
             <form onSubmit={handleSubmit} className="space-y-4">
               <div className="space-y-2">
@@ -241,7 +241,7 @@ export function LoginForm() {
                   placeholder="Введите логин"
                   required
                   disabled={isLoading}
-                  className="h-[48px] text-base placeholder:text-gray-400 border-[#cfd6e0] focus-visible:ring-2 focus-visible:ring-[#cd792f] focus-visible:border-[#cd792f]"
+                  className="h-[48px] text-base placeholder:text-gray-400 border-white/10 focus-visible:ring-2 focus-visible:ring-[#cd792f] focus-visible:border-fuchsia-500"
                 />
               </div>
 
@@ -252,7 +252,7 @@ export function LoginForm() {
                   placeholder="Введите пароль"
                   required
                   disabled={isLoading}
-                  className="h-[48px] text-base placeholder:text-gray-400 border-[#cfd6e0] focus-visible:ring-2 focus-visible:ring-[#cd792f] focus-visible:border-[#cd792f]"
+                  className="h-[48px] text-base placeholder:text-gray-400 border-white/10 focus-visible:ring-2 focus-visible:ring-[#cd792f] focus-visible:border-fuchsia-500"
                 />
               </div>
 
@@ -264,7 +264,7 @@ export function LoginForm() {
 
               <Button
                 type="submit"
-                className="w-full h-[48px] bg-[#cd792f] hover:bg-[#b8661f] text-white text-base font-medium rounded-lg transition-colors"
+                className="w-full h-[48px] bg-white/5 backdrop-blur-2xl text-black hover:bg-neutral-200 text-white text-base font-medium rounded-lg transition-colors"
                 disabled={isLoading}
               >
                 {isLoading ? (
@@ -278,21 +278,21 @@ export function LoginForm() {
               </Button>
 
               <div className="flex flex-col items-center gap-2 text-sm mt-4">
-                <a href="https://pyrus.com/form/2381667" target="_blank" rel="noopener noreferrer" className="text-gray-500 hover:underline">
+                <a href="https://pyrus.com/form/2381667" target="_blank" rel="noopener noreferrer" className="text-neutral-400 hover:underline">
                   Пользовательское соглашение
                 </a>
-                <a href="#" className="text-gray-500 hover:underline">
+                <a href="#" className="text-neutral-400 hover:underline">
                   Политика конфиденциальности
                 </a>
               </div>
             </form>
           </div>
           <div className="mt-6 text-center">
-            <span className="text-gray-600">Нет аккаунта? </span>
+            <span className="text-neutral-400">Нет аккаунта? </span>
             <button
               type="button"
               onClick={() => router.push("/register")}
-              className="text-[#cd792f] font-medium hover:underline bg-transparent border-none p-0 cursor-pointer"
+              className="text-fuchsia-400 font-medium hover:underline bg-transparent border-none p-0 cursor-pointer"
             >
               Зарегистрироваться
             </button>

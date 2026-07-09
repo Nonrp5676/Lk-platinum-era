@@ -190,8 +190,8 @@ function ProfileContent() {
             <p className="text-muted-foreground font-semibold text-lg md:text-xl mb-6">@{profile?.username || profile?.uid || ''}</p>
 
             <div className="flex flex-wrap items-center justify-center gap-3 text-sm font-medium mb-8">
-              <span className="flex items-center gap-1.5 bg-secondary/50 px-4 py-2 rounded-full backdrop-blur-md"><MapPin className="w-4 h-4 text-[#cd792f]" /> СНГ</span>
-              <span className="flex items-center gap-1.5 bg-secondary/50 px-4 py-2 rounded-full backdrop-blur-md"><Music className="w-4 h-4 text-[#cd792f]" /> PLATINUM ERA MUSIC</span>
+              <span className="flex items-center gap-1.5 bg-secondary/50 px-4 py-2 rounded-full backdrop-blur-md"><MapPin className="w-4 h-4 text-fuchsia-400" /> СНГ</span>
+              <span className="flex items-center gap-1.5 bg-secondary/50 px-4 py-2 rounded-full backdrop-blur-md"><Music className="w-4 h-4 text-fuchsia-400" /> PLATINUM ERA MUSIC</span>
             </div>
 
             {/* Action Buttons */}
@@ -204,7 +204,7 @@ function ProfileContent() {
                 </Link>
               ) : (
                 <Button 
-                  className={cn("w-full px-10 shadow-lg rounded-full transition-all h-14 font-semibold text-base", profile?.isFollowing ? "bg-secondary text-secondary-foreground hover:bg-secondary/80" : "bg-[#cd792f] hover:bg-[#b8661f] text-white")} 
+                  className={cn("w-full px-10 shadow-lg rounded-full transition-all h-14 font-semibold text-base", profile?.isFollowing ? "bg-secondary text-secondary-foreground hover:bg-secondary/80" : "bg-white text-black hover:bg-neutral-200 text-white")} 
                   onClick={handleFollow} 
                 >
                   {profile?.isFollowing ? "Отписаться" : "Подписаться"}
@@ -241,12 +241,12 @@ function ProfileContent() {
             </div>
 
             <div className="bg-secondary/30 p-6 rounded-3xl border border-border/40">
-              <h3 className="font-bold text-lg mb-3 flex items-center gap-2"><span className="w-1.5 h-5 bg-[#cd792f] rounded-full"></span> Описание</h3>
+              <h3 className="font-bold text-lg mb-3 flex items-center gap-2"><span className="w-1.5 h-5 bg-white text-black rounded-full"></span> Описание</h3>
               <p className="text-sm text-foreground/80 whitespace-pre-wrap leading-relaxed">
                 {profile?.bio || "Этот артист предпочитает говорить через свою музыку. Описание пока не добавлено."}
               </p>
               {profile?.isMe && !profile?.bio && (
-                <Link href="/artist/profile"><Button variant="link" className="px-0 mt-2 text-[#cd792f] h-auto p-0">Добавить описание</Button></Link>
+                <Link href="/artist/profile"><Button variant="link" className="px-0 mt-2 text-fuchsia-400 h-auto p-0">Добавить описание</Button></Link>
               )}
             </div>
           </div>
@@ -255,10 +255,10 @@ function ProfileContent() {
           <div className="lg:col-span-8">
             <Tabs defaultValue="posts" className="w-full">
               <TabsList className="w-full justify-start bg-transparent border-b border-border/50 rounded-none p-0 h-auto gap-8 mb-6">
-                <TabsTrigger value="posts" className="data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:border-b-2 data-[state=active]:border-[#cd792f] rounded-none px-2 py-4 text-base font-semibold transition-none">
+                <TabsTrigger value="posts" className="data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:border-b-2 data-[state=active]:border-fuchsia-500 rounded-none px-2 py-4 text-base font-semibold transition-none">
                   <GridIcon className="w-4 h-4 mr-2" /> Публикации
                 </TabsTrigger>
-                <TabsTrigger value="music" className="data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:border-b-2 data-[state=active]:border-[#cd792f] rounded-none px-2 py-4 text-base font-semibold transition-none">
+                <TabsTrigger value="music" className="data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:border-b-2 data-[state=active]:border-fuchsia-500 rounded-none px-2 py-4 text-base font-semibold transition-none">
                   <Music className="w-4 h-4 mr-2" /> Релизы
                 </TabsTrigger>
               </TabsList>

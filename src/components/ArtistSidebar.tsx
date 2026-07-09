@@ -219,7 +219,7 @@ export function ArtistSidebar({ user }: ArtistSidebarProps) {
                       className={cn(
                         "w-full flex items-center justify-between gap-2.5 px-3 py-2 rounded-lg transition-all duration-150 group",
                         item.active
-                          ? "text-[#cd792f] bg-[#cd792f]/8"
+                          ? "text-fuchsia-400 bg-white text-black/8"
                           : "text-neutral-500 dark:text-neutral-500 hover:text-neutral-900 dark:hover:text-neutral-200 hover:bg-neutral-100 dark:hover:bg-neutral-800/40"
                       )}
                     >
@@ -238,7 +238,7 @@ export function ArtistSidebar({ user }: ArtistSidebarProps) {
                               return (
                                 <Link key={sub.href} href={sub.href} onClick={() => setIsMobileMenuOpen(false)}
                                   className={cn("block py-1.5 px-3 text-[12px] rounded-md transition-all",
-                                    isSubActive ? "text-[#cd792f] bg-[#cd792f]/8 font-medium" : "text-neutral-400 hover:text-neutral-700 dark:hover:text-neutral-300 hover:bg-neutral-50 dark:hover:bg-neutral-800/30")}
+                                    isSubActive ? "text-fuchsia-400 bg-white text-black/8 font-medium" : "text-neutral-400 hover:text-neutral-700 dark:hover:text-neutral-300 hover:bg-neutral-50 dark:hover:bg-neutral-800/30")}
                                 >
                                   {sub.label}
                                 </Link>
@@ -263,10 +263,10 @@ export function ArtistSidebar({ user }: ArtistSidebarProps) {
                     className={cn(
                       "flex items-center gap-2.5 px-3 py-2 rounded-lg transition-all duration-150",
                       item.active
-                        ? "text-[#cd792f] bg-[#cd792f]/8"
+                        ? "text-fuchsia-400 bg-white text-black/8"
                         : "text-neutral-500 dark:text-neutral-500 hover:text-neutral-900 dark:hover:text-neutral-200 hover:bg-neutral-100 dark:hover:bg-neutral-800/40",
                       isCollapsed && "justify-center px-0",
-                      item.isPrimary && !item.active && "text-[#cd792f] font-semibold"
+                      item.isPrimary && !item.active && "text-fuchsia-400 font-semibold"
                     )}
                   >
                     <Icon className="w-[18px] h-[18px] shrink-0" strokeWidth={1.7} />

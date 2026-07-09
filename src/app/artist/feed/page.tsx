@@ -166,7 +166,7 @@ export default function FeedPage() {
                     <ImageIcon className="w-4 h-4 mr-2" /> Фото
                   </Button>
                 </div>
-                <Button size="sm" className="h-8 bg-[#cd792f] hover:bg-[#b8661f] text-white" onClick={handlePost} disabled={submitting || (!content.trim() && !image)}>
+                <Button size="sm" className="h-8 bg-white text-black hover:bg-neutral-200 text-white" onClick={handlePost} disabled={submitting || (!content.trim() && !image)}>
                   {submitting ? "Публикация..." : "Опубликовать"}
                 </Button>
               </div>
@@ -190,7 +190,7 @@ export default function FeedPage() {
                       <AvatarFallback>{(post.artistName || post.name || "A")?.charAt(0) || "A"}</AvatarFallback>
                     </Avatar>
                     <div>
-                      <h4 className="font-semibold text-sm leading-none group-hover:text-[#cd792f] transition-colors flex items-center gap-1">{post.artistName || post.name}{post.isVerified && <BadgeCheck className="w-4 h-4 text-blue-500 fill-blue-500/10 shrink-0" />}</h4>
+                      <h4 className="font-semibold text-sm leading-none group-hover:text-fuchsia-400 transition-colors flex items-center gap-1">{post.artistName || post.name}{post.isVerified && <BadgeCheck className="w-4 h-4 text-blue-500 fill-blue-500/10 shrink-0" />}</h4>
                       <span className="text-xs text-muted-foreground">
                         {post?.createdAt ? String(post.createdAt).split("T")[0] : ""}
                       </span>
@@ -248,7 +248,7 @@ export default function FeedPage() {
 
 function StoryRing({ count }: { count: number }) {
   if (count <= 1) {
-    return <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-[#cd792f] to-purple-600" style={{ padding: '2px' }} />;
+    return <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-fuchsia-600 to-purple-600" style={{ padding: '2px' }} />;
   }
   const r = 48;
   const c = 2 * Math.PI * r;

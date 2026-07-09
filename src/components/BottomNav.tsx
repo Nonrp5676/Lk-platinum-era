@@ -37,8 +37,8 @@ export function BottomNav() {
         }
         
         return (
-          <Link key={nav.label} href={nav.href} className={cn("flex flex-col items-center justify-center w-full h-full space-y-1 text-muted-foreground hover:text-foreground transition-colors", isActive && "text-[#cd792f]")}>
-            <nav.icon className={cn("w-6 h-6", isActive && "fill-[#cd792f]/20 text-[#cd792f]")} />
+          <Link key={nav.label} href={nav.href} className={cn("flex flex-col items-center justify-center w-full h-full space-y-1 text-muted-foreground hover:text-foreground transition-colors", isActive && "text-fuchsia-400")}>
+            <nav.icon className={cn("w-6 h-6", isActive && "fill-[#cd792f]/20 text-fuchsia-400")} />
             <span className="text-[10px] font-medium leading-none">{nav.label}</span>
           </Link>
         )

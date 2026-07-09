@@ -43,7 +43,7 @@ export default function ExclusiveArtistsPage() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           isExclusive: !!artist.isExclusive,
-          exclusiveColor: artist.exclusiveColor || "from-[#cd792f] via-purple-900 to-black",
+          exclusiveColor: artist.exclusiveColor || "from-fuchsia-600 via-purple-900 to-black",
           customBadge: artist.customBadge || ""
         })
       });
@@ -164,7 +164,7 @@ export default function ExclusiveArtistsPage() {
                       />
                     </TableCell>
                     <TableCell>
-                      <div className={`h-8 w-24 rounded-md border shadow-inner bg-gradient-to-br ${artist.isExclusive ? (artist.exclusiveColor || "from-[#cd792f] via-purple-900 to-black") : "bg-muted"}`}></div>
+                      <div className={`h-8 w-24 rounded-md border shadow-inner bg-gradient-to-br ${artist.isExclusive ? (artist.exclusiveColor || "from-fuchsia-600 via-purple-900 to-black") : "bg-muted"}`}></div>
                     </TableCell>
                     <TableCell className="text-right">
                       <Button size="sm" onClick={() => handleSave(artist.id)} disabled={savingIds[artist.id]}>

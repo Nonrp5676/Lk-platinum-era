@@ -233,7 +233,7 @@ export default function ArtistDraftsPage() {
                         </div>
                         <div className="w-full h-1.5 bg-muted rounded-full overflow-hidden">
                           <div
-                            className={`h-full rounded-full transition-all ${isComplete ? "bg-green-500" : "bg-[#cd792f]"}`}
+                            className={`h-full rounded-full transition-all ${isComplete ? "bg-green-500" : "bg-white text-black"}`}
                             style={{ width: `${pct}%` }}
                           />
                         </div>

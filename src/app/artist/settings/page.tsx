@@ -79,14 +79,14 @@ export default function ArtistSettings() {
             <div className="grid grid-cols-2 gap-4">
               <button
                 onClick={() => setTheme("light")}
-                className={`p-6 rounded-lg border-2 transition-all ${theme === "light" ? "border-[#cd792f] bg-[#cd792f]/10" : "border-border hover:border-[#cd792f]/50"}`}
+                className={`p-6 rounded-lg border-2 transition-all ${theme === "light" ? "border-fuchsia-500 bg-white text-black/10" : "border-border hover:border-fuchsia-500/50"}`}
               >
                 <Sun className="w-10 h-10 mx-auto mb-2" />
                 <p className="font-medium">Светлая</p>
               </button>
               <button
                 onClick={() => setTheme("dark")}
-                className={`p-6 rounded-lg border-2 transition-all ${theme === "dark" ? "border-[#cd792f] bg-[#cd792f]/10" : "border-border hover:border-[#cd792f]/50"}`}
+                className={`p-6 rounded-lg border-2 transition-all ${theme === "dark" ? "border-fuchsia-500 bg-white text-black/10" : "border-border hover:border-fuchsia-500/50"}`}
               >
                 <Moon className="w-10 h-10 mx-auto mb-2" />
                 <p className="font-medium">Тёмная</p>
