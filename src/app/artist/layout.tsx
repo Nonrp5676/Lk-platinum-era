@@ -48,7 +48,6 @@ export default function ArtistLayout({
 
   // Maintenance mode check (except super admin)
   if (!maintenance.loading && maintenance.enabled) {
-      <BottomNav />
     return <MaintenanceScreen initialReason={maintenance.reason} />;
   }
 
@@ -77,8 +76,10 @@ export default function ArtistLayout({
                 {children}
               </div>
             </div>
-
+            {/* Added extra padding at bottom so bottom nav doesn't cover content */}
+            <div className="h-20 md:hidden" />
           </main>
+          <BottomNav />
         </div>
       </div>
     </ReadOnlyProvider>

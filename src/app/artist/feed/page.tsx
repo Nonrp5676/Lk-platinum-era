@@ -101,7 +101,7 @@ export default function FeedPage() {
   return (
     <div className="max-w-2xl mx-auto space-y-6 pb-20">
       <div className="flex justify-between items-center">
-        <h1 className="text-3xl font-bold tracking-tight">Лента</h1>
+        <h1 className="text-3xl font-bold tracking-tight ml-12 lg:ml-0">Лента</h1>
       </div>
 
       {/* Stories Banner */}
