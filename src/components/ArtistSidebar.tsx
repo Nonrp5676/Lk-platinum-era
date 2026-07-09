@@ -1,356 +1,123 @@
 "use client";
-
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { motion, AnimatePresence } from "framer-motion";
-import {
-  LogOut,
-  Menu,
-  X,
-  ChevronDown,
-  ChevronLeft,
-  FileX2,
-  CirclePlus,
-  Music2,
-  BarChart3,
-  Wallet,
-  Wrench,
-  Newspaper,
-  LifeBuoy,
-  Globe, Users, TrendingUp,
-  ShieldCheck,
-  type LucideIcon,
-} from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
+import { Search, Home, Users, Music2, PlusCircle, Wallet, Wrench, Newspaper, LifeBuoy, Settings, Sparkles, ChevronsUpDown, Crown, BadgeCheck } from "lucide-react";
 import { User as UserType } from "@/hooks/useUser";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogDescription,
-  DialogFooter,
-} from "@/components/ui/dialog";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import { toast } from "sonner";
 
-interface ArtistSidebarProps {
-  user: UserType;
-  onRefresh: () => void;
-}
-
-interface MenuItem {
-  label: string;
-  href: string;
-  icon: LucideIcon;
-  active: boolean;
-  isPrimary?: boolean;
-  hasSubmenu?: boolean;
-  subItems?: { label: string; href: string }[];
-}
-
-export function ArtistSidebar({ user }: ArtistSidebarProps) {
+export function ArtistSidebar({ user }: { user: UserType; onRefresh: () => void }) {
   const pathname = usePathname();
   const router = useRouter();
-  const currentTheme = user?.theme || 'light';
-  const [mounted, setMounted] = useState(false);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [isCollapsed, setIsCollapsed] = useState(false);
-  const [openSubmenus, setOpenSubmenus] = useState<Record<string, boolean>>({
-    "Музыка": true,
-    "Инструменты": false,
-    "Поддержка": false,
-    "Маркетинг": false,
-  });
-  const [showContractModal, setShowContractModal] = useState(false);
 
-  useEffect(() => {
-    if (pathname.startsWith("/artist/tools")) setOpenSubmenus(prev => ({ ...prev, "Инструменты": true }));
-    if (pathname.startsWith("/artist/support") || pathname === "/artist/chat" || pathname === "/artist/faq") setOpenSubmenus(prev => ({ ...prev, "Поддержка": true }));
-    if (pathname.startsWith("/artist/marketing")) setOpenSubmenus(prev => ({ ...prev, "Маркетинг": true }));
-  }, [pathname]);
-
-  useEffect(() => { setMounted(true); }, []);
-
-  const toggleSubmenu = (e: React.MouseEvent, label: string) => {
-    e.preventDefault(); e.stopPropagation();
-    setOpenSubmenus(prev => ({ ...prev, [label]: !prev[label] }));
-  };
-
-  const handleLogout = async () => {
-    await fetch("/api/auth/logout", { method: "POST" });
-    router.push("/");
-  };
-
-  const getInitials = (name: string) => name?.split(" ").map(n => n[0]).join("").toUpperCase().slice(0, 2) || "A";
-
-  const menuItems: MenuItem[] = [
+  const groups = [
     {
-      label: "Новый релиз",
-      href: "/artist/upload",
-      icon: CirclePlus,
-      active: pathname === "/artist/upload",
-      isPrimary: true,
+      label: "",
+      items: [
+        { label: "Главная", href: "/artist/feed", icon: Home },
+        { label: "Сеть артистов", href: "/artist/network", icon: Users },
+        { label: "Релизы", href: "/artist/releases", icon: Music2 },
+        { label: "Новый релиз", href: "/artist/upload", icon: PlusCircle },
+      ]
     },
     {
-      label: "Лента (Соцсеть)",
-      href: "/artist/feed",
-      icon: Globe,
-      active: pathname === "/artist/feed",
+      label: "СЕРВИСЫ",
+      items: [
+        { label: "Кошелек", href: "/artist/wallet", icon: Wallet },
+        { label: "Питчинг", href: "/artist/marketing/pitching", icon: Sparkles },
+        { label: "Инструменты", href: "/artist/tools", icon: Wrench },
+      ]
     },
     {
-      label: "Сеть артистов",
-      href: "/artist/network",
-      icon: Users,
-      active: pathname.startsWith("/artist/network"),
-    },
-    {
-      label: "Верификация",
-      href: "/artist/verification",
-      icon: ShieldCheck,
-      active: pathname === "/artist/verification",
-    },
-    {
-      label: "Музыка",
-      href: "/artist/releases",
-      icon: Music2,
-      active: pathname.startsWith("/artist/releases") || pathname === "/artist/moderation" || pathname === "/artist/corrections" || pathname.startsWith("/artist/drafts"),
-      hasSubmenu: true,
-      subItems: [
-        { label: "Все релизы", href: "/artist/releases" },
-        { label: "Черновики", href: "/artist/drafts" },
-        { label: "Модерация", href: "/artist/moderation" },
-        { label: "Требуются изменения", href: "/artist/corrections" },
-      ],
-    },
-    {
-      label: "Аналитика",
-      href: "/artist/analytics",
-      icon: BarChart3,
-      active: pathname === "/artist/analytics",
-    },
-    {
-      label: "Финансы",
-      href: "/artist/wallet",
-      icon: Wallet,
-      active: pathname === "/artist/wallet",
-    },
-    {
-      label: "Инструменты",
-      href: "/artist/tools/lyrics",
-      icon: Wrench,
-      active: pathname.startsWith("/artist/tools"),
-      hasSubmenu: true,
-      subItems: [{ label: "Загрузка текста", href: "/artist/tools/lyrics" }],
-    },
-    {
-      label: "Новости",
-      href: "/artist/dashboard",
-      icon: Newspaper,
-      active: pathname === "/artist/dashboard",
-    },
-    {
-      label: "Поддержка",
-      href: "/artist/support",
-      icon: LifeBuoy,
-      active: pathname.startsWith("/artist/support") || pathname === "/artist/chat" || pathname === "/artist/faq",
-      hasSubmenu: true,
-      subItems: [
-        { label: "Тикеты", href: "/artist/support" },
-        { label: "Чат", href: "/artist/chat" },
-        { label: "FAQ", href: "/artist/faq" },
-      ],
-    },
-    {
-      label: "Маркетинг",
-      href: "/artist/marketing/pitching",
-      icon: TrendingUp,
-      active: pathname.startsWith("/artist/marketing"),
-      hasSubmenu: true,
-      subItems: [{ label: "Питчинг", href: "/artist/marketing/pitching" }],
-    },
+      label: "ДРУГОЕ",
+      items: [
+        { label: "Новости", href: "/artist/dashboard", icon: Newspaper },
+        { label: "Поддержка", href: "/artist/support", icon: LifeBuoy },
+        { label: "Настройки", href: "/artist/profile", icon: Settings },
+      ]
+    }
   ];
 
   return (
-    <>
-      {/* Mobile menu button */}
-      <div className="lg:hidden fixed top-4 left-4 z-50">
-        <Button variant="outline" size="icon" className="bg-white dark:bg-neutral-900 border-neutral-200 dark:border-neutral-800" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
-          {isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-        </Button>
+    <aside className="hidden md:flex flex-col w-[280px] h-screen bg-[#0E0E0E] border-none text-[#8E8E93] font-sans p-4 shrink-0">
+      <div className="flex items-center gap-3 px-2 mb-8 cursor-pointer text-white" onClick={() => router.push('/')}>
+        <img src="/logo.png" className="w-6 h-6 object-contain" alt="Logo" />
+        <span className="font-bold text-lg tracking-tight">PLATINUM ERA</span>
       </div>
 
-      {/* Sidebar */}
-      <motion.aside
-        initial={false}
-        animate={{ width: isCollapsed ? 76 : 250 }}
-        className={cn(
-          "fixed lg:sticky top-0 inset-y-0 left-0 z-40 h-screen bg-white dark:bg-neutral-950 border-r border-neutral-200/70 dark:border-neutral-800/70 flex flex-col transition-all duration-300 shrink-0",
-          isMobileMenuOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
-        )}
-      >
-        {/* Logo header */}
-        <div className={cn("flex items-center gap-2.5 px-4 h-14 border-b border-neutral-200/50 dark:border-neutral-800/50 shrink-0", isCollapsed && "justify-center px-0")}>
-          <div className="w-8 h-8 flex-shrink-0 relative">
-            <img
-              src="/logo.png"
-              alt="Logo" className="w-full h-full object-contain"
-            />
-          </div>
-          {!isCollapsed && (
-            <div className="overflow-hidden whitespace-nowrap">
-              <h2 className="font-bold text-sm text-neutral-900 dark:text-white leading-none tracking-tight">PLATINUM ERA MUSIC</h2>
-              <p className="text-[9px] text-neutral-400 dark:text-neutral-600 uppercase tracking-[0.15em] mt-0.5">Artist Portal</p>
-            </div>
-          )}
+      <div className="relative mb-8 px-1">
+        <Search className="w-4 h-4 absolute left-4 top-1/2 -translate-y-1/2 text-neutral-500" />
+        <input 
+          className="w-full bg-[#1A1A1A] border border-white/5 rounded-xl pl-10 pr-12 py-2.5 text-white text-sm outline-none focus:border-indigo-500/50 transition-colors placeholder:text-neutral-600" 
+          placeholder="Search..." 
+        />
+        <div className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-1">
+          <span className="bg-white/5 border border-white/10 text-neutral-400 text-[10px] px-1.5 py-0.5 rounded shadow-sm">⌘</span>
+          <span className="bg-white/5 border border-white/10 text-neutral-400 text-[10px] px-1.5 py-0.5 rounded shadow-sm">F</span>
         </div>
+      </div>
 
-        {/* Navigation */}
-        <nav className="flex-1 px-2.5 py-3 space-y-0.5 overflow-y-auto overflow-x-hidden custom-scrollbar">
-          {menuItems.map((item) => {
-            const Icon = item.icon;
-            return (
-              <div key={item.label}>
-                {item.hasSubmenu && !isCollapsed ? (
-                  <div>
-                    <button
-                      type="button"
-                      onClick={(e) => toggleSubmenu(e, item.label)}
-                      className={cn(
-                        "w-full flex items-center justify-between gap-2.5 px-3 py-2 rounded-lg transition-all duration-150 group",
-                        item.active
-                          ? "text-fuchsia-400 bg-white text-black/8"
-                          : "text-neutral-500 dark:text-neutral-500 hover:text-neutral-900 dark:hover:text-neutral-200 hover:bg-neutral-100 dark:hover:bg-neutral-800/40"
-                      )}
-                    >
-                      <div className="flex items-center gap-2.5">
-                        <Icon className="w-[18px] h-[18px] shrink-0" strokeWidth={1.7} />
-                        <span className="font-medium text-[13px]">{item.label}</span>
-                      </div>
-                      <ChevronDown className={cn("w-3.5 h-3.5 text-neutral-400 transition-transform duration-200", openSubmenus[item.label] && "rotate-180")} />
-                    </button>
-                    <AnimatePresence>
-                      {openSubmenus[item.label] && (
-                        <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }} exit={{ height: 0, opacity: 0 }} className="overflow-hidden">
-                          <div className="ml-[18px] pl-3.5 border-l border-neutral-200 dark:border-neutral-800 my-1 space-y-0.5">
-                            {item.subItems?.map((sub) => {
-                              const isSubActive = pathname === sub.href || (sub.href.includes("?") && pathname === sub.href.split("?")[0]);
-                              return (
-                                <Link key={sub.href} href={sub.href} onClick={() => setIsMobileMenuOpen(false)}
-                                  className={cn("block py-1.5 px-3 text-[12px] rounded-md transition-all",
-                                    isSubActive ? "text-fuchsia-400 bg-white text-black/8 font-medium" : "text-neutral-400 hover:text-neutral-700 dark:hover:text-neutral-300 hover:bg-neutral-50 dark:hover:bg-neutral-800/30")}
-                                >
-                                  {sub.label}
-                                </Link>
-                              );
-                            })}
-                          </div>
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
-                  </div>
-                ) : (
-                  <Link
-                    href={item.href}
-                    onClick={(e) => {
-                      if (item.href === "/artist/upload" && !user.contractSigned) {
-                        e.preventDefault();
-                        setShowContractModal(true);
-                        return;
-                      }
-                      setIsMobileMenuOpen(false);
-                    }}
-                    className={cn(
-                      "flex items-center gap-2.5 px-3 py-2 rounded-lg transition-all duration-150",
-                      item.active
-                        ? "text-fuchsia-400 bg-white text-black/8"
-                        : "text-neutral-500 dark:text-neutral-500 hover:text-neutral-900 dark:hover:text-neutral-200 hover:bg-neutral-100 dark:hover:bg-neutral-800/40",
-                      isCollapsed && "justify-center px-0",
-                      item.isPrimary && !item.active && "text-fuchsia-400 font-semibold"
+      <div className="flex-1 overflow-y-auto space-y-8 scrollbar-hide px-1">
+        {groups.map((group, gIdx) => (
+          <div key={gIdx}>
+            {group.label && <div className="text-[10px] font-bold text-neutral-500 uppercase tracking-widest mb-3 px-3">{group.label}</div>}
+            <div className="space-y-1">
+              {group.items.map(item => {
+                const isActive = pathname === item.href || (item.href !== '/artist/dashboard' && pathname.startsWith(item.href) && item.href !== '/artist/feed' && item.href !== '/artist/network');
+                return (
+                  <Link key={item.href} href={item.href} className={`relative flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all ${isActive ? 'text-white bg-white/[0.04]' : 'hover:text-white hover:bg-white/[0.02]'}`}>
+                    <item.icon className={`w-4 h-4 ${isActive ? 'text-white' : 'text-neutral-500'}`} />
+                    <span className="text-sm font-medium">{item.label}</span>
+                    {isActive && (
+                      <div className="absolute right-0 top-0 bottom-0 w-16 bg-indigo-500/40 blur-[15px] pointer-events-none rounded-r-xl" />
                     )}
-                  >
-                    <Icon className="w-[18px] h-[18px] shrink-0" strokeWidth={1.7} />
-                    {!isCollapsed && <span className="font-medium text-[13px]">{item.label}</span>}
                   </Link>
-                )}
-              </div>
-            );
-          })}
-        </nav>
-
-        {/* Footer */}
-        <div className="border-t border-neutral-200/50 dark:border-neutral-800/50 shrink-0">
-          {!isCollapsed && (
-            <div className="flex items-center gap-2.5 px-4 py-2.5">
-              <div className="w-7 h-7 rounded-full overflow-hidden bg-neutral-100 dark:bg-neutral-800 flex items-center justify-center text-[11px] font-bold text-neutral-700 dark:text-neutral-300 shrink-0">
-                {user.avatarUrl ? (
-                  <img src={user.avatarUrl} alt="" className="w-full h-full object-cover" />
-                ) : (
-                  getInitials(user.name)
-                )}
-              </div>
-              <div className="flex-1 min-w-0 overflow-hidden">
-                <p className="text-[12px] font-medium text-neutral-800 dark:text-neutral-200 truncate">{user.artistName || user.name}</p>
-                <p className="text-[10px] text-neutral-400 truncate">{user.email}</p>
-              </div>
+                )
+              })}
             </div>
-          )}
-
-          <div className="flex items-center px-2.5 pb-2.5 gap-1">
-            <button
-              onClick={() => setIsCollapsed(!isCollapsed)}
-              className="hidden lg:flex items-center justify-center w-8 h-8 rounded-lg text-neutral-400 hover:text-neutral-700 dark:hover:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800/40 transition-colors"
-            >
-              {isCollapsed ? <ChevronDown className="w-4 h-4 rotate-90" /> : <ChevronLeft className="w-4 h-4" />}
-            </button>
-            <button
-              onClick={handleLogout}
-              className={cn(
-                "flex items-center gap-2.5 px-3 py-2 rounded-lg text-neutral-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-500/10 transition-all duration-150 flex-1",
-                isCollapsed && "justify-center px-0"
-              )}
-            >
-              <LogOut className="w-[18px] h-[18px]" strokeWidth={1.7} />
-              {!isCollapsed && <span className="text-[12.5px] font-medium">Выйти</span>}
-            </button>
           </div>
+        ))}
+      </div>
+
+      <div className="mt-4 p-4 rounded-2xl border border-white/5 bg-[#161616] relative overflow-hidden group">
+        <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+        <div className="flex items-center gap-2 text-white mb-2 relative z-10">
+          <Sparkles className="w-4 h-4 text-indigo-400" />
+          <span className="text-sm font-bold">Boost with PRO</span>
         </div>
-      </motion.aside>
+        <p className="text-[11px] text-neutral-500 mb-4 leading-relaxed relative z-10">
+          AI-powered replies, tag insights, and tools that save hours.
+        </p>
+        <button className="w-full py-2.5 bg-gradient-to-r from-[#4F46E5] to-[#7C3AED] hover:opacity-90 text-white rounded-xl text-xs font-bold transition-all shadow-[0_0_20px_rgba(79,70,229,0.3)] relative z-10" onClick={() => toast.info('PRO features coming soon!')}>
+          Upgrade to Pro
+        </button>
+      </div>
 
-      {/* Mobile overlay */}
-      {isMobileMenuOpen && (
-        <div className="fixed inset-0 bg-black/40 dark:bg-black/60 backdrop-blur-sm z-30 lg:hidden" onClick={() => setIsMobileMenuOpen(false)} />
-      )}
-
-      {/* Модальное окно: договор не подписан */}
-      <Dialog open={showContractModal} onOpenChange={setShowContractModal}>
-        <DialogContent className="max-w-md">
-          <DialogHeader>
-            <div className="mx-auto w-16 h-16 rounded-full bg-orange-500/15 flex items-center justify-center mb-2">
-              <FileX2 className="w-8 h-8 text-orange-500" />
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <div className="mt-4 p-2 rounded-2xl border border-white/5 bg-[#161616] flex items-center gap-3 cursor-pointer hover:bg-[#1A1A1A] transition-colors">
+            <Avatar className="w-10 h-10 border border-white/10 rounded-xl">
+              <AvatarImage src={user?.avatarUrl || ''} className="object-cover rounded-xl" />
+              <AvatarFallback className="bg-neutral-800 text-neutral-300 text-xs rounded-xl">{(user?.name || 'A').charAt(0)}</AvatarFallback>
+            </Avatar>
+            <div className="flex-1 min-w-0">
+              <p className="text-sm text-white font-semibold truncate flex items-center gap-1">{user?.artistName || user?.name}</p>
+              <p className="text-[11px] text-neutral-500 truncate">{user?.email}</p>
             </div>
-            <DialogTitle className="text-center text-xl">Требуется договор</DialogTitle>
-            <DialogDescription className="text-center text-base pt-2 leading-relaxed">
-              Для загрузки релизов необходимо пройти верификацию и подписать договор с PLATINUM ERA MUSIC.
-              <br /><br />
-              Пройдите верификацию в личном кабинете, чтобы получить доступ к созданию релизов.
-            </DialogDescription>
-          </DialogHeader>
-          <DialogFooter className="sm:justify-center flex-col gap-2">
-            <Button onClick={() => { setShowContractModal(false); router.push("/artist/verification"); }} className="px-8 gap-2">
-              <ShieldCheck className="w-4 h-4" /> Пройти верификацию
-            </Button>
-            <Button variant="ghost" onClick={() => setShowContractModal(false)}>Позже</Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
-
-      <style jsx global>{`
-        .custom-scrollbar::-webkit-scrollbar { width: 3px; }
-        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
-        .custom-scrollbar::-webkit-scrollbar-thumb { background: ${mounted && currentTheme === 'dark' ? '#262626' : '#e5e5e5'}; border-radius: 10px; }
-        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: ${mounted && currentTheme === 'dark' ? '#404040' : '#d4d4d4'}; }
-      `}</style>
-    </>
+            <ChevronsUpDown className="w-4 h-4 text-neutral-600 shrink-0 mr-1" />
+          </div>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align="end" className="w-56 bg-[#161616] border-white/10 text-white rounded-xl">
+          <DropdownMenuItem onClick={() => router.push('/artist/profile')} className="hover:bg-white/5 focus:bg-white/5 cursor-pointer rounded-lg">
+            Настройки
+          </DropdownMenuItem>
+          <DropdownMenuItem onClick={async () => { await fetch("/api/auth/logout", { method: "POST" }); window.location.href = "/"; }} className="text-red-400 hover:bg-red-500/10 focus:bg-red-500/10 cursor-pointer rounded-lg">
+            Выйти
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
+    </aside>
   );
 }

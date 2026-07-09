@@ -87,7 +87,7 @@ export default function AdminLayout({
 
   return (
     <div className="min-h-screen bg-background">
-      <div className="flex h-screen overflow-hidden">
+      <div className="flex h-screen bg-[#0E0E0E] overflow-hidden">
         <AdminSidebar user={user} />
         <main className="flex-1 overflow-y-auto">
           <div className="container mx-auto p-6 lg:p-8">
