@@ -68,7 +68,7 @@ export function ArtistSidebar({ user }: ArtistSidebarProps) {
   useEffect(() => {
     if (pathname.startsWith("/artist/tools")) setOpenSubmenus(prev => ({ ...prev, "Инструменты": true }));
     if (pathname.startsWith("/artist/support") || pathname === "/artist/chat" || pathname === "/artist/faq") setOpenSubmenus(prev => ({ ...prev, "Поддержка": true }));
-    if (pathname.startsWith("/artist/marketing")) setOpenSubmenus(prev => ({ ...prev, "Маркетинг": true }));
+    if (pathname.startsWith("/artist/marketing") || pathname.startsWith("/artist/promo-links")) setOpenSubmenus(prev => ({ ...prev, "Маркетинг": true }));
   }, [pathname]);
 
   useEffect(() => { setMounted(true); }, []);
@@ -166,9 +166,9 @@ export function ArtistSidebar({ user }: ArtistSidebarProps) {
       label: "Маркетинг",
       href: "/artist/marketing/pitching",
       icon: TrendingUp,
-      active: pathname.startsWith("/artist/marketing"),
+      active: pathname.startsWith("/artist/marketing") || pathname.startsWith("/artist/promo-links"),
       hasSubmenu: true,
-      subItems: [{ label: "Питчинг", href: "/artist/marketing/pitching" }],
+      subItems: [{ label: "Питчинг", href: "/artist/marketing/pitching" }, { label: "Промо-ссылки", href: "/artist/promo-links" }],
     },
   ];
 
