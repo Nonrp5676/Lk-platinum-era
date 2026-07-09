@@ -159,52 +159,63 @@ function ProfileContent() {
         </div>
 
         {/* Modern Header Section */}
-        <div className="relative pt-16 md:pt-24 pb-12 px-6 flex flex-col items-center justify-center border-b border-border/10">
+        <div className="relative pt-12 md:pt-32 pb-10 px-6 md:px-12 flex flex-col items-center md:items-end md:flex-row gap-6 md:gap-10 border-b border-border/10 overflow-hidden">
           
-          {/* Extremely Large Avatar */}
-          <div className="relative z-30 shrink-0 mb-6">
-            {profile?.isExclusive && (
-              <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-amber-400 via-orange-500 to-purple-600 animate-[spin_3s_linear_infinite] -m-2" />
+          {/* Header Background */}
+          <div className="absolute inset-0 z-0 pointer-events-none">
+            {profile?.avatarUrl ? (
+              <>
+                <div className="absolute inset-0 bg-background/80 dark:bg-background/90 z-10 backdrop-blur-[100px]" />
+                <img src={profile.avatarUrl} className="w-full h-full object-cover opacity-50 blur-3xl scale-110" alt="bg" />
+              </>
+            ) : (
+              <div className={`absolute inset-0 opacity-20 bg-gradient-to-br ${profile?.exclusiveColor || 'from-[#cd792f] to-purple-900'}`} />
             )}
-            <Avatar className="w-48 h-48 md:w-80 md:h-80 border-[8px] border-background relative z-10 bg-muted drop-shadow-[0_25px_35px_rgba(0,0,0,0.5)]">
-              <AvatarImage src={profile?.avatarUrl || ''} className="object-cover" />
-              <AvatarFallback className="text-6xl md:text-9xl font-light">{(profile?.artistName || profile?.name || "A")?.charAt(0)}</AvatarFallback>
-            </Avatar>
-            <div className="absolute bottom-4 right-4 md:bottom-8 md:right-8 w-8 h-8 md:w-10 md:h-10 bg-green-500 border-4 border-background rounded-full shadow-lg z-20" title="В сети"></div>
+            <div className="absolute inset-0 bg-gradient-to-t from-background to-transparent z-20" />
           </div>
 
-          {/* Profile Info Centered */}
-          <div className="relative z-30 w-full max-w-2xl text-center flex flex-col items-center">
-            <div className="flex flex-col md:flex-row items-center justify-center gap-3 mb-2">
+          {/* Large Avatar */}
+          <div className="relative z-30 shrink-0">
+            {profile?.isExclusive && (
+              <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-amber-400 via-orange-500 to-purple-600 animate-[spin_3s_linear_infinite] -m-1" />
+            )}
+            <Avatar className="w-32 h-32 md:w-56 md:h-56 border-[6px] border-background shadow-2xl relative z-10 bg-muted">
+              <AvatarImage src={profile?.avatarUrl || ''} className="object-cover" />
+              <AvatarFallback className="text-5xl md:text-7xl font-light">{(profile?.artistName || profile?.name || "A")?.charAt(0)}</AvatarFallback>
+            </Avatar>
+            <div className="absolute bottom-2 right-2 md:bottom-4 md:right-4 w-6 h-6 md:w-8 md:h-8 bg-green-500 border-4 border-background rounded-full shadow-lg z-20" title="В сети"></div>
+          </div>
+
+          {/* Profile Info */}
+          <div className="relative z-30 flex-1 text-center md:text-left pt-2 md:pt-4 w-full">
+            <div className="flex flex-col md:flex-row md:items-center gap-3 mb-1 justify-center md:justify-start">
               <h1 className="text-3xl md:text-5xl font-black tracking-tight">{profile?.artistName || profile?.name}</h1>
-              <div className="flex items-center gap-2">
-                {profile?.customBadge && (
-                  <div className="flex items-center gap-1.5 bg-red-500/10 text-red-500 px-3 py-1 rounded-full text-xs font-bold uppercase border border-red-500/20 shadow-[0_0_15px_rgba(239,68,68,0.2)]">
-                    <Crown className="w-3.5 h-3.5" /> {profile.customBadge}
-                  </div>
-                )}
-                {profile?.isVerified && <BadgeCheck className="w-6 h-6 md:w-8 md:h-8 text-blue-500 fill-blue-500/10 shrink-0" />}
-              </div>
+              {profile?.customBadge && (
+                <div className="flex items-center gap-1.5 bg-red-500/10 text-red-500 px-3 py-1 rounded-full text-xs font-bold uppercase border border-red-500/20 shadow-[0_0_15px_rgba(239,68,68,0.2)]">
+                  <Crown className="w-3.5 h-3.5" /> {profile.customBadge}
+                </div>
+              )}
+              {profile?.isVerified && <BadgeCheck className="w-6 h-6 md:w-8 md:h-8 text-blue-500 fill-blue-500/10 shrink-0" />}
             </div>
             
-            <p className="text-muted-foreground font-semibold text-lg md:text-xl mb-6">@{profile?.username || profile?.uid || ''}</p>
+            <p className="text-muted-foreground font-semibold text-lg md:text-xl mb-4">@{profile?.username || profile?.uid || ''}</p>
 
-            <div className="flex flex-wrap items-center justify-center gap-3 text-sm font-medium mb-8">
-              <span className="flex items-center gap-1.5 bg-secondary/50 px-4 py-2 rounded-full backdrop-blur-md"><MapPin className="w-4 h-4 text-fuchsia-400" /> СНГ</span>
-              <span className="flex items-center gap-1.5 bg-secondary/50 px-4 py-2 rounded-full backdrop-blur-md"><Music className="w-4 h-4 text-fuchsia-400" /> PLATINUM ERA MUSIC</span>
+            <div className="flex flex-wrap items-center justify-center md:justify-start gap-3 text-sm font-medium mb-6">
+              <span className="flex items-center gap-1.5 bg-secondary/50 px-4 py-2 rounded-full backdrop-blur-md"><MapPin className="w-4 h-4 text-[#cd792f]" /> СНГ</span>
+              <span className="flex items-center gap-1.5 bg-secondary/50 px-4 py-2 rounded-full backdrop-blur-md"><Music className="w-4 h-4 text-[#cd792f]" /> PLATINUM ERA MUSIC</span>
             </div>
 
             {/* Action Buttons */}
-            <div className="flex flex-row items-center justify-center gap-3 w-full max-w-sm">
+            <div className="flex flex-row items-center justify-center md:justify-start gap-3 w-full">
               {profile?.isMe ? (
-                <Link href="/artist/profile" className="w-full">
-                  <Button className="w-full px-8 shadow-sm rounded-full bg-secondary text-secondary-foreground hover:bg-secondary/80 h-14 text-base" variant="secondary">
-                    <Settings className="w-5 h-5 mr-2"/> Настройки профиля
+                <Link href="/artist/profile" className="w-full md:w-auto">
+                  <Button className="w-full md:w-auto px-8 shadow-sm rounded-full bg-secondary text-secondary-foreground hover:bg-secondary/80 h-12" variant="secondary">
+                    <Settings className="w-4 h-4 mr-2"/> Настройки профиля
                   </Button>
                 </Link>
               ) : (
                 <Button 
-                  className={cn("w-full px-10 shadow-lg rounded-full transition-all h-14 font-semibold text-base", profile?.isFollowing ? "bg-secondary text-secondary-foreground hover:bg-secondary/80" : "bg-white text-black hover:bg-neutral-200")} 
+                  className={cn("w-full md:w-auto px-10 shadow-lg rounded-full transition-all h-12 font-semibold", profile?.isFollowing ? "bg-secondary text-secondary-foreground hover:bg-secondary/80" : "bg-[#cd792f] hover:bg-[#b8661f] text-white")} 
                   onClick={handleFollow} 
                 >
                   {profile?.isFollowing ? "Отписаться" : "Подписаться"}
@@ -213,7 +224,7 @@ function ProfileContent() {
               
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Button variant="secondary" size="icon" className="rounded-full shadow-sm h-14 w-14 bg-secondary text-secondary-foreground hover:bg-secondary/80 shrink-0"><MoreHorizontal className="w-6 h-6" /></Button>
+                  <Button variant="secondary" size="icon" className="rounded-full shadow-sm h-12 w-12 bg-secondary text-secondary-foreground hover:bg-secondary/80 shrink-0"><MoreHorizontal className="w-5 h-5" /></Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end" className="rounded-2xl">
                   <DropdownMenuItem onClick={copyProfileLink} className="rounded-xl py-2"><Share2 className="w-4 h-4 mr-2" /> Поделиться</DropdownMenuItem>
@@ -241,12 +252,12 @@ function ProfileContent() {
             </div>
 
             <div className="bg-secondary/30 p-6 rounded-3xl border border-border/40">
-              <h3 className="font-bold text-lg mb-3 flex items-center gap-2"><span className="w-1.5 h-5 bg-white text-black rounded-full"></span> Описание</h3>
+              <h3 className="font-bold text-lg mb-3 flex items-center gap-2"><span className="w-1.5 h-5 bg-[#cd792f] rounded-full"></span> Описание</h3>
               <p className="text-sm text-foreground/80 whitespace-pre-wrap leading-relaxed">
                 {profile?.bio || "Этот артист предпочитает говорить через свою музыку. Описание пока не добавлено."}
               </p>
               {profile?.isMe && !profile?.bio && (
-                <Link href="/artist/profile"><Button variant="link" className="px-0 mt-2 text-fuchsia-400 h-auto p-0">Добавить описание</Button></Link>
+                <Link href="/artist/profile"><Button variant="link" className="px-0 mt-2 text-[#cd792f] h-auto p-0">Добавить описание</Button></Link>
               )}
             </div>
           </div>
@@ -255,10 +266,10 @@ function ProfileContent() {
           <div className="lg:col-span-8">
             <Tabs defaultValue="posts" className="w-full">
               <TabsList className="w-full justify-start bg-transparent border-b border-border/50 rounded-none p-0 h-auto gap-8 mb-6">
-                <TabsTrigger value="posts" className="data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:border-b-2 data-[state=active]:border-fuchsia-500 rounded-none px-2 py-4 text-base font-semibold transition-none">
+                <TabsTrigger value="posts" className="data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:border-b-2 data-[state=active]:border-[#cd792f] rounded-none px-2 py-4 text-base font-semibold transition-none">
                   <GridIcon className="w-4 h-4 mr-2" /> Публикации
                 </TabsTrigger>
-                <TabsTrigger value="music" className="data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:border-b-2 data-[state=active]:border-fuchsia-500 rounded-none px-2 py-4 text-base font-semibold transition-none">
+                <TabsTrigger value="music" className="data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:border-b-2 data-[state=active]:border-[#cd792f] rounded-none px-2 py-4 text-base font-semibold transition-none">
                   <Music className="w-4 h-4 mr-2" /> Релизы
                 </TabsTrigger>
               </TabsList>
