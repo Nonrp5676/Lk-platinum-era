@@ -10,6 +10,7 @@ import {
   Sparkles,
   ChevronDown,
   Lightbulb,
+  ShieldCheck
 } from "lucide-react";
 import { User as UserType } from "@/hooks/useUser";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -200,6 +201,13 @@ export function ArtistProfileDropdown({
                 >
                   <Settings className="w-4 h-4 text-muted-foreground" />
                   Настройки
+                </button>
+                <button
+                  onClick={() => { window.location.href = "/artist/verification"; }}
+                  className="w-full flex items-center gap-3 px-3 py-2.5 rounded-md hover:bg-muted transition-colors text-sm font-medium text-left"
+                >
+                  <ShieldCheck className="w-4 h-4 text-muted-foreground" />
+                  Лицензионный договор
                 </button>
               </div>
             </motion.div>
