@@ -71,7 +71,7 @@ export default function ArtistLayout({
             </div>
             
             <div className="flex-1">
-              <div className="container mx-auto p-6 lg:p-8">
+              <div className="container mx-auto p-6 pt-20 lg:p-8 lg:pt-8">
                 {isPendingApproval && <PendingAccessBanner />}
                 {children}
               </div>

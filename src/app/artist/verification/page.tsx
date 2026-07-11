@@ -238,13 +238,7 @@ export default function ContractPage() {
               <p className="text-xs text-muted-foreground mt-0.5">Полученные данные надежно защищены и зашифрованы.</p>
             </div>
           </div>
-          <div className="flex items-center gap-4 bg-black/20 p-4 rounded-2xl">
-            <Globe className="w-6 h-6 text-white shrink-0" />
-            <div>
-              <p className="font-bold text-sm">GDPR Стандарт</p>
-              <p className="text-xs text-muted-foreground mt-0.5">Мы работаем в соответствии с Европейским стандартом о защите личных данных</p>
-            </div>
-          </div>
+          
         </div>
       </div>
 
