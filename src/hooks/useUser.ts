@@ -45,6 +45,7 @@ export interface User {
   showSnowflakes: boolean;
   showGarland: boolean;
   avatarUrl: string | null;
+  coins: number;
   label: string;
   createdAt: string | null;
   telegramChatId: string | null;

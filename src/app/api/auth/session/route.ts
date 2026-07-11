@@ -72,6 +72,7 @@ export async function GET() {
         showSnowflakes: artist.showSnowflakes,
         showGarland: artist.showGarland,
         avatarUrl: artist.avatarUrl,
+        coins: artist.coins,
         label: artist.label,
         createdAt: artist.createdAt,
         telegramChatId: artist.telegramChatId,

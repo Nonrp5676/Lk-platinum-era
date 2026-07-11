@@ -32,6 +32,7 @@ export const artists = sqliteTable('artists', {
   showGarland: integer('show_garland', { mode: 'boolean' }).default(false),
   avatarUrl: text('avatar_url'),
   coverUrl: text('cover_url'),
+  coins: integer('coins').default(0).notNull(),
   username: text('username').unique(),
   lastActiveAt: text('last_active_at'),
   isExclusive: integer('is_exclusive', { mode: 'boolean' }).default(false),

@@ -107,6 +107,11 @@ export function ArtistProfileDropdown({
           isOpen && "bg-muted"
         )}
       >
+        
+        <div className="hidden sm:flex items-center gap-1.5 mr-2 bg-white/5 border border-white/10 rounded-full px-2.5 py-1 backdrop-blur-sm">
+          <img src="/coin.png" className="w-4 h-4 object-contain" alt="Coin" />
+          <span className="text-xs font-bold text-white">{user.coins || 0}</span>
+        </div>
         <Avatar className="w-9 h-9">
           <AvatarImage src={user.avatarUrl || undefined} />
           <AvatarFallback className="bg-gradient-to-br from-purple-500 to-pink-500 text-white text-sm">
@@ -160,9 +165,10 @@ export function ArtistProfileDropdown({
                     <p className="text-xs text-muted-foreground truncate">
                       {user.email}
                     </p>
-                    <p className="text-xs text-muted-foreground mt-1">
-                      Лейбл: {user.label}
-                    </p>
+                    <div className="flex items-center gap-1.5 mt-1.5 bg-gradient-to-r from-fuchsia-500/10 to-purple-500/10 w-fit px-2 py-0.5 rounded-full border border-fuchsia-500/20">
+                      <img src="/coin.png" className="w-3.5 h-3.5 object-contain" alt="Coin" />
+                      <span className="text-xs font-bold text-fuchsia-400">{user.coins || 0}</span>
+                    </div>
                     <Badge
                       variant={
                         user.plan === "advanced" ? "default" : "secondary"
