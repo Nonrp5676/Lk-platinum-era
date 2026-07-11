@@ -77,7 +77,7 @@ export default function ArtistLayout({
               </div>
             </div>
             {/* Added extra padding at bottom so bottom nav doesn't cover content */}
-            <div className="h-20 md:hidden" />
+            <div className="h-24 md:hidden shrink-0" />
           </main>
           <BottomNav />
         </div>

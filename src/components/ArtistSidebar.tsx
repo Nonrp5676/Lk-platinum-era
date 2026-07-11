@@ -56,6 +56,7 @@ export function ArtistSidebar({ user }: ArtistSidebarProps) {
   const [mounted, setMounted] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const isProfilePage = pathname.includes("/artist/network/");
+  const isContractPage = pathname.includes("/artist/verification");
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [openSubmenus, setOpenSubmenus] = useState<Record<string, boolean>>({
     "Музыка": true,
@@ -175,7 +176,7 @@ export function ArtistSidebar({ user }: ArtistSidebarProps) {
   return (
     <>
       {/* Mobile menu button */}
-      {!isProfilePage && (
+      {!isProfilePage && !isContractPage && (
       <div className="lg:hidden fixed top-4 left-4 z-50">
         <Button variant="outline" size="icon" className="bg-[#121214] border-white/10" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
           {isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}

@@ -242,7 +242,7 @@ export default function ContractPage() {
         </div>
       </div>
 
-      <div className="space-y-8 mb-32">
+      <div className="space-y-8 mb-48">
         {/* Basic Info */}
         <section>
           <h2 className="text-2xl font-bold mb-1">Основная информация</h2>
@@ -294,7 +294,7 @@ export default function ContractPage() {
       </div>
 
       {/* Floating Action Bar */}
-      <div className="fixed bottom-0 left-0 right-0 p-4 bg-background/80 backdrop-blur-xl border-t border-white/10 z-40">
+      <div className="fixed bottom-[70px] md:bottom-0 left-0 right-0 p-4 bg-background/80 backdrop-blur-xl border-t border-white/10 z-40">
         <div className="max-w-2xl mx-auto flex items-center justify-between gap-4">
           <Button className="w-full bg-[#4F46E5] hover:bg-[#4338CA] text-white rounded-2xl h-14 font-bold text-base shadow-xl shadow-indigo-500/20" onClick={handleOpenSign}>
             Подписать договор
